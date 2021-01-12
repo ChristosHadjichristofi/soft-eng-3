@@ -1,14 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const sequelize = require('./util/database');
+var initModels = require("./models/init-models");
 
-/* 
-ROUTES and how to import routes
-*/
-const sessions = require('./routes/sessions');
-const login = require('./routes/login');
-const logout = require('./routes/logout');
-const admin = require('./routes/admin');
-
+/* ROUTES and how to import routes */
+// const sessions = require('./routes/sessions');
+// const login = require('./routes/login');
+// const logout = require('./routes/logout');
+// const admin = require('./routes/admin');
+/* end of ROUTES and how to import routes */
 
 const app = express();
 
@@ -21,14 +21,18 @@ app.use((req,res,next)=>{
     next();
 });
 
-app.use('/evcharge/api/admin', admin);
-app.use('/evcharge/api/login', login);
-app.use('/evcharge/api/logout', logout);
-app.use('/evcharge/api', sessions);            
+// /* Routes used by our project */
+// app.use('/evcharge/api/admin', admin);
+// app.use('/evcharge/api/login', login);
+// app.use('/evcharge/api/logout', logout);
+// app.use('/evcharge/api', sessions);   
+// /*End of routes used by our project */
 
-
-
-
-
-app.listen(8765);
-
+const port = Number(8765);
+initModels(sequelize);
+sequelize
+    .sync()
+    .then(result => {
+        app.listen(port, () => console.log(`🚀 Server running on port ${port}!`))
+    })
+    .catch(err => console.log(err));
