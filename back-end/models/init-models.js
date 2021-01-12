@@ -1,20 +1,20 @@
 var DataTypes = require("sequelize").DataTypes;
-var _administrator = require("./administrator");
-var _charging_points = require("./charging_points");
-var _charging_stations = require("./charging_stations");
+var _administrators = require("./administrator");
+var _charging_points = require("./charging_point");
+var _charging_stations = require("./charging_station");
 var _driven_by = require("./driven_by");
-var _energy_provider = require("./energy_provider");
-var _owners = require("./owners");
-var _registered_cars = require("./registered_cars");
-var _sessions = require("./sessions");
-var _supported_cars = require("./supported_cars");
+var _energy_providers = require("./energy_provider");
+var _owners = require("./owner");
+var _registered_cars = require("./registered_car");
+var _sessions = require("./session");
+var _supported_cars = require("./supported_car");
 
 function initModels(sequelize) {
-  var administrator = _administrator(sequelize, DataTypes);
+  var administrators = _administrators(sequelize, DataTypes);
   var charging_points = _charging_points(sequelize, DataTypes);
   var charging_stations = _charging_stations(sequelize, DataTypes);
   var driven_by = _driven_by(sequelize, DataTypes);
-  var energy_provider = _energy_provider(sequelize, DataTypes);
+  var energy_providers = _energy_providers(sequelize, DataTypes);
   var owners = _owners(sequelize, DataTypes);
   var registered_cars = _registered_cars(sequelize, DataTypes);
   var sessions = _sessions(sequelize, DataTypes);
@@ -24,10 +24,10 @@ function initModels(sequelize) {
   owners.belongsToMany(registered_cars, { through: driven_by, foreignKey: "owner_id", otherKey: "registered_carslicense_plate" });
   charging_points.belongsTo(charging_stations, { foreignKey: "charging_stationsstation_id"});
   charging_stations.hasMany(charging_points, { foreignKey: "charging_stationsstation_id"});
-  charging_points.belongsTo(energy_provider, { foreignKey: "energy_providerenergy_provider_id"});
-  energy_provider.hasMany(charging_points, { foreignKey: "energy_providerenergy_provider_id"});
-  charging_stations.belongsTo(administrator, { foreignKey: "administrator_administrator_id"});
-  administrator.hasMany(charging_stations, { foreignKey: "administrator_administrator_id"});
+  charging_points.belongsTo(energy_providers, { foreignKey: "energy_providerenergy_provider_id"});
+  energy_providers.hasMany(charging_points, { foreignKey: "energy_providerenergy_provider_id"});
+  charging_stations.belongsTo(administrators, { foreignKey: "administrator_administrator_id"});
+  administrators.hasMany(charging_stations, { foreignKey: "administrator_administrator_id"});
   driven_by.belongsTo(owners, { foreignKey: "owner_id"});
   owners.hasMany(driven_by, { foreignKey: "owner_id"});
   driven_by.belongsTo(registered_cars, { foreignKey: "registered_carslicense_plate"});
@@ -44,11 +44,11 @@ function initModels(sequelize) {
   driven_by.hasMany(sessions, { foreignKey: "driven_byregistered_carslicense_plate"});
 
   return {
-    administrator,
+    administrators,
     charging_points,
     charging_stations,
     driven_by,
-    energy_provider,
+    energy_providers,
     owners,
     registered_cars,
     sessions,

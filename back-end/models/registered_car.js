@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('registered_cars', {
+  return sequelize.define('registered_car', {
     license_plate: {
       type: DataTypes.INTEGER,
       allowNull: false,

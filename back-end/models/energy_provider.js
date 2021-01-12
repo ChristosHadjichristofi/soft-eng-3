@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'energy_provider',
+    tableName: 'energy_providers',
     timestamps: false,
     indexes: [
       {

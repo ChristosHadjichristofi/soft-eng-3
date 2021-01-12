@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('owners', {
+  return sequelize.define('owner', {
     owner_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

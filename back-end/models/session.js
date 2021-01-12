@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('sessions', {
+  return sequelize.define('session', {
     session_id: {
       type: DataTypes.STRING(55),
       allowNull: false,

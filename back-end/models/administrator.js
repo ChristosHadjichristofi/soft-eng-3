@@ -45,7 +45,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'administrator',
+    tableName: 'administrators',
     timestamps: false,
     indexes: [
       {

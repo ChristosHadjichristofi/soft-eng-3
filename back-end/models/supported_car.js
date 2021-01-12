@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('supported_cars', {
+  return sequelize.define('supported_car', {
     id: {
       type: DataTypes.CHAR(40),
       allowNull: false,
