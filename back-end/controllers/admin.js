@@ -65,10 +65,10 @@ exports.getHealthcheck = (req, res, next) => {
 
 exports.login = (req, res, next) => {
 
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
     let loadedAdmin;
-    models.system_admins.findOne({ where: {email: email} })
+    models.system_admins.findOne({ where: {username: username} })
     .then(systemAdmin => {
         if (!systemAdmin) {
             res.status(401).json({error: 'This system admin account does not exist!'});
@@ -82,7 +82,7 @@ exports.login = (req, res, next) => {
         }
         const token = jwt.sign(
             {
-                email: loadedAdmin.email,
+                email: loadedAdmin.username,
                 userId: loadedAdmin.system_admin_id.toString()
             },
             'denthaseafisoumenatovreispotepotepote',
