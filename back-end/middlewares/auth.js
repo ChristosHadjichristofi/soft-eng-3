@@ -1,24 +1,20 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
-    const authHeader = req.get('Authorization');
+    const authHeader = req.header('X-OBSERVATORY-AUTH');
     if (!authHeader) {
-        const error = new Error('Not authenticated.');
-        error.statusCode = 401;
-        throw error;
+        return res.status(401).json({msg: 'Not authenticated.'});
     }
-    const token = authHeader.split(' ')[1];
+    const token = authHeader;
+
     let decodedToken;
     try {
         decodedToken = jwt.verify(token, 'denthaseafisoumenatovreispotepotepote');
     } catch (err) {
-        err.statusCode = 500;
-        throw err;
+        return res.status(500).json({msg: 'Internal server error.'});
     }
     if (!decodedToken) {
-        const error = new Error('Not authenticated.');
-        error.statusCode = 401;
-        throw error;
+        return res.status(401).json({msg: 'Not authenticated.'});
     }
     req.userId = decodedToken.userId;
     next();
