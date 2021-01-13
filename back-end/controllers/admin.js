@@ -1,7 +1,8 @@
-// require libraries for validation, encrypting
+// require libraries for validation, encrypting, jwt
 const { validationResult } = require('express-validator/check');
 const bcrypt = require('bcryptjs');
-// end of libraries validation, encrypting
+const jwt = require('jsonwebtoken');
+// end of libraries validation, encrypting, jwt
 
 // require models
 const sequelize = require('../util/database');
@@ -10,6 +11,18 @@ const { restart } = require('nodemon');
 const owner = require('../models/owner');
 var models = initModels(sequelize);
 // end of require models
+
+exports.getHealthcheck = (req, res, next) => {
+
+    sequelize.authenticate()
+    .then(() => {
+        res.status(200).json({status: "OK"});
+    })
+    .catch(err => {
+        res.status(500).json({status: "FAILED"});
+    })
+
+}
 
 exports.login = (req, res, next) => {
 
