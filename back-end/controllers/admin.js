@@ -7,18 +7,23 @@ const bcrypt = require('bcryptjs');
 const sequelize = require('../util/database');
 var initModels = require("../models/init-models");
 const { restart } = require('nodemon');
+const owner = require('../models/owner');
 var models = initModels(sequelize);
 // end of require models
 
 exports.postUsermod = (req, res, next) => {
 
+    // get dynamic parameters and query parameter
     const email = req.params.username;
     const password = req.params.password;
     const isAdministrator = req.query.isAdministrator;
 
+    // if the user is administrator user
     if (isAdministrator == 'true') {
+        // try get administrator from db
         models.administrators.findOne({ where: { email: email } })
-        .then (administratorUser => {       
+        .then (administratorUser => {
+            // if not exists must be created
             if (!administratorUser) {
                 bcrypt.hash(password, 12).then(hashedPw => {
                     const newAdministratorUser = models.administrators.create({
@@ -31,9 +36,7 @@ exports.postUsermod = (req, res, next) => {
                         phone_number : req.body.phone_number,
                         email : email,
                         password : hashedPw
-
                     });
-                    
                     res.status(201).json({signup: 'true', message: 'Account created succesfully!'});
                 })
                 .catch(err => {
@@ -69,9 +72,12 @@ exports.postUsermod = (req, res, next) => {
         });
     }
     else {
+        // try get owner from db
         models.owners.findOne({ where: { email: email } })
-        .then (ownerUser => {       
+        .then (ownerUser => {
+            // if owner doesnt exist
             if (!ownerUser) {
+                // if not exists ins Owners must check if exists in Administrators
                 bcrypt.hash(password, 12).then(hashedPw => {
                     const newOwnerUser = models.owners.create({
                         name : req.body.name,
@@ -83,9 +89,7 @@ exports.postUsermod = (req, res, next) => {
                         phone_number : req.body.phone_number,
                         email : email,
                         password : hashedPw
-
                     });
-                    
                     res.status(201).json({signup: 'true', message: 'Account created succesfully!'});
                 })
                 .catch(err => {
@@ -120,6 +124,4 @@ exports.postUsermod = (req, res, next) => {
             next(err);
         });
     }
-
 }
-    
