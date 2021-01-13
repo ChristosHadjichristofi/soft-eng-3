@@ -5,6 +5,7 @@ const sequelize = require('../util/database');
 
 
 var initModels = require("../models/init-models");
+const owner = require('../models/owner');
 var models = initModels(sequelize);
 
 
@@ -20,7 +21,7 @@ module.exports = (req, res, next) => {
             .then(administratorUser => {
                 // console.log(administratorUser);
                 if(!administratorUser){
-                    res.status(401).json({error:'An user with this email could not be found.'});
+                    res.status(401).json({error:'A user with this email could not be found.'});
                 }
                 loadedUser = administratorUser;
                 return bcrypt.compare(password, administratorUser.password);
@@ -38,9 +39,8 @@ module.exports = (req, res, next) => {
                     { expiresIn: '1h' }
                 );
                 res.status(200).json({ 
-                    administrator: true, 
-                    token: token, 
-                    userId: loadedUser.administrator_id.toString()
+                    role: 'administrator', 
+                    token: token
                 });
             })
             .catch(err => {
@@ -56,7 +56,7 @@ module.exports = (req, res, next) => {
         models.owners.findOne({ where: { email: email } })
             .then(ownerUser => {
                 if(!ownerUser){
-                    res.status(401).json({error:'An user with this email could not be found.'});
+                    res.status(401).json({error:'A user with this email could not be found.'});
                 }
                 loadedUser = ownerUser;
                 return bcrypt.compare(password, ownerUser.password);
@@ -75,9 +75,8 @@ module.exports = (req, res, next) => {
                     { expiresIn: '1h' }
                 );
                 res.status(200).json({ 
-                    administrator: false, 
-                    token: token, 
-                    userId: loadedUser.owner_id.toString()
+                    role: 'owner',
+                    token: token
                 });
             })
             .catch(err => {
