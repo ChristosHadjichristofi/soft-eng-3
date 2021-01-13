@@ -12,6 +12,45 @@ const owner = require('../models/owner');
 var models = initModels(sequelize);
 // end of require models
 
+exports.getUser = (req, res, next) => {
+
+    const email = req.params.username;
+    const isAdministrator = req.query.isAdministrator;
+
+    if (isAdministrator == 'true') {
+
+        models.administrators.findOne({ where: {email: email} })
+        .then(administratorDoc => {
+            if (!administratorDoc) {
+                return res.status(402).json({error: 'User was not found!'});
+            }
+            res.send(administratorDoc);
+        })
+        .catch(err => {
+            return res.status(500).json({error: 'Internal server error.'})
+        })
+
+    }
+
+    else {
+
+        models.owners.findOne({ where: {email: email} })
+        .then(ownerDoc => {
+            if (!ownerDoc) {
+                return res.status(402).json({error: 'User was not found!'});
+            }
+            res.send(ownerDoc);
+        })
+        .catch(err => {
+            return res.status(500).json({error: 'Internal server error.'})
+        })
+
+    }
+
+    
+
+}
+
 exports.getHealthcheck = (req, res, next) => {
 
     sequelize.authenticate()
@@ -54,10 +93,7 @@ exports.login = (req, res, next) => {
         });
     })
     .catch(err => {
-        if (!err.statusCode) {
-            err.statusCode = 500;
-        }
-        next(err);
+        return res.status(500).json({error: 'Internal server error.'})
     });
 
 }
@@ -91,10 +127,7 @@ exports.postUsermod = (req, res, next) => {
                     res.status(201).json({signup: 'true', message: 'Account created succesfully!'});
                 })
                 .catch(err => {
-                    if (!err.statusCode) {
-                        err.statusCode = 500;
-                    }
-                    next(err);
+                    return res.status(500).json({error: 'Internal server error.'})
                 });
             }
 
@@ -108,18 +141,12 @@ exports.postUsermod = (req, res, next) => {
                     res.status(201).json({change_password: 'true', message: 'Password changed succesfully!'});
                 })
                 .catch(err => {
-                    if (!err.statusCode) {
-                        err.statusCode = 500;
-                    }
-                    next(err);
+                    return res.status(500).json({error: 'Internal server error.'})
                 });
             }
         })
         .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
+            return res.status(500).json({error: 'Internal server error.'})
         });
     }
     else {
@@ -144,10 +171,7 @@ exports.postUsermod = (req, res, next) => {
                     res.status(201).json({signup: 'true', message: 'Account created succesfully!'});
                 })
                 .catch(err => {
-                    if (!err.statusCode) {
-                        err.statusCode = 500;
-                    }
-                    next(err);
+                    return res.status(500).json({error: 'Internal server error.'})
                 });
             }
 
@@ -161,18 +185,12 @@ exports.postUsermod = (req, res, next) => {
                     res.status(201).json({change_password: 'true', message: 'Password changed succesfully!'});
                 })
                 .catch(err => {
-                    if (!err.statusCode) {
-                        err.statusCode = 500;
-                    }
-                    next(err);
+                    return res.status(500).json({error: 'Internal server error.'})
                 });
             }
         })
         .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
+            return res.status(500).json({error: 'Internal server error.'})
         });
     }
 }

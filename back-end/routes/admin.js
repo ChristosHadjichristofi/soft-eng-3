@@ -11,7 +11,7 @@ router.post('/usermod/:username/:password', isAuth, adminController.postUsermod)
 
 router.post('/login', adminController.login);
 
-//router.get('/users/:username', adminController.getUsers);
+router.get('/users/:username', isAuth, adminController.getUser);
 
 //router.post('/system/sessionsupd', adminController.postSystem);
 
