@@ -4,6 +4,7 @@ module.exports = function(sequelize, DataTypes) {
     station_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true
     },
     administrator_administrator_id: {
