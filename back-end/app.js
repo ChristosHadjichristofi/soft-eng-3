@@ -7,7 +7,7 @@ var initModels = require("./models/init-models");
 // const sessions = require('./routes/sessions');
 const login = require('./routes/login');
 // const logout = require('./routes/logout');
-// const admin = require('./routes/admin');
+const admin = require('./routes/admin');
 /* end of ROUTES and how to import routes */
 
 const app = express();
@@ -23,7 +23,7 @@ app.use((req,res,next)=>{
 });
 
 // /* Routes used by our project */
-// app.use('/evcharge/api/admin', admin);
+app.use('/evcharge/api/admin', admin);
 app.use('/evcharge/api/login', login);
 // app.use('/evcharge/api/logout', logout);
 // app.use('/evcharge/api', sessions);   
