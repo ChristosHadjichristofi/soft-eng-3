@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.post('/usermod/:username/:password', adminController.postUsermod);
 
+router.post('/login', adminController.login);
+
 //router.get('/users/:username', adminController.getUsers);
 
 //router.post('/system/sessionsupd', adminController.postSystem);

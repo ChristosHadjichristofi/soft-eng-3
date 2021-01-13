@@ -11,6 +11,44 @@ const owner = require('../models/owner');
 var models = initModels(sequelize);
 // end of require models
 
+exports.login = (req, res, next) => {
+
+    const email = req.body.email;
+    const password = req.body.password;
+    let loadedAdmin;
+    models.system_admins.findOne({ where: {email: email} })
+    .then(systemAdmin => {
+        if (!systemAdmin) {
+            res.status(401).json({error: 'This system admin account does not exist!'});
+        }
+        loadedAdmin = systemAdmin;
+        return bcrypt.compare(password, systemAdmin.password);
+    })
+    .then (isEqual => {
+        if (!isEqual) {
+            res.status(401).json({error: 'Wrong password!'});
+        }
+        const token = jwt.sign(
+            {
+                email: loadedAdmin.email,
+                userId: loadedAdmin.system_admin_id.toString()
+            },
+            'denthaseafisoumenatovreispotepotepote',
+            { expiresIn: '1h' }
+        );
+        res.status(200).json({
+            token: token
+        });
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+
+}
+
 exports.postUsermod = (req, res, next) => {
 
     // get dynamic parameters and query parameter
