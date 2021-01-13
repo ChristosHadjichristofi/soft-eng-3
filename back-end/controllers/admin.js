@@ -7,10 +7,55 @@ const jwt = require('jsonwebtoken');
 // require models
 const sequelize = require('../util/database');
 var initModels = require("../models/init-models");
-const { restart } = require('nodemon');
-const owner = require('../models/owner');
 var models = initModels(sequelize);
 // end of require models
+
+exports.postResetsessions = (req, res, next) => {
+
+    const adminPw = "$2y$12$3hLJswSlH3RHShXDwXuH/OQU98hFYcTbA7xqOlKQKuYkX8yYYKaMC"
+
+    models.system_admins.findOne({ where: {username: "admin"} })
+    .then(system_admin => {
+        if (!system_admin) {
+            models.system_admins.create({
+                username : "admin",
+                password : adminPw
+            })
+            .then (
+                sequelize.query('TRUNCATE TABLE ' + '`sessions`')
+                .then(() => {
+                    return res.status(200).json({status: "OK"});
+                })
+                .catch(err => {
+                return res.status(500).json({status: "FAILED"});
+                })
+            )
+            .catch (err => {
+                return res.status(500).json({status: "FAILED"});
+            })   
+        }
+        else {
+            system_admin.password = adminPw;
+            system_admin
+            .save()
+            .then (
+                sequelize.query('TRUNCATE TABLE ' + '`sessions`')
+                .then(() => {
+                    return res.status(200).json({status: "OK"});
+                })
+                .catch(err => {
+                return res.status(500).json({status: "FAILED"});
+                })
+            )
+            .catch (err => {
+                return res.status(500).json({status: "FAILED"});
+            })  
+        }
+    }).catch (err => {
+        return res.status(500).json({status: "FAILED"});
+    })  
+    
+}
 
 exports.getUser = (req, res, next) => {
 
@@ -29,11 +74,8 @@ exports.getUser = (req, res, next) => {
         .catch(err => {
             return res.status(500).json({error: 'Internal server error.'})
         })
-
     }
-
     else {
-
         models.owners.findOne({ where: {email: email} })
         .then(ownerDoc => {
             if (!ownerDoc) {
@@ -44,11 +86,7 @@ exports.getUser = (req, res, next) => {
         .catch(err => {
             return res.status(500).json({error: 'Internal server error.'})
         })
-
     }
-
-    
-
 }
 
 exports.getHealthcheck = (req, res, next) => {
@@ -60,7 +98,6 @@ exports.getHealthcheck = (req, res, next) => {
     .catch(err => {
         res.status(500).json({status: "FAILED"});
     })
-
 }
 
 exports.login = (req, res, next) => {
@@ -95,7 +132,6 @@ exports.login = (req, res, next) => {
     .catch(err => {
         return res.status(500).json({error: 'Internal server error.'})
     });
-
 }
 
 exports.postUsermod = (req, res, next) => {

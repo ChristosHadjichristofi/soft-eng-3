@@ -17,6 +17,6 @@ router.get('/users/:username', isAuth, adminController.getUser);
 
 router.get('/healthcheck', isAuth, adminController.getHealthcheck);
 
-//router.post('/system/resetsessions', adminController.postResetsessions);
+router.post('/resetsessions', isAuth, adminController.postResetsessions);
 
 module.exports = router;
