@@ -1,3 +1,5 @@
 "password","name","dob","street_name","street_number","postal_code","city","phone_number","email"
-bcrypt.hashSync('code123',12),"Costas Fortounis","1985-05-17","Amalias str",77,"A7777","Athens",69444444,"costakis@thrylos.com"
-bcrypt.hashSync('code456',12),"Mathieu Valbuena","1975-05-17","Alexandras str",56,"B6777","Athens",64499444,"mathieu@thrylos.com"
+"codeH","Christos Hadjichristofi","1985-05-17","Amalias str",12,"A7177","Athens",6941111111,"hadjichristofi@bitsplease.com"
+"codeT","Christos Tsoufis","1978-09-20","Alexandras str",56,"B6777","Athens",6942222222,"tsoufis@bitsplease.com"
+"codeP","Nataly Pegioti","1982-09-01","Cleopatras str",77,"B6777","Athens",6943333333,"pegioti@bitsplease.com"
+"codeK","Demetris Kyriacou","1975-06-13","Sofias str",8,"A1177","Athens",6944444444,"kyriacou@bitsplease.com"
