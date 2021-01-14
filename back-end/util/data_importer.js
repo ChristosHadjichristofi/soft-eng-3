@@ -1,11 +1,10 @@
 const fs = require('fs');
 const csv = require('fast-csv');
+const bcrypt = require('bcryptjs');
 
-function data_importer(path, model) {
+function data_importer(path, model, encrypt) {
 
     console.log(path)
-
-    let data = [];
 
     fs.createReadStream(path)
       .pipe(csv.parse({ headers : true }))
@@ -13,12 +12,24 @@ function data_importer(path, model) {
           throw error.message;
       })
       .on("data", (row) => {
-          data.push(row);
+          if (encrypt) {
+            let data = [];
+            bcrypt.hash(row.password, 12)
+            .then(hashedPw => {
+                row.password = hashedPw; 
+                data.push(row);
+                model.bulkCreate(data);
+            })
+            .catch(err => {
+              console.log('Internal server error.');
+            });
+          }
+          else {
+            let data = [];
+            data.push(row);
+            model.bulkCreate(data);
+          }
       })
-      .on("end", () => { 
-          model.bulkCreate(data);
-      })
-
 }
 
 module.exports = data_importer;
