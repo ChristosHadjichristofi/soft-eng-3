@@ -2,8 +2,9 @@ const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('session', {
     session_id: {
-      type: DataTypes.STRING(55),
+      type: DataTypes.INTEGER,
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true
     },
     driven_byowner_id: {
@@ -43,10 +44,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     disconnectTime: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    doneChargingTime: {
       type: DataTypes.DATE,
       allowNull: true
     },

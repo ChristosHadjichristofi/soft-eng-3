@@ -12,14 +12,18 @@ function populate() {
     .then (function () {
         data_importer("./data/owners.csv", models.owners, true)
     })
+    .then (function () {
+        data_importer("./data/energy-providers.csv", models.energy_providers, false)
+    })
+    // .then (function() {
+    //     data_importer("./data/charging-points.csv", models.charging_points, false)
+    // })
 
-    // let chargingPointsPath = "./data/charging-points.csv";
-    // data_importer(chargingPointsPath, models.charging_points);
+    
 
     // let drivenByPath = "./data/driven-by.csv";
     // data_importer(drivenByPath, models.driven_by);
-    // let energyProviderPath = "./data/energy-providers.csv";
-    // data_importer(energyProviderPath, models.energy_providers);
+
     // let ownersPath = "./data/owners.csv";
     // data_importer(ownersPath, models.owners);
     // let registeredCarsPath = "./data/registered-cars.csv";
