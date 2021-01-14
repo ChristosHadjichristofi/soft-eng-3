@@ -8,16 +8,19 @@ function populate() {
     data_importer("./data/administrators.csv", models.administrators, true)
     .then (function () {
         data_importer("./data/charging-stations.csv", models.charging_stations, false)
+        .then (function () {
+            data_importer("./data/owners.csv", models.owners, true)
+            .then (function () {
+                data_importer("./data/energy-providers.csv", models.energy_providers, false)
+                .then (function() {
+                    data_importer("./data/charging-points.csv", models.charging_points, false)
+                })
+            })
+        })
     })
-    .then (function () {
-        data_importer("./data/owners.csv", models.owners, true)
-    })
-    .then (function () {
-        data_importer("./data/energy-providers.csv", models.energy_providers, false)
-    })
-    // .then (function() {
-    //     data_importer("./data/charging-points.csv", models.charging_points, false)
-    // })
+    
+    
+    
 
     
 
