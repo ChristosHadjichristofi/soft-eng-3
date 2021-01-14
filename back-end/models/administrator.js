@@ -65,11 +65,11 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "password_UNIQUE",
+        name: "email_UNIQUE",
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "password" },
+          { name: "email" },
         ]
       },
     ]
