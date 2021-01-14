@@ -5,12 +5,17 @@ const data_importer = require('./data_importer');
 
 function populate() {
     
-    let admininstratorsPath = "./data/administrators.csv";
-    data_importer(admininstratorsPath, models.administrators, true);
+    data_importer("./data/administrators.csv", models.administrators, true)
+    .then (function () {
+        data_importer("./data/charging-stations.csv", models.charging_stations, false)
+    })
+    .then (function () {
+        data_importer("./data/owners.csv", models.owners, true)
+    })
+
     // let chargingPointsPath = "./data/charging-points.csv";
     // data_importer(chargingPointsPath, models.charging_points);
-    // let chargingStationsPath = "./data/charging-stations.csv";
-    // data_importer(chargingStationsPath, models.charging_stations);
+
     // let drivenByPath = "./data/driven-by.csv";
     // data_importer(drivenByPath, models.driven_by);
     // let energyProviderPath = "./data/energy-providers.csv";
