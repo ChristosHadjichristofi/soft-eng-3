@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const sequelize = require('./util/database');
 var initModels = require("./models/init-models");
 
+const populate_db = require('./util/populate-db');
+
 /* ROUTES and how to import routes */
 // const sessions = require('./routes/sessions');
 const login = require('./routes/login');
@@ -32,8 +34,13 @@ app.use('/evcharge/api/login', login);
 const port = Number(8765);
 initModels(sequelize);
 sequelize
-    .sync()
+    .sync({
+        // delete if system is ready to deploy
+        force: true
+        // end
+    })
     .then(result => {
+        populate_db();
         app.listen(port, () => console.log(`🚀 Server running on port ${port}!`))
     })
     .catch(err => console.log(err));
