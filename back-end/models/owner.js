@@ -9,40 +9,39 @@ module.exports = function(sequelize, DataTypes) {
     },
     password: {
       type: DataTypes.STRING(255),
-      allowNull: false,
-      unique: "password_UNIQUE"
+      allowNull: false
     },
     name: {
       type: DataTypes.STRING(45),
-      allowNull: true
+      allowNull: false
     },
     dob: {
       type: DataTypes.DATEONLY,
-      allowNull: true
+      allowNull: false
     },
     street_name: {
       type: DataTypes.STRING(85),
-      allowNull: true
+      allowNull: false
     },
     street_number: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false
     },
     postal_code: {
-      type: DataTypes.INTEGER,
-      allowNull: true
+      type: DataTypes.STRING(10),
+      allowNull: false
     },
     city: {
       type: DataTypes.STRING(45),
-      allowNull: true
+      allowNull: false
     },
     phone_number: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false
     },
     email: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: false
     }
   }, {
     sequelize,

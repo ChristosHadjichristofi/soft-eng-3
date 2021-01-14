@@ -65,6 +65,10 @@ module.exports = function(sequelize, DataTypes) {
     cost: {
       type: DataTypes.DECIMAL(6,2),
       allowNull: true
+    },
+    rating: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   }, {
     sequelize,
