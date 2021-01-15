@@ -26,6 +26,9 @@ function data_importer(path, model, encrypt) {
             }
             else {
                 let data = [];
+                if (row.rating == 'NULL') {
+                    row.rating = null;
+                }
                 data.push(row);
                 model.bulkCreate(data);
                 return resolve(true);

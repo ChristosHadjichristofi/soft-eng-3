@@ -102,8 +102,8 @@ for(int i=0;i<N;i++){
     float kwh_delivered = tempDrive.battery_size*(float(5+(rand()%6))/10);
     float cost=(kwh_delivered*tempPoint.cost_p_kwh)*(1.0+2*float(protocol)/10);
     float charging_time=(protocol==0) ? (kwh_delivered/20) : (kwh_delivered/50);
-    cout<<tempDrive.ownerid<<",";
-    cout<<tempDrive.license_plate<<",";
+    cout<<tempDrive.ownerid<<",\"";
+    cout<<tempDrive.license_plate<<"\",";
     cout<<tempPoint.point_id<<",";
     cout<<tempPoint.station_id<<",";
     printTimes(charging_time);
