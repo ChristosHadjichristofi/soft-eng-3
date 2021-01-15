@@ -4,7 +4,7 @@ var initModels = require("../models/init-models");
 var models = initModels(sequelize);
 // end of require models
 
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 const op = Sequelize.Op;
 
 exports.getSessionsPerPoint = (req, res, next) => {
@@ -51,10 +51,9 @@ exports.getSessionsPerPoint = (req, res, next) => {
         count = rows.length;
 
         if (count <= 0) {
-            return res.status(404).json({ message: "No entries found!" })
+            return ;
         }
         else {
-            console.log('ime dame !')
             return sequelize.query(
                 'SELECT administrators.name FROM administrators,charging_stations,charging_points '
                 + 'WHERE administrators.administrator_id = charging_stations.administrator_administrator_id '
@@ -63,6 +62,10 @@ exports.getSessionsPerPoint = (req, res, next) => {
         }
     })
     .then( PointOperator => {
+
+        if (!PointOperator){
+            return res.status(404).json({ message: "No entries found!" })
+        }
 
         res.status(201).json({
 
@@ -109,6 +112,11 @@ exports.getSessionsPerStation = (req, res, next) => {
         + 'WHERE administrators.administrator_id = charging_stations.administrator_administrator_id '
         + 'AND charging_stations.station_id = ' + stationID, {type: sequelize.QueryTypes.SELECT})
     .then ( stationOperator => {
+
+        if (stationOperator.length == 0) {
+            return ;
+        }
+
         Operator = stationOperator[0].name;
         
         return models.sessions.findAll({
@@ -131,8 +139,16 @@ exports.getSessionsPerStation = (req, res, next) => {
         })
     })
     .then ( rows => {
+
+        if (!rows) {
+            return res.status(404).json({ message: "No entries found!" })
+        }
         SessionsSummaryList = rows;
         NumberOfActivePoints = rows.length;
+
+        // if (NumberOfActivePoints <= 0) {
+        //     return res.status(404).json({ message: "No entries found!" })
+        // }
 
         rows.forEach(x => {
             TotalEnergyDelivered += parseFloat(x.EnergyDelivered);
@@ -156,5 +172,84 @@ exports.getSessionsPerStation = (req, res, next) => {
         console.log(err)
         return res.status(500).json({msg: "Internal server error."});
     })
+
+}
+
+exports.getSessionsPerEV = (req, res, next) => {
+
+    var {vehicleID, yyyymmdd_from, yyyymmdd_to} = req.params;
+    
+    // set startDate and endDate to correct format so as query has right results
+    var yyyymmdd_from = yyyymmdd_from.substring(0,4) + "-" + yyyymmdd_from.substring(4,6) + "-" + yyyymmdd_from.substring(6,8);
+    var yyyymmdd_to = yyyymmdd_to.substring(0,4) + "-" + yyyymmdd_to.substring(4,6) + "-" + yyyymmdd_to.substring(6,8);
+    
+    startCorrectFormat = yyyymmdd_from + " 00:00:00";
+    endCorrectFormat = yyyymmdd_to + " 23:59:59";
+    // end of correct format
+
+    var VehicleChargingSessionsList;
+    var NumberOfVehicleChargingSessions;
+    var NumberOfVisitedPoints;
+    var TotalEnergyConsumed = 0;
+
+    sequelize.query( 'SELECT @n := @n + 1 SessionIndex,'
+        + 'sessions.session_id as SessionID, energy_providers.energy_provider_name as EnergyProvider,'
+        + 'sessions.connectionTime as StartedOn, sessions.disconnectTime as FinishedOn,'
+        + 'sessions.kWhDelivered as ΕnergyDelivered, energy_providers.PricePolicyRef as PricePolicyRef,'
+        + 'energy_providers.cost_per_kWh as CostPerKWh, sessions.cost as SessionCost '
+        + 'FROM sessions,charging_points,energy_providers,(SELECT @n := 0) m '
+        + 'WHERE sessions.charging_pointspoint_id = charging_points.point_id '
+        + 'AND charging_points.energy_providerenergy_provider_id = energy_providers.energy_provider_id '
+        + 'AND sessions.connectionTime BETWEEN \'' + startCorrectFormat + '\' AND \'' + endCorrectFormat + '\'' 
+        + ' AND sessions.driven_byregistered_carslicense_plate = \'' + vehicleID + '\''
+        + ' ORDER BY  sessions.connectionTime', {type: sequelize.QueryTypes.SELECT})
+    
+    .then( rows => {
+
+        NumberOfVehicleChargingSessions = rows.length;
+
+        if (NumberOfVehicleChargingSessions == 0) return;
+
+        VehicleChargingSessionsList = rows;
+
+        return sequelize.query('SELECT COUNT(*) AS visitedPoints FROM ('
+            + 'SELECT COUNT(sessions.charging_pointspoint_id) '
+            + 'FROM sessions,charging_points,energy_providers '
+            + 'WHERE sessions.charging_pointspoint_id = charging_points.point_id '
+            + 'AND charging_points.energy_providerenergy_provider_id = energy_providers.energy_provider_id '
+            + 'AND sessions.connectionTime BETWEEN \'' + startCorrectFormat + '\' AND \'' + endCorrectFormat + '\'' 
+            + ' AND sessions.driven_byregistered_carslicense_plate = \'' + vehicleID + '\''
+            + ' GROUP BY sessions.charging_pointspoint_id '
+            + ') NumberOfVisitedPoints', {type: sequelize.QueryTypes.SELECT})
+    })
+    .then( ans => {
+
+        if (!ans) {
+            return res.status(404).json({ message: "No entries found!" })
+        }
+
+        NumberOfVisitedPoints = ans[0].visitedPoints;
+
+        VehicleChargingSessionsList.forEach(x => {
+            TotalEnergyConsumed += parseFloat(x.EnergyDelivered);
+        });
+        res.status(201).json({
+
+            VehicleID: vehicleID,
+            RequestTimestamp: new Date(),
+            PeriodFrom: yyyymmdd_from,
+            PeriodTo: yyyymmdd_to,
+            NumberOfVisitedPoints: NumberOfVisitedPoints,
+            NumberOfVehicleChargingSessions: NumberOfVehicleChargingSessions,
+            VehicleChargingSessionsList: VehicleChargingSessionsList
+
+        })
+
+    })
+    .catch (err => {
+        console.log(err)
+        return res.status(500).json({msg: "Internal server error."});
+    })
+
 
 }
