@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     registered_carslicense_plate: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(15),
       allowNull: false,
       primaryKey: true,
       references: {
