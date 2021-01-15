@@ -64,11 +64,10 @@ exports.getSessionsPerPoint = (req, res, next) => {
     .then( PointOperator => {
 
         if (!PointOperator){
-            return res.status(404).json({ message: "No entries found!" })
+            return res.status(402).json({ message: "No data found!" })
         }
 
         res.status(201).json({
-
             Point: pointID,
             PointOperator: PointOperator[0].name,
             RequestTimestamp: new Date(),
@@ -76,14 +75,12 @@ exports.getSessionsPerPoint = (req, res, next) => {
             PeriodTo: yyyymmdd_to,
             NumberOfChargingSessions: count,
             ChargingSessionsList: sessions
-
         })
     })
     .catch (err => {
         console.log(err)
         return res.status(500).json({msg: "Internal server error."});
     })
-
 }
 
 exports.getSessionsPerStation = (req, res, next) => {
@@ -141,21 +138,16 @@ exports.getSessionsPerStation = (req, res, next) => {
     .then ( rows => {
 
         if (!rows) {
-            return res.status(404).json({ message: "No entries found!" })
+            return res.status(402).json({ message: "No data found!" })
         }
         SessionsSummaryList = rows;
         NumberOfActivePoints = rows.length;
-
-        // if (NumberOfActivePoints <= 0) {
-        //     return res.status(404).json({ message: "No entries found!" })
-        // }
 
         rows.forEach(x => {
             TotalEnergyDelivered += parseFloat(x.EnergyDelivered);
             NumberOfChargingSessions += x.PointSessions;
         });
         res.status(201).json({
-
             StationID: stationID,
             Operator: Operator,
             RequestTimestamp: new Date(),
@@ -165,14 +157,12 @@ exports.getSessionsPerStation = (req, res, next) => {
             NumberOfChargingSessions: NumberOfChargingSessions,
             NumberOfActivePoints: NumberOfActivePoints,
             SessionsSummaryList: SessionsSummaryList
-
         })
     })
     .catch (err => {
         console.log(err)
         return res.status(500).json({msg: "Internal server error."});
     })
-
 }
 
 exports.getSessionsPerEV = (req, res, next) => {
@@ -225,7 +215,7 @@ exports.getSessionsPerEV = (req, res, next) => {
     .then( ans => {
 
         if (!ans) {
-            return res.status(404).json({ message: "No entries found!" })
+            return res.status(402).json({ message: "No data found!" })
         }
 
         NumberOfVisitedPoints = ans[0].visitedPoints;
@@ -234,7 +224,6 @@ exports.getSessionsPerEV = (req, res, next) => {
             TotalEnergyConsumed += parseFloat(x.EnergyDelivered);
         });
         res.status(201).json({
-
             VehicleID: vehicleID,
             RequestTimestamp: new Date(),
             PeriodFrom: yyyymmdd_from,
@@ -242,14 +231,80 @@ exports.getSessionsPerEV = (req, res, next) => {
             NumberOfVisitedPoints: NumberOfVisitedPoints,
             NumberOfVehicleChargingSessions: NumberOfVehicleChargingSessions,
             VehicleChargingSessionsList: VehicleChargingSessionsList
-
         })
-
     })
     .catch (err => {
         console.log(err)
         return res.status(500).json({msg: "Internal server error."});
     })
+}
 
+exports.getSessionsPerProvider = (req, res, next) => {
 
+    var {providerID, yyyymmdd_from, yyyymmdd_to} = req.params;
+    
+    // set startDate and endDate to correct format so as query has right results
+    var yyyymmdd_from = yyyymmdd_from.substring(0,4) + "-" + yyyymmdd_from.substring(4,6) + "-" + yyyymmdd_from.substring(6,8);
+    var yyyymmdd_to = yyyymmdd_to.substring(0,4) + "-" + yyyymmdd_to.substring(4,6) + "-" + yyyymmdd_to.substring(6,8);
+    
+    startCorrectFormat = yyyymmdd_from + " 00:00:00";
+    endCorrectFormat = yyyymmdd_to + " 23:59:59";
+    // end of correct format
+
+    var NumberOfProviderChargingSessions;
+    var ProviderChargingSessionsList;
+    var TotalCost = 0;
+
+    sequelize.query('SELECT row_number() OVER (ORDER BY sessions.connectionTime) SessionIndex,'
+        + 'sessions.charging_pointscharging_stationsstation_id as StationID,sessions.session_id as SessionID,' 
+        + 'sessions.driven_byregistered_carslicense_plate as VehicleID,'
+        + 'sessions.connectionTime as StartedOn, sessions.disconnectTime as FinishedOn,'
+        + 'sessions.kWhDelivered as ΕnergyDelivered, energy_providers.PricePolicyRef as PricePolicyRef, '
+        + 'energy_providers.cost_per_kWh as CostPerKWh, sessions.cost as sessionCost'
+        + ' FROM sessions,charging_points,energy_providers'
+        + ' WHERE sessions.charging_pointspoint_id = charging_points.point_id'
+        + ' AND charging_points.energy_providerenergy_provider_id = energy_providers.energy_provider_id'
+        + ' AND energy_providers.energy_provider_id = ' + providerID
+        + ' AND sessions.connectionTime BETWEEN \'' + startCorrectFormat + '\' AND \'' + endCorrectFormat + '\''
+        + ' ORDER BY  sessions.connectionTime', {type: sequelize.QueryTypes.SELECT})
+    .then( rows => {
+
+        NumberOfProviderChargingSessions = rows.length;
+
+        if (NumberOfProviderChargingSessions == 0) return;
+
+        ProviderChargingSessionsList = rows;
+
+        return models.energy_providers.findOne({
+            where: {
+                energy_provider_id: providerID
+            }
+        })
+
+    })
+    .then (ProviderName => {
+
+        if (!ProviderName){
+            return res.status(402).json({ message: "No data found!" })
+        }
+
+        ProviderChargingSessionsList.forEach(x => {
+            TotalCost += parseFloat(x.sessionCost);
+        });
+
+        res.status(201).json({
+            ProviderID: providerID,
+            ProviderName: ProviderName.energy_provider_name,
+            RequestTimestamp: new Date(),
+            PeriodFrom: yyyymmdd_from,
+            PeriodTo: yyyymmdd_to,
+            NumberOfProviderChargingSessions: NumberOfProviderChargingSessions,
+            TotalCost: TotalCost.toFixed(2),
+            ProviderChargingSessionsList: ProviderChargingSessionsList
+        })
+    })
+    .catch (err => {
+        console.log(err)
+        return res.status(500).json({msg: "Internal server error."});
+    })
 }
