@@ -20,6 +20,7 @@ struct drivenby{
     int ownerid;
     string license_plate;
     float battery_size;
+    string type;
 };
 
 point points[100];
@@ -32,7 +33,7 @@ void printTimes(float charging_time){
     int charging_hours=int(charging_time);
     int charging_minutes=60*(charging_time - charging_hours);
     int c_month=1+rand()%12;
-    int c_day=1+rand()%30;
+    int c_day=1+rand()%31;
     int c_hour=rand()%24;
     int c_mins=rand()%60;
     int c_secs=rand()%60;
@@ -40,6 +41,8 @@ void printTimes(float charging_time){
 
     if(c_month==2 && c_day>28)
         c_day=28;
+    if(c_day==31 && (c_month==4 || c_month==6 ||c_month==9 || c_month==11))
+        c_day=30;
 
     cout<<c_year<<"-";
     (c_month<=9)?cout<<"0"<<c_month<<"-":cout<<c_month<<"-";
@@ -89,12 +92,12 @@ while(!finpoints.eof()){
 }
 pointsN--;
 while(!findrivenby.eof()){
-    findrivenby>>drives[drivesN].ownerid>>drives[drivesN].license_plate>>drives[drivesN].battery_size;
+    findrivenby>>drives[drivesN].ownerid>>drives[drivesN].license_plate>>drives[drivesN].battery_size>>drives[drivesN].type;
     drivesN++;
 }
 drivesN--;
 
-cout<<"\"driven_byowner_id\",\"driven_byregistered_carslicense_plate\",\"charging_pointspoint_id\",\"charging_pointscharging_stationsstation_id\",\"connectionTime\",\"disconnectTime\",\"kWhDelivered\",\"protocol\",\"payment\",\"cost\",\"rating\"";
+cout<<"\"driven_byowner_id\",\"driven_byregistered_carslicense_plate\",\"charging_pointspoint_id\",\"charging_pointscharging_stationsstation_id\",\"connectionTime\",\"disconnectTime\",\"kWhDelivered\",\"protocol\",\"payment\",\"cost\",\"vehicle_type\",\"rating\""<<endl;
 for(int i=0;i<N;i++){
     point tempPoint = points[rand()%pointsN];
     drivenby tempDrive = drives[rand()%drivesN];
@@ -111,6 +114,7 @@ for(int i=0;i<N;i++){
     cout<<"\""<<protocols[protocol]<<"\",";
     cout<<"\"card\",";
     cout << fixed<<setprecision(2)<<cost<<",";
+    cout<<tempDrive.type<<",";
     if(rand()%10>=4) cout<<(5-(rand()%6+rand()%2)%5); else cout<<"NULL";
     cout<<endl;
 

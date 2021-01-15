@@ -63,6 +63,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DECIMAL(6,2),
       allowNull: true
     },
+    vehicle_type: {
+      type: DataTypes.STRING(50),
+      allowNull: true
+    },
     rating: {
       type: DataTypes.INTEGER,
       allowNull: true
