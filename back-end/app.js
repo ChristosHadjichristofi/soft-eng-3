@@ -27,6 +27,8 @@ app.use((req,res,next)=>{
 // /* Routes used by our project */
 app.use('/evcharge/api/admin', admin);
 app.use('/evcharge/api/login', login);
+// app.use('/evcharge/api/charge', charge);
+// app.use('/evcharge/api/map', map);
 // app.use('/evcharge/api/logout', logout);
 app.use('/evcharge/api', sessions);   
 // /*End of routes used by our project */
