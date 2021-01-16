@@ -5,6 +5,7 @@ const sequelize = new Sequelize('soft-eng-3', 'root', 'soft-eng-3', {
     protocol: 'mysql',
     host: 'localhost',
     port: '3306',
+    // logging: false
 });
 
 sequelize.authenticate()

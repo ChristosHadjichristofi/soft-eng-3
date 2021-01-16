@@ -2,6 +2,7 @@ const express = require('express');
 
 const adminController = require('../controllers/admin');
 
+const upload = require("../middlewares/upload");
 const isAuth = require('../middlewares/auth')
 
 const router = express.Router();
@@ -13,7 +14,7 @@ router.post('/login', adminController.login);
 
 router.get('/users/:username', isAuth, adminController.getUser);
 
-//router.post('/system/sessionsupd', adminController.postSystem);
+router.post('/system/sessionsupd', upload.single("file"), adminController.postSystem);
 
 router.get('/healthcheck', isAuth, adminController.getHealthcheck);
 
