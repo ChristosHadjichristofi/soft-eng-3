@@ -242,6 +242,7 @@ exports.postSystem = (req, res) => {
         }
   
         let sessions = [];
+        var fail = 0;
         let path = __dirname + "/../uploads/" + req.file.filename;
         
         fs.createReadStream(path)
@@ -250,16 +251,29 @@ exports.postSystem = (req, res) => {
             throw error.message;
         })
         .on("data", (row) => {
-            if (row.rating == 'NULL') {
-                row.rating = null;
+            if (row.driven_byowner_id == '' || row.driven_byregistered_carslicense_plate == '' || 
+                row.charging_pointspoint_id == '' || row.charging_pointscharging_stationsstation_id == '' || 
+                row.connectionTime == '' || row.disconnectTime == '' || row.kWhDelivered == '' || 
+                row.protocol == '' || row.payment == '' || row.cost == '' || row.vehicle_type == '' || row.rating == '') {
+                    fail = fail + 1;
+                }
+            else {
+                if (row.rating == 'NULL') {
+                    row.rating = null;
+                }
+                sessions.push(row);
             }
-            sessions.push(row);
         })
         .on("end", () => {
             models.sessions.bulkCreate(sessions)
             .then(() => {
+                return models.sessions.count();
+            })
+            .then(totalSessions => {
                 res.status(200).send({
-                    message: "Uploaded the file successfully: " + req.file.originalname,
+                    SessionsInUploadedFile: sessions.length + fail,
+                    SessionsImported: sessions.length,
+                    TotalSessionsInDatabase: totalSessions
                 });
             })
             .catch((error) => {
@@ -268,6 +282,7 @@ exports.postSystem = (req, res) => {
                     error: error.message
                 });
             });
+            
         });
     } catch (error) {
         console.log(error);
@@ -275,4 +290,4 @@ exports.postSystem = (req, res) => {
             message: "Could not upload the file: " + req.file.originalname,
         });
     }
-  };
+};
