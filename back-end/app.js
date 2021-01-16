@@ -8,6 +8,7 @@ const populate_db = require('./util/populate-db');
 /* ROUTES and how to import routes */
 const sessions = require('./routes/sessions');
 const login = require('./routes/login');
+const charge = require('./routes/charge')
 // const logout = require('./routes/logout');
 const admin = require('./routes/admin');
 /* end of ROUTES and how to import routes */
@@ -27,7 +28,7 @@ app.use((req,res,next)=>{
 // /* Routes used by our project */
 app.use('/evcharge/api/admin', admin);
 app.use('/evcharge/api/login', login);
-// app.use('/evcharge/api/charge', charge);
+app.use('/evcharge/api/charge', charge);
 // app.use('/evcharge/api/map', map);
 // app.use('/evcharge/api/logout', logout);
 app.use('/evcharge/api', sessions);   

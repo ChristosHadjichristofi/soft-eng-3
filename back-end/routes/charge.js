@@ -6,7 +6,7 @@ const chargeController = require('../controllers/charge');
 
 const router = express.Router();
 
-// router.get('/:license_plate', chargeController.getLicensePlate);
+router.get('/:license_plate', chargeController.getLicensePlate);
 
 // router.post('/completed', chargeController.postCompleted);
 
