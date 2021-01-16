@@ -24,7 +24,7 @@ exports.getLicensePlate = (req, res, next) => {
     })
     .then(registered_car => {
         
-        if (registered_car.length == 0) return;
+        if (!registered_car) return;
 
         supported_car_id = registered_car.SupportedCarID;
 
@@ -60,5 +60,30 @@ exports.getLicensePlate = (req, res, next) => {
         console.log(err)
         return res.status(500).json({msg: "Internal server error."});
     })
+
+}
+
+exports.postCompleted = (req, res, next) => {
+
+    models.sessions.create({
+        driven_byowner_id: req.body.owner_id,
+        driven_byregistered_carslicense_plate: req.body.car_license_plate,
+        charging_pointspoint_id: req.body.charging_point_id,
+        charging_pointscharging_stationsstation_id: req.body.charging_station_id,
+        connectionTime: req.body.connection_time,
+        disconnectTime: req.body.disconnect_time,
+        kWhDelivered: req.body.kWh_delivered,
+        protocol: req.body.protocol,
+        payment: req.body.payment,
+        cost: req.body.cost,
+        vehicle_type: req.body.vehicle_type,
+        rating: null
+    })
+    .then(() =>{
+        res.status(201).json({message: 'Sessions record created!'});
+    })
+    .catch(err => {
+        return res.status(500).json({error: 'Internal server error.'})
+    });
 
 }

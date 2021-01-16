@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.get('/:license_plate', chargeController.getLicensePlate);
 
-// router.post('/completed', chargeController.postCompleted);
+router.post('/completed', chargeController.postCompleted);
 
 module.exports = router;
