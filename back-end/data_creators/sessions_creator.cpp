@@ -121,3 +121,16 @@ for(int i=0;i<N;i++){
 }
 
 }
+
+
+/*
+for points.in:
+    SELECT charging_points.point_id,charging_points.charging_stationsstation_id,energy_providers.cost_per_kWh
+    from charging_points,energy_providers
+    where charging_points.energy_providerenergy_provider_id=energy_providers.energy_provider_id
+
+for drivenby.in:
+    select driven_by.owner_id,driven_by.registered_carslicense_plate,supported_cars.usable_battery_size,supported_cars.type
+    from driven_by,registered_cars,supported_cars
+    where driven_by.registered_carslicense_plate=registered_cars.license_plate and registered_cars.supported_carsid=supported_cars.id
+*/
