@@ -15,41 +15,21 @@ exports.getSessionsPerPoint = (req, res, next) => {
     var yyyymmdd_from = yyyymmdd_from.substring(0,4) + "-" + yyyymmdd_from.substring(4,6) + "-" + yyyymmdd_from.substring(6,8);
     var yyyymmdd_to = yyyymmdd_to.substring(0,4) + "-" + yyyymmdd_to.substring(4,6) + "-" + yyyymmdd_to.substring(6,8);
     
-    startCorrectFormat = yyyymmdd_from + " 02:00:00";
-    const startDate = new Date(startCorrectFormat);
-    endCorrectFormat = yyyymmdd_to + " 01:59:59";
-    var endDate = new Date(endCorrectFormat);
-    endDate.setDate(endDate.getDate() + 1);
+    startCorrectFormat = yyyymmdd_from + " 00:00:00";
+    endCorrectFormat = yyyymmdd_to + " 23:59:59";
     // end of correct format
 
-    var count, sessions;
+    var sessions;
 
-    models.sessions.findAll({
-        raw: true,
-        where: {
-            charging_pointspoint_id: pointID,
-            connectionTime: {
-                [op.between]: [startDate, endDate]
-            }
-        },
-        order: [
-            ['connectionTime', 'ASC'],
-        ],
-        attributes: [
-            ['session_id','SessionID'],
-            ['connectionTime','StartedOn'],
-            ['disconnectTime','FinishedOn'],
-            ['protocol','Protocol'],
-            ['kWhDelivered','EnergyDelivered'],
-            ['payment','Payment'],
-            ['vehicle_type','VehicleType']
-        ]
-    })
+    sequelize.query('SELECT row_number() OVER (ORDER BY session.connectionTime) SessionIndex, `session_id` AS `SessionID`, `connectionTime` AS `StartedOn`,'
+    + '`disconnectTime` AS `FinishedOn`, `protocol` AS `Protocol`, `kWhDelivered` AS `EnergyDelivered`, `payment` AS `Payment`, `vehicle_type`'
+    + 'AS `VehicleType` FROM `sessions` AS `session` WHERE `session`.`charging_pointspoint_id` = ' + pointID 
+    + ' AND session.connectionTime BETWEEN \'' + startCorrectFormat + '\' AND \'' + endCorrectFormat + '\'' 
+    + ' ORDER BY `session`.`connectionTime` ASC', {type: sequelize.QueryTypes.SELECT})
     .then( rows => {
 
         sessions = rows;
         count = rows.length;
-
         if (count <= 0) {
             return ;
         }
