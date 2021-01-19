@@ -4,10 +4,13 @@ var initModels = require("../models/init-models");
 var models = initModels(sequelize);
 // end of require models
 
+var csv = require('csv-express')
 const Sequelize = require('sequelize');
 const op = Sequelize.Op;
 
 exports.getSessionsPerPoint = (req, res, next) => {
+
+    const format = req.query.format;
 
     var {pointID, yyyymmdd_from, yyyymmdd_to} = req.params;
     
@@ -46,16 +49,35 @@ exports.getSessionsPerPoint = (req, res, next) => {
         if (!PointOperator){
             return res.status(402).json({ message: "No data found!" })
         }
-
-        res.status(201).json({
-            Point: pointID,
-            PointOperator: PointOperator[0].name,
-            RequestTimestamp: new Date(),
-            PeriodFrom: yyyymmdd_from,
-            PeriodTo: yyyymmdd_to,
-            NumberOfChargingSessions: count,
-            ChargingSessionsList: sessions
-        })
+        
+        if (format == 'csv') {
+            var updatedSession;
+            var sessionsArr = [];
+            sessions.forEach(session => {
+                updatedSession = {
+                    Point: pointID, 
+                    PointOperator: PointOperator[0].name,
+                    RequestTimestamp: new Date(),
+                    PeriodFrom: yyyymmdd_from,
+                    PeriodTo: yyyymmdd_to,
+                    NumberOfChargingSessions: count,
+                    ...session
+                }
+                sessionsArr.push(updatedSession);
+            })
+            res.csv(sessionsArr, 200);
+        }
+        else {
+            res.status(201).json({
+                Point: pointID,
+                PointOperator: PointOperator[0].name,
+                RequestTimestamp: new Date(),
+                PeriodFrom: yyyymmdd_from,
+                PeriodTo: yyyymmdd_to,
+                NumberOfChargingSessions: count,
+                ChargingSessionsList: sessions
+            })
+        }        
     })
     .catch (err => {
         console.log(err)
@@ -64,6 +86,8 @@ exports.getSessionsPerPoint = (req, res, next) => {
 }
 
 exports.getSessionsPerStation = (req, res, next) => {
+
+    const format = req.query.format;
 
     var {stationID, yyyymmdd_from, yyyymmdd_to} = req.params;
     
@@ -127,17 +151,39 @@ exports.getSessionsPerStation = (req, res, next) => {
             TotalEnergyDelivered += parseFloat(x.EnergyDelivered);
             NumberOfChargingSessions += x.PointSessions;
         });
-        res.status(201).json({
-            StationID: stationID,
-            Operator: Operator,
-            RequestTimestamp: new Date(),
-            PeriodFrom: yyyymmdd_from,
-            PeriodTo: yyyymmdd_to,
-            TotalEnergyDelivered: TotalEnergyDelivered,
-            NumberOfChargingSessions: NumberOfChargingSessions,
-            NumberOfActivePoints: NumberOfActivePoints,
-            SessionsSummaryList: SessionsSummaryList
-        })
+
+        if (format == 'csv') {
+            var updSessionSummary;
+            var SessionsSummaryArr = [];
+            SessionsSummaryList.forEach(sessionSummary => {
+                updSessionSummary = {
+                    StationID: stationID,
+                    Operator: Operator,
+                    RequestTimestamp: new Date(),
+                    PeriodFrom: yyyymmdd_from,
+                    PeriodTo: yyyymmdd_to,
+                    TotalEnergyDelivered: TotalEnergyDelivered.toFixed(2),
+                    NumberOfChargingSessions: NumberOfChargingSessions,
+                    NumberOfActivePoints: NumberOfActivePoints,
+                    ...sessionSummary
+                }
+                SessionsSummaryArr.push(updSessionSummary);
+            })
+            res.csv(SessionsSummaryArr, 200);
+        }
+        else {
+            res.status(201).json({
+                StationID: stationID,
+                Operator: Operator,
+                RequestTimestamp: new Date(),
+                PeriodFrom: yyyymmdd_from,
+                PeriodTo: yyyymmdd_to,
+                TotalEnergyDelivered: TotalEnergyDelivered.toFixed(2),
+                NumberOfChargingSessions: NumberOfChargingSessions,
+                NumberOfActivePoints: NumberOfActivePoints,
+                SessionsSummaryList: SessionsSummaryList
+            })
+        }
     })
     .catch (err => {
         console.log(err)
@@ -146,6 +192,8 @@ exports.getSessionsPerStation = (req, res, next) => {
 }
 
 exports.getSessionsPerEV = (req, res, next) => {
+
+    const format = req.query.format;
 
     var {vehicleID, yyyymmdd_from, yyyymmdd_to} = req.params;
     
@@ -203,15 +251,35 @@ exports.getSessionsPerEV = (req, res, next) => {
         VehicleChargingSessionsList.forEach(x => {
             TotalEnergyConsumed += parseFloat(x.EnergyDelivered);
         });
-        res.status(201).json({
-            VehicleID: vehicleID,
-            RequestTimestamp: new Date(),
-            PeriodFrom: yyyymmdd_from,
-            PeriodTo: yyyymmdd_to,
-            NumberOfVisitedPoints: NumberOfVisitedPoints,
-            NumberOfVehicleChargingSessions: NumberOfVehicleChargingSessions,
-            VehicleChargingSessionsList: VehicleChargingSessionsList
-        })
+
+        if (format == 'csv') {
+            var updVehicleChargingSession;
+            var VehicleChargingSessionsArr = [];
+            VehicleChargingSessionsList.forEach(vehicleChargingSession => {
+                updVehicleChargingSession = {
+                    VehicleID: vehicleID,
+                    RequestTimestamp: new Date(),
+                    PeriodFrom: yyyymmdd_from,
+                    PeriodTo: yyyymmdd_to,
+                    NumberOfVisitedPoints: NumberOfVisitedPoints,
+                    NumberOfVehicleChargingSessions: NumberOfVehicleChargingSessions,
+                    ...vehicleChargingSession
+                }
+                VehicleChargingSessionsArr.push(updVehicleChargingSession);
+            })
+            res.csv(VehicleChargingSessionsArr, 200);
+        }
+        else {
+            res.status(201).json({
+                VehicleID: vehicleID,
+                RequestTimestamp: new Date(),
+                PeriodFrom: yyyymmdd_from,
+                PeriodTo: yyyymmdd_to,
+                NumberOfVisitedPoints: NumberOfVisitedPoints,
+                NumberOfVehicleChargingSessions: NumberOfVehicleChargingSessions,
+                VehicleChargingSessionsList: VehicleChargingSessionsList
+            })
+        }
     })
     .catch (err => {
         console.log(err)
@@ -220,6 +288,8 @@ exports.getSessionsPerEV = (req, res, next) => {
 }
 
 exports.getSessionsPerProvider = (req, res, next) => {
+
+    const format = req.query.format;
 
     var {providerID, yyyymmdd_from, yyyymmdd_to} = req.params;
     
@@ -272,16 +342,36 @@ exports.getSessionsPerProvider = (req, res, next) => {
             TotalCost += parseFloat(x.sessionCost);
         });
 
-        res.status(201).json({
-            ProviderID: providerID,
-            ProviderName: ProviderName.energy_provider_name,
-            RequestTimestamp: new Date(),
-            PeriodFrom: yyyymmdd_from,
-            PeriodTo: yyyymmdd_to,
-            NumberOfProviderChargingSessions: NumberOfProviderChargingSessions,
-            TotalCost: TotalCost.toFixed(2),
-            ProviderChargingSessionsList: ProviderChargingSessionsList
-        })
+        if (format == 'csv') {
+            var updProviderChargingSession;
+            var ProviderChargingSessionsArr = [];
+            ProviderChargingSessionsList.forEach(ProviderChargingSession => {
+                updProviderChargingSession = {
+                    ProviderID: providerID,
+                    ProviderName: ProviderName.energy_provider_name,
+                    RequestTimestamp: new Date(),
+                    PeriodFrom: yyyymmdd_from,
+                    PeriodTo: yyyymmdd_to,
+                    NumberOfProviderChargingSessions: NumberOfProviderChargingSessions,
+                    TotalCost: TotalCost.toFixed(2),
+                    ...ProviderChargingSession
+                }
+                ProviderChargingSessionsArr.push(updProviderChargingSession);
+            })
+            res.csv(ProviderChargingSessionsArr, 200);
+        }
+        else {
+            res.status(201).json({
+                ProviderID: providerID,
+                ProviderName: ProviderName.energy_provider_name,
+                RequestTimestamp: new Date(),
+                PeriodFrom: yyyymmdd_from,
+                PeriodTo: yyyymmdd_to,
+                NumberOfProviderChargingSessions: NumberOfProviderChargingSessions,
+                TotalCost: TotalCost.toFixed(2),
+                ProviderChargingSessionsList: ProviderChargingSessionsList
+            })
+        }
     })
     .catch (err => {
         console.log(err)
