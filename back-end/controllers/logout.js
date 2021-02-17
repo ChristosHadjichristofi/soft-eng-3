@@ -14,9 +14,15 @@ module.exports = (req, res, next) => {
           })
         }
       
-        if (token && !models.expired_tokens.findOne({ token: token })) {
-            models.expired_tokens.create({ token: token })
-            res.status(200).json({ message: "OK" });
+        if (token) {
+            models.expired_tokens.findOne({ where: {token: token} }).
+            then(expired => {
+
+                if (expired) return res.status(400).json({ message: "You are already logged out." })
+                else {
+                    models.expired_tokens.create({ token: token })
+                    return res.status(200).json({});
+                }
+            })
         }
-        else res.status(400).json({ message: "You are already logged out." })
 }
