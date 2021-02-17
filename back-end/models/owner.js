@@ -42,6 +42,10 @@ module.exports = function(sequelize, DataTypes) {
     email: {
       type: DataTypes.STRING(255),
       allowNull: false
+    },
+    role: {
+      type: DataTypes.STRING(15),
+      defaultValue: 'owner',
     }
   }, {
     sequelize,
