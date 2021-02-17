@@ -31,10 +31,7 @@ module.exports = (req, res, next) => {
                     res.status(401).json({error:'Wrong password!'});
                 }
                 const token = jwt.sign(
-                    {
-                        email: loadedUser.email,
-                        userId: loadedUser.administrator_id.toString()
-                    },
+                    { user: loadedUser },
                     'denthaseafisoumenatovreispotepotepote',
                     { expiresIn: '1h' }
                 );
@@ -67,10 +64,7 @@ module.exports = (req, res, next) => {
 
                 }
                 const token = jwt.sign(
-                    {
-                        email: loadedUser.email,
-                        userId: loadedUser.owner_id.toString()
-                    },
+                    { user: loadedUser },
                     'denthaseafisoumenatovreispotepotepote',
                     { expiresIn: '1h' }
                 );
