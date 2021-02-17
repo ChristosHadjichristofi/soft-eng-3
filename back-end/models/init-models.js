@@ -1,6 +1,7 @@
 var DataTypes = require("sequelize").DataTypes;
 var _administrators = require("./administrator");
 var _system_admins = require("./system_admin");
+var _expired_tokens = require("./expired_tokens");
 var _charging_points = require("./charging_point");
 var _charging_stations = require("./charging_station");
 var _driven_by = require("./driven_by");
@@ -13,6 +14,7 @@ var _supported_cars = require("./supported_car");
 function initModels(sequelize) {
   var administrators = _administrators(sequelize, DataTypes);
   var system_admins = _system_admins(sequelize, DataTypes);
+  var expired_tokens = _expired_tokens(sequelize, DataTypes);
   var charging_points = _charging_points(sequelize, DataTypes);
   var charging_stations = _charging_stations(sequelize, DataTypes);
   var driven_by = _driven_by(sequelize, DataTypes);
@@ -48,6 +50,7 @@ function initModels(sequelize) {
   return {
     administrators,
     system_admins,
+    expired_tokens,
     charging_points,
     charging_stations,
     driven_by,
