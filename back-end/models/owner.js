@@ -13,31 +13,31 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING(45),
-      allowNull: false
+      allowNull: true
     },
     dob: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: true
     },
     street_name: {
       type: DataTypes.STRING(85),
-      allowNull: false
+      allowNull: true
     },
     street_number: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     postal_code: {
       type: DataTypes.STRING(10),
-      allowNull: false
+      allowNull: true
     },
     city: {
       type: DataTypes.STRING(45),
-      allowNull: false
+      allowNull: true
     },
     phone_number: {
       type: DataTypes.STRING(15),
-      allowNull: false
+      allowNull: true
     },
     email: {
       type: DataTypes.STRING(255),
