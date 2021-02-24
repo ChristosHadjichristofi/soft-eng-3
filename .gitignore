@@ -1,5 +1,7 @@
 /back-end/node_modules
 /back-end/data_creators/sessions.csv
+/back-end/uploads
 /cli-client/node_modules
+/cli-client/softeng20bAPI.token
 *.o
 *.exe
