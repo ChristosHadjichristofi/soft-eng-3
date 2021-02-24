@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./util/database');
 var initModels = require("./models/init-models");
+var fs = require('fs');
 
 const populate_db = require('./util/populate-db');
 
@@ -45,6 +46,7 @@ sequelize
     })
     .then(result => {
         // populate_db();
+        if (!fs.existsSync('./uploads')){ fs.mkdirSync('./uploads'); }
         app.listen(port, () => console.log(`🚀 Server running on port ${port}!`))
     })
     .catch(err => console.log(err));
