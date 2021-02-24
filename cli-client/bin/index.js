@@ -4,20 +4,21 @@
 const commands = require("commander");
 const chalk = require('chalk');
 const clear = require('clear');
+const figlet = require('figlet');
 // libraries required
 
 // functions
-const healthcheck = require('./src/healthcheck');
-const resetsessions = require('./src/resetsessions');
-const login = require('./src/login');
-const logout = require('./src/logout');
-const sessionsperpoint = require('./src/sessionsperpoint');
-const sessionsperstation = require('./src/sessionsperstation');
-const sessionsperev = require('./src/sessionsperev');
-const sessionsperprovider = require('./src/sessionsperprovider');
-const moduser = require('./src/moduser');
-const allusers = require('./src/allusers');
-const sessionsupd = require('./src/sessionsupd');
+const healthcheck = require('../src/healthcheck');
+const resetsessions = require('../src/resetsessions');
+const login = require('../src/login');
+const logout = require('../src/logout');
+const sessionsperpoint = require('../src/sessionsperpoint');
+const sessionsperstation = require('../src/sessionsperstation');
+const sessionsperev = require('../src/sessionsperev');
+const sessionsperprovider = require('../src/sessionsperprovider');
+const moduser = require('../src/moduser');
+const users = require('../src/users');
+const sessionsupd = require('../src/sessionsupd');
 // functions
 
 clear();
@@ -49,7 +50,6 @@ commands.command('login')
         .description('User/Admin log in')
         .option('-u, --username [username]', 'Username')
         .option('-p, --password [password]', 'Password')
-        .option('-r, --roles [role]', 'Role (admin/user)')
         .action( function(o) { login(o) } )
 //login
 
@@ -109,35 +109,41 @@ commands.command('Admin')
         .alias('adm')
         .description('All admin operations')
         // mod user
-        .option('-umod, --usermod [username]', 'Create a new user or alter if already exists.')
+        .option('-umod, --usermod [--username [username] --password [password]]', 'Create a new user or alter if already exists.')
         .option('-usr, --username [username]', 'Username')
-        .option('pw, --password [password]', 'Password')
+        .option('-pw, --password [password]', 'Password')
         // show all users
         .option('allu, --users')
         // update sessions table
-        .option('su, --sessionsupd', 'Add new records to session table')
-        .option('src, --source [filename]')
+        .option('-su, --sessionsupd', 'Add new records to session table')
+        .option('-src, --source [filename]')
         .action( 
             function(o) {
-                if (o.umod !== undefined && o.usr !== undefined && o.pw !== undefined && o.allu === undefined && o.su === undefined && o.src === undefined)
+                if (o.usermod !== undefined && o.username !== undefined && o.password !== undefined && o.users === undefined && o.sessionsupd === undefined && o.source === undefined)
                     moduser(o);
-                else if (o.allu !== undefined && o.umod === undefined && o.su === undefined)
-                    allusers(o);
-                else if (o.su !== undefined && o.src !== undefined && o.allu === undefined && o.umod === undefined)
+                else if (o.users !== undefined && o.usermod === undefined && o.sessionsupd === undefined)
+                    users(o);
+                else if (o.sessionsupd !== undefined && o.source !== undefined && o.users === undefined && o.usermod === undefined)
                     sessionsupd(o);
                 else {
                     console.log(chalk.red('Error occured on your request!'));
                     console.log(chalk.yellow('Choose one of the following sub commands for admin scope:'));
-                    console.log(chalk.yellow('--usermod     | -n         [username]                ~ Modify existing user or create a new user'));
-                    console.log(chalk.yellow('--users       | -allu                                ~ Return all users'));
-                    console.log(chalk.yellow('--sessionsup  | -su        [--source [filename]]     ~ Return all users'));
+                    console.log(chalk.yellow('--usermod      | -usr       [username]                ~ Modify existing user or create a new user'));
+                    console.log(chalk.yellow('--users        | -allu                                ~ Return all users'));
+                    console.log(chalk.yellow('--sessionsupd  | -su        [--source [filename]]     ~ Upload sessions file to database'));
                     
                 }
             }
         )
 // Admin
+
 commands.parse(process.argv);
+var scope = process.argv[2];
+var scopeList = ['healthcheck', 'hc', 'resetsessions', 'rs', 'login', 'lin', 'logout', 'lout', 'SessionsPerPoint', 'spp',
+                 'SessionsPerStation', 'sps', 'SessionsPerEV', 'spev', 'SessionsPerProvider', 'sppr', 'Admin', 'adm'];
+
 if (process.argv.length < 3) {
+    console.log(process.argv.length < 3);
     console.log(chalk.red('Error occured! Scope was not specified!'));
     console.log(chalk.yellow('Choose one of the following:'));
     console.log(chalk.yellow('healthcheck          | hc'));
@@ -150,14 +156,7 @@ if (process.argv.length < 3) {
     console.log(chalk.yellow('SessionsPerProvider  | sppr'));
     console.log(chalk.yellow('Admin                | adm'));
 }
-else if ( process.argv[2] !== ('healthcheck' && 'hc')
-    && process.argv[2] !== ('resetsessions' && 'rs')
-    && process.argv[2] !== ('login' && 'lin')
-    && process.argv[2] !== ('SessionsPerPoint' && 'spp')
-    && process.argv[2] !== ('SessionsPerStation' && 'sps')
-    && process.argv[2] !== ('SessionsPerEV' && 'spev')
-    && process.argv[2] !== ('SessionsPerProvider' && 'sppr')
-    && process.argv[2] !== ('Admin' && 'adm')) {
-        console.log(chalk.red('Error, this command does not exist!'));
-        console.log(chalk.yellow('For more information, type --help'));
+else if (!scopeList.includes(scope)) {
+    console.log(chalk.red('Error, this command does not exist!'));
+    console.log(chalk.yellow('For more information, type --help'));
 }
