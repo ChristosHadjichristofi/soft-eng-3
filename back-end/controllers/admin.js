@@ -142,7 +142,7 @@ exports.postUsermod = (req, res, next) => {
     const isAdministrator = req.query.isAdministrator;
 
     // if the user is administrator user
-    if (isAdministrator == 'true') {
+    if (isAdministrator === 'true') {
         // try get administrator from db
         models.administrators.findOne({ where: { email: email } })
         .then (administratorUser => {
