@@ -109,9 +109,10 @@ commands.command('Admin')
         .alias('adm')
         .description('All admin operations')
         // mod user
-        .option('-umod, --usermod [--username [username] --password [password]]', 'Create a new user or alter if already exists.')
+        .option('-umod, --usermod [--username [username] --password [password]] --isStationAdm [true/false]', 'Create a new user or alter if already exists.')
         .option('-usr, --username [username]', 'Username')
         .option('-pw, --password [password]', 'Password')
+        .option('-stAdm, --isStationAdm [true/false]', 'Set this to true if you want to edit/create station admin user')
         // show all users
         .option('allu, --users')
         // update sessions table
@@ -128,9 +129,9 @@ commands.command('Admin')
                 else {
                     console.log(chalk.red('Error occured on your request!'));
                     console.log(chalk.yellow('Choose one of the following sub commands for admin scope:'));
-                    console.log(chalk.yellow('--usermod      | -usr       [username]                ~ Modify existing user or create a new user'));
-                    console.log(chalk.yellow('--users        | -allu                                ~ Return all users'));
-                    console.log(chalk.yellow('--sessionsupd  | -su        [--source [filename]]     ~ Upload sessions file to database'));
+                    console.log(chalk.yellow('--usermod      | -usr   [--username [username] --password [password]] --isStationAdm [true/false]  ~ Modify existing user or create a new user'));
+                    console.log(chalk.yellow('--users        | -allu                                                                             ~ Return all users'));
+                    console.log(chalk.yellow('--sessionsupd  | -su    [--source [filename]]                                                      ~ Upload sessions file to database'));
                     
                 }
             }
