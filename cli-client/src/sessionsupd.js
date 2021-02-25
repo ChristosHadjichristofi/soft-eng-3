@@ -15,20 +15,28 @@ module.exports = function(o) {
         param1 = 'sessionsupd';
         
         var url = constructURL('/admin/', param1);
-        var config = {
-            method: 'post',
-            url: url,
-            headers: {
-                // 'X-OBSERVATORY-AUTH': prepei na mpei auth,
-                'Content-Type' :  'multipart/form-data'
-            },
-            formData: {
-                "file" : fs.createReadStream(o.source)  
+
+        fs.readFile('../cli-client/softeng20bAPI.token', 'utf8', (error, data) => {
+            if (error){
+                console.log(chalk.red('Not authorized user!'))
             }
-        };
-        request(config, function (err, _, body) {
-            if(err) console.log(err);
-            else console.log(body);
-        }); 
+            else {
+                var config = {
+                    method: 'post',
+                    url: url,
+                    headers: {
+                        'X-OBSERVATORY-AUTH': data,
+                        'Content-Type' :  'multipart/form-data'
+                    },
+                    formData: {
+                        "file" : fs.createReadStream(o.source)  
+                    }
+                };
+                request(config, function (err, _, body) {
+                    if(err) console.log(err);
+                    else console.log(body);
+                }); 
+            }
+        })
     }
 }
