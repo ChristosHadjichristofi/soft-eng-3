@@ -39,7 +39,7 @@ module.exports = function(o) {
                         })
                     })
                     .catch(err => {
-                        console.log(chalk.red(err.message + '\nUser could not be created or modified!'));
+                        console.log(chalk.red(err.message));
                     })
                 }
             }
