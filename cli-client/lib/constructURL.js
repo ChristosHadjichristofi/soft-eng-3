@@ -15,7 +15,10 @@ module.exports = function (scope, param1, param2, param3, format, apikey) {
     // sessionsupd /admin/system/sessionsupd/
     else if (scope === '/admin/') {
         if (param1 === 'sessionsupd') base = base + 'system/' + param1;
-        else if (param1 === 'usermod') base = base + param1 + '/' + param2 + '/' + param3;
+        else if (param1 === 'usermod') {
+            if (param4 === undefined) base = base + param1 + '/' + param2 + '/' + param3;
+            else base = base + param1 + '/' + param2 + '/' + param3 + '?isAdministrator=' + param4;
+        }
         else if (param1 === 'users') base = base + param1 + '/' + param2;
         else base = base + param1;
     }
