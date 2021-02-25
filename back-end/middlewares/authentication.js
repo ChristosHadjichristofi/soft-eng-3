@@ -17,22 +17,23 @@ module.exports = (req, res, next) => {
         models.expired_tokens.findOne({ where: {token: token}})
         .then(expired => {
             if (expired) { return res.status(401).json({msg: 'Invalid Token.'}) }
+            else {
+                let decodedToken;
+                try {
+                    decodedToken = jwt.verify(token, 'denthaseafisoumenatovreispotepotepote');
+                } catch (err) {
+                    return res.status(500).json({msg: 'Internal server error.'});
+                }
+                if (!decodedToken) {
+                    return res.status(401).json({msg: 'Not authenticated.'});
+                }
+                
+                const omit = (prop, { [prop]: _, ...rest }) => rest;
+                req.user = omit('password', decodedToken.user);
+            
+                next();
+            }
         })
     }
-    else {
-        let decodedToken;
-        try {
-            decodedToken = jwt.verify(token, 'denthaseafisoumenatovreispotepotepote');
-        } catch (err) {
-            return res.status(500).json({msg: 'Internal server error.'});
-        }
-        if (!decodedToken) {
-            return res.status(401).json({msg: 'Not authenticated.'});
-        }
-        
-        const omit = (prop, { [prop]: _, ...rest }) => rest;
-        req.user = omit('password', decodedToken.user);
     
-        next();
-    }
 };
