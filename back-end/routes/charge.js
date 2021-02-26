@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.get('/:license_plate', isAuth, permit('owner'), chargeController.getLicensePlate);
 
-router.post('/completed', chargeController.postCompleted);
+router.post('/completed', isAuth, permit('owner'), chargeController.postCompleted);
 
 module.exports = router;
