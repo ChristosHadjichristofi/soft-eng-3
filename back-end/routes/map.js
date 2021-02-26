@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.get('/show', mapController.getShowMap);
 
-// router.get('/nearest/:cordX/:cordY', mapController.getNearestStations);
+router.get('/nearest/:cordX/:cordY', mapController.getNearestStations);
 
 module.exports = router;
