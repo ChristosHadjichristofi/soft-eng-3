@@ -1,0 +1,113 @@
+#home {
+  background: url(../../assets/img/back.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
+
+#front {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#logo {
+  display: block;
+  width: 70%;
+  margin-left: 15%;
+  animation: move 6s linear infinite;
+}
+
+@keyframes move {
+  0% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(-200%);
+  }
+}
+
+#name {
+  text-align: center;
+  font-size: 10vw;
+  color: #000000;
+}
+
+@media (max-width: 800px) {
+  #name {
+    text-align: center;
+    font-size: 15vw;
+    color: #000000;
+  }
+}
+
+#network {
+  text-align: center;
+  font-size: 6vw;
+  color: #000000;
+}
+
+@media (max-width: 800px) {
+  #network {
+    text-align: center;
+    font-size: 8vw;
+    color: #000000;
+  }
+}
+
+#login {
+  text-align: center;
+  color: #000000;
+  font-size: 3vw;
+  margin-top: 10%;
+}
+
+@media (max-width: 800px) {
+  #login {
+    text-align: center;
+    color: #000000;
+    font-size: 6vw;
+    margin-top: 10%;
+  }
+}
+
+#login_as_user {
+  color: #000000;
+  font-size: 2vw;
+  border-color: #000000;
+  padding-right: 1%;
+}
+
+@media (max-width: 800px) {
+  #login_as_user {
+    color: #000000;
+    font-size: 4vw;
+    border-color: #000000;
+    padding-right: 1%;
+  }
+}
+
+#login_as_admin {
+  color: #000000;
+  font-size: 2vw;
+  border-color: #000000;
+  padding-left: 1%;
+}
+
+@media (max-width: 800px) {
+  #login_as_admin {
+    color: #000000;
+    font-size: 4vw;
+    border-color: #000000;
+    padding-left: 1%;
+  }
+}
+
+#login_as {
+  text-align: center;
+}
+
+#div_login {
+  margin-top: 10%;
+  text-align: center;
+}
+
