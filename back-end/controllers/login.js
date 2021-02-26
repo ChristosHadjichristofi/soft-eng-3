@@ -19,9 +19,8 @@ module.exports = (req, res, next) => {
     if(isAdministrator == 'true'){
         models.administrators.findOne({ where: { email: email } })
             .then(administratorUser => {
-                // console.log(administratorUser);
                 if(!administratorUser){
-                    res.status(401).json({error:'A user with this email could not be found.'});
+                    return res.status(401).json({error:'A user with this email could not be found.'});
                 }
                 loadedUser = administratorUser;
                 return bcrypt.compare(password, administratorUser.password);
@@ -53,7 +52,7 @@ module.exports = (req, res, next) => {
         models.owners.findOne({ where: { email: email } })
             .then(ownerUser => {
                 if(!ownerUser){
-                    res.status(401).json({error:'A user with this email could not be found.'});
+                    return res.status(401).json({error:'A user with this email could not be found.'});
                 }
                 loadedUser = ownerUser;
                 return bcrypt.compare(password, ownerUser.password);
