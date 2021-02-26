@@ -48,5 +48,10 @@ module.exports = function(o) {
             }
         })        
     }
+    else{
+        console.log(chalk.red('Error: mandatory parameters omitted\n'));
+        console.log(chalk.yellow('Mandatory Parameters: \n --username [username] \n --password [password]\n'));
+        console.log(chalk.yellow('ex: ev_group03 login --username [username] --password [password]\n'));
+    }
     
 }

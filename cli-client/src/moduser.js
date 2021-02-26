@@ -17,8 +17,9 @@ module.exports = function(o) {
         param3 = o.password;
         param4 = o.isStationAdm;
 
-        if (o.isStationAdm === undefined) var url = constructURL('/admin/', param1, param2, param3);
-        else var url = constructURL('/admin/', param1, param2, param3, param4);
+        if (o.isStationAdm === 'true') param4 = 'true'
+        else param4 = 'false'
+        url = constructURL('/admin/', param1, param2, param3, param4);
 
         fs.readFile('../cli-client/softeng20bAPI.token', 'utf8', (error, data) => {
             if (error){
@@ -37,5 +38,11 @@ module.exports = function(o) {
                 })
             }
         })
+    }
+    else{
+        console.log(chalk.red('Error: mandatory parameters omitted\n'));
+        console.log(chalk.yellow('Mandatory Parameters: \n --usermod \n --username [username] \n --password [password]'));
+        console.log(chalk.yellow('Optional Parameter: \n --isStationAdm [true/false] \n'));
+        console.log(chalk.yellow('ex: ev_group03 Admin --usermod --username [username] --password [password] (--isStationAdm [true/false])\n'));
     }
 }

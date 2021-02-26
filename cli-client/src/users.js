@@ -6,17 +6,20 @@ const fs = require('fs');
 module.exports = function(o) {
     
     isWrong = false;
-
-    if (o.users === undefined || o.username === undefined)
+    if (o.username === undefined)
         isWrong = true;
 
     if (!isWrong) {
         
         param1 = 'users';
         param2 = o.username;
-        
-        var url = constructURL('/admin/', param1, param2);
+        param3 = o.isStationAdm;
 
+        if (o.isStationAdm === 'true') param3 = 'true'
+        else param3 = 'false'
+        
+        var url = constructURL('/admin/', param1, param2, param3);
+        
         fs.readFile('../cli-client/softeng20bAPI.token', 'utf8', (error, data) => {
             if (error){
                 console.log(chalk.red('Not authorized user!'))
@@ -34,5 +37,11 @@ module.exports = function(o) {
                 })
             }
         })        
+    }
+    else{
+        console.log(chalk.red('Error: mandatory parameters omitted\n'));
+        console.log(chalk.yellow('Mandatory Parameters: \n --users \n --username [username]'));
+        console.log(chalk.yellow('Optional Parameter: \n --isStationAdm [true/false] \n'));
+        console.log(chalk.yellow('ex: ev_group03 Admin --users --username [username] (--isStationAdm [true/false])\n'));
     }
 }

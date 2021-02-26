@@ -65,9 +65,9 @@ commands.command('SessionsPerPoint')
         .alias('spp')
         .description('Returns sessions for a specified point at a specified time period')
         .option('-p, --point [point]', 'PointID')
-        .option('-df, --datefrom [date]', 'YYYY-MM-DD')
-        .option('-dt, --dateto [date]', 'YYYY-MM-DD')
-        .option('-f, --format [format]', 'Content-type', 'json|csv')
+        .option('-df, --datefrom [date]', 'YYYYMMDD')
+        .option('-dt, --dateto [date]', 'YYYYMMDD')
+        .option('-f, --format [format]', 'Content-type', 'json')
         .action( function(o) { sessionsperpoint(o) } )
 // SessionsPerPoint
 
@@ -76,9 +76,9 @@ commands.command('SessionsPerStation')
         .alias('sps')
         .description('Returns sessions for a specified station at a specified time period')
         .option('-s, --station [station]', 'StationID')
-        .option('-df, --datefrom [date]', 'YYYY-MM-DD')
-        .option('-dt, --dateto [date]', 'YYYY-MM-DD')
-        .option('-f, --format [format]', 'Content-type', 'json|csv')
+        .option('-df, --datefrom [date]', 'YYYYMMDD')
+        .option('-dt, --dateto [date]', 'YYYYMMDD')
+        .option('-f, --format [format]', 'Content-type', 'json')
         .action( function(o) { sessionsperstation(o) } )
 // SessionsPerStation
 
@@ -87,9 +87,9 @@ commands.command('SessionsPerEV')
         .alias('spev')
         .description('Returns sessions for a specified ev at a specified time period')
         .option('-ev, --ev [ev]', 'EV Plates')
-        .option('-df, --datefrom [date]', 'YYYY-MM-DD')
-        .option('-dt, --dateto [date]', 'YYYY-MM-DD')
-        .option('-f, --format [format]', 'Content-type', 'json|csv')
+        .option('-df, --datefrom [date]', 'YYYYMMDD')
+        .option('-dt, --dateto [date]', 'YYYYMMDD')
+        .option('-f, --format [format]', 'Content-type', 'json')
         .action( function(o) { sessionsperev(o) } )
 // SessionsPerEV
 
@@ -98,40 +98,40 @@ commands.command('SessionsPerProvider')
         .alias('sppr')
         .description('Returns sessions for a specified provider at a specified time period')
         .option('-p, --provider [provider]', 'ProviderID')
-        .option('-df, --datefrom [date]', 'YYYY-MM-DD')
-        .option('-dt, --dateto [date]', 'YYYY-MM-DD')
-        .option('-f, --format [format]', 'Content-type', 'json|csv')
+        .option('-df, --datefrom [date]', 'YYYYMMDD')
+        .option('-dt, --dateto [date]', 'YYYYMMDD')
+        .option('-f, --format [format]', 'Content-type', 'json')
         .action( function(o) { sessionsperprovider(o) } )
 // SessionsPerProvider
 
 // Admin
 commands.command('Admin')
         .alias('adm')
-        .description('All admin operations')
+        .description('All Admin scope options')
         // mod user
-        .option('-umod, --usermod [--username [username] --password [password]] --isStationAdm [true/false]', 'Create a new user or alter if already exists.')
+        .option('-umod, --usermod --username [username] --password [password] --isStationAdm [true/false]', 'Create a new user or alter if already exists.')
         .option('-usr, --username [username]', 'Username')
         .option('-pw, --password [password]', 'Password')
-        .option('-stAdm, --isStationAdm [true/false]', 'Set this to true if you want to edit/create station admin user')
-        // show all users
-        .option('allu, --users')
+        .option('-stAdm, --isStationAdm [true/false]', 'Set this to true if you want to edit/create/view station admin user','false')
+        // show user by username
+        .option('-allu, --users --username [username] --isStationAdm [true/false]')
         // update sessions table
-        .option('-su, --sessionsupd', 'Add new records to session table')
+        .option('-su, --sessionsupd --source [filename]', 'Add new records to session table')
         .option('-src, --source [filename]')
         .action( 
             function(o) {
-                if (o.usermod !== undefined && o.username !== undefined && o.password !== undefined && o.users === undefined && o.sessionsupd === undefined && o.source === undefined)
+                if (o.usermod !== undefined && o.users === undefined && o.sessionsupd === undefined && o.source === undefined)
                     moduser(o);
                 else if (o.users !== undefined && o.usermod === undefined && o.sessionsupd === undefined)
                     users(o);
                 else if (o.sessionsupd !== undefined && o.source !== undefined && o.users === undefined && o.usermod === undefined)
                     sessionsupd(o);
                 else {
-                    console.log(chalk.red('Error occured on your request!'));
+                    console.log(chalk.red('Wrong subcommand in Admin scope!'));
                     console.log(chalk.yellow('Choose one of the following sub commands for admin scope:'));
-                    console.log(chalk.yellow('--usermod      | -usr   [--username [username] --password [password]] --isStationAdm [true/false]  ~ Modify existing user or create a new user'));
-                    console.log(chalk.yellow('--users        | -allu                                                                             ~ Return all users'));
-                    console.log(chalk.yellow('--sessionsupd  | -su    [--source [filename]]                                                      ~ Upload sessions file to database'));
+                    console.log(chalk.yellow('--usermod      | -usr   --username [username] --password [password] --isStationAdm [true/false]  ~ Modify existing user or create a new user'));
+                    console.log(chalk.yellow('--users        | -allu  --username [username] --isStationAdm [true/false]                        ~ Return info of user by username'));
+                    console.log(chalk.yellow('--sessionsupd  | -su    --source [filename]                                                      ~ Upload sessions file to database'));
                     
                 }
             }

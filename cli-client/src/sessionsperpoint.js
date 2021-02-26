@@ -11,8 +11,8 @@ module.exports = function(o) {
         isWrong = true;
 
     if (!isWrong) {
-        if (o.format === undefined) format = 'json'
-        else format = o.format
+        if (o.format === 'csv') format = 'csv';
+        else format = 'json'
         
         param1 = o.point;
         param2 = o.datefrom;
@@ -38,4 +38,10 @@ module.exports = function(o) {
             }
         });
     }   
+    else{
+        console.log(chalk.red('Error: mandatory parameters omitted\n'));
+        console.log(chalk.yellow('Mandatory Parameters: \n --point [point id] \n --datefrom [YYYYMMDD] \n --dateto [YYYYMMDD]'));
+        console.log(chalk.yellow('Optional Parameter: \n --format [json | csv] \n'));
+        console.log(chalk.yellow('ex: ev_group03 spp --point [point id] --datefrom [date] --dateto [date] (--format [json | csv])\n'));
+    }
 }
