@@ -20,14 +20,16 @@ module.exports = (req, res, next) => {
         models.administrators.findOne({ where: { email: email } })
             .then(administratorUser => {
                 if(!administratorUser){
+                    loadedUser = administratorUser;
                     return res.status(401).json({error:'A user with this email could not be found.'});
                 }
                 loadedUser = administratorUser;
                 return bcrypt.compare(password, administratorUser.password);
             })
             .then(isEqual => {
+                if (!loadedUser) return;
                 if(!isEqual){
-                    res.status(401).json({error:'Wrong password!'});
+                    return res.status(401).json({error:'Wrong password!'});
                 }
                 const token = jwt.sign(
                     { user: loadedUser },
@@ -52,14 +54,16 @@ module.exports = (req, res, next) => {
         models.owners.findOne({ where: { email: email } })
             .then(ownerUser => {
                 if(!ownerUser){
+                    loadedUser = ownerUser;
                     return res.status(401).json({error:'A user with this email could not be found.'});
                 }
                 loadedUser = ownerUser;
                 return bcrypt.compare(password, ownerUser.password);
             })
             .then(isEqual => {
+                if (!loadedUser) return;
                 if(!isEqual){
-                    res.status(401).json({error:'Wrong password!'});
+                    return res.status(401).json({error:'Wrong password!'});
 
                 }
                 const token = jwt.sign(
