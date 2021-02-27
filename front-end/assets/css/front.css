@@ -1,79 +1,26 @@
 #back {
-  background: url(../../assets/img/back.jpg) no-repeat center center fixed;
+  background: url(../../assets/img/blur_back2.jpg) no-repeat center center fixed;
   background-size: cover;
-}
-
-#front {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
 }
 
-#logo {
-  display: block;
-  margin-top: 5%;
-  width: 70%;
-  margin-left: 15%;
-  animation: move1 6s linear infinite;
+#fortistex_div {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 
-@keyframes move1 {
-  0% {
-    transform: translateX(200%);
-  }
-  100% {
-    transform: translateX(-200%);
-  }
-}
-
-#name {
-  text-align: center;
-  font-size: 10vw;
-  color: #000000;
-}
-
-@media (max-width: 800px) {
-  #name {
-    text-align: center;
-    font-size: 15vw;
-    color: #000000;
-  }
+#div-login {
+  position: fixed;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 
 #network {
-  text-align: center;
-  font-size: 6vw;
-  color: #000000;
-}
-
-@media (max-width: 800px) {
-  #network {
-    text-align: center;
-    font-size: 8vw;
-    color: #000000;
-  }
-}
-
-#login {
-  text-align: center;
-  color: #000000;
-  font-size: 3vw;
-  margin-top: 10%;
-}
-
-@media (max-width: 800px) {
-  #login {
-    text-align: center;
-    color: #000000;
-    font-size: 6vw;
-    margin-top: 10%;
-  }
-}
-
-#div_login {
-  margin-top: 10%;
-  margin-bottom: 5%;
-  text-align: center;
+  margin-top: 120%;
 }
 
