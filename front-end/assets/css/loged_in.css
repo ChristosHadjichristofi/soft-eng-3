@@ -1,0 +1,26 @@
+#back {
+  background: url(../../assets/img/back.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
+
+#card {
+  background-color: rgba(255,255,255, 0.35);
+  border-radius: 8px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+}
+
+@media (max-width: 650px) {
+  #card {
+    width: 90%;
+  }
+}
+
+#welcome {
+  margin: auto;
+  padding: 0% 0% 0% 2%;
+}
+

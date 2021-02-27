@@ -1,0 +1,48 @@
+#homepage {
+  font-size: xx-large;
+  position: absolute;
+}
+
+.card {
+  width: 400px;
+  padding: 40px 40px;
+  background-color: rgba(255,255,255,0.55);
+  margin: 0 auto;
+  border-radius: 15px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 400px) {
+  .card {
+    max-width: 90%;
+    padding: 10px 10px;
+  }
+}
+
+.card {
+  margin-top: 5%;
+}
+
+@media (max-width: 1200px) {
+  .card {
+    margin-top: 10%;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    margin-top: 20%;
+  }
+}
+
+@media (max-width: 400px) {
+  #nav {
+    height: 50px;
+  }
+}
+
+#nav_item {
+  height: 100%;
+  font-size: xx-large;
+}
+

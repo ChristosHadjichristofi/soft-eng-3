@@ -1,15 +1,19 @@
 .login-card {
-  max-width: 400px;
+  width: 400px;
   padding: 40px 40px;
   background-color: rgba(255,255,255,0.55);
+  margin: 0 auto;
   border-radius: 15px;
-  box-shadow: 0px 2px 2px rgba(0,0,0,0.3);
-  margin: auto;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media (max-width: 400px) {
   .login-card {
-    max-width: 90%;
+    width: 90%;
     padding: 30px 10px;
     margin: auto;
   }
@@ -18,10 +22,9 @@
 .login-card .profile-img-card {
   width: 120px;
   height: 120px;
-  margin: auto;
+  margin: 0 auto 10px;
   display: block;
   border-radius: 50%;
-  margin-bottom: 20px;
 }
 
 .login-card .profile-name-card {
@@ -34,7 +37,7 @@
 
 .login-card .reauth-email {
   display: block;
-  color: #296a1f;
+  color: #000000;
   line-height: 2;
   margin-bottom: 10px;
   font-size: 14px;
@@ -58,14 +61,13 @@
 
 .login-card label {
   color: #000000;
-  font-size: medium;
 }
 
 .login-card .form-signin .form-control:focus {
-  border-color: rgb(50,105,45);
+  border-color: rgb(70,143,52);
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(101,185,94);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104,145,162);
 }
 
 .login-card .btn.btn-signin {
@@ -73,7 +75,7 @@
   height: 36px;
   line-height: 36px;
   font-size: 14px;
-  background: rgb(77,140,76);
+  background: rgb(61,156,76);
   border-radius: 3px;
   border: none;
   transition: all 0.218s;
@@ -81,26 +83,6 @@
 }
 
 .login-card .btn.btn-signin:hover, .login-card .btn.btn-signin:active, .login-card .btn.btn-signin:focus {
-  background: rgb(12, 97, 33);
-}
-
-.login-card .forgot-password {
-  color: rgb(0,0,0);
-}
-
-.login-card .forgot-password:hover, .login-card .forgot-password:active, .login-card .forgot-password:focus {
-  color: rgb(12, 97, 33);
-}
-
-.back {
-  background: url(../../assets/img/back.jpg) no-repeat center center fixed;
-  background-size: cover;
-}
-
-.center {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 50%);
+  background: rgb(35,147,62);
 }
 
