@@ -21,7 +21,7 @@ module.exports = (req, res, next) => {
             .then(administratorUser => {
                 if(!administratorUser){
                     loadedUser = administratorUser;
-                    return res.status(401).json({error:'A user with this email could not be found.'});
+                    return res.status(402).json({error:'A user with this email could not be found.'});
                 }
                 loadedUser = administratorUser;
                 return bcrypt.compare(password, administratorUser.password);
@@ -55,7 +55,7 @@ module.exports = (req, res, next) => {
             .then(ownerUser => {
                 if(!ownerUser){
                     loadedUser = ownerUser;
-                    return res.status(401).json({error:'A user with this email could not be found.'});
+                    return res.status(402).json({error:'A user with this email could not be found.'});
                 }
                 loadedUser = ownerUser;
                 return bcrypt.compare(password, ownerUser.password);

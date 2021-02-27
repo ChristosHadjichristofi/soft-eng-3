@@ -68,7 +68,7 @@ exports.getSessionsPerPoint = (req, res, next) => {
             res.csv(sessionsArr, 200);
         }
         else {
-            res.status(201).json({
+            res.status(200).json({
                 Point: pointID,
                 PointOperator: PointOperator[0].name,
                 RequestTimestamp: new Date(),
@@ -172,7 +172,7 @@ exports.getSessionsPerStation = (req, res, next) => {
             res.csv(SessionsSummaryArr, 200);
         }
         else {
-            res.status(201).json({
+            res.status(200).json({
                 StationID: stationID,
                 Operator: Operator,
                 RequestTimestamp: new Date(),
@@ -213,7 +213,7 @@ exports.getSessionsPerEV = (req, res, next) => {
     sequelize.query( 'SELECT @n := @n + 1 SessionIndex,'
         + 'sessions.session_id as SessionID, energy_providers.energy_provider_name as EnergyProvider,'
         + 'sessions.connectionTime as StartedOn, sessions.disconnectTime as FinishedOn,'
-        + 'sessions.kWhDelivered as ΕnergyDelivered, energy_providers.PricePolicyRef as PricePolicyRef,'
+        + 'sessions.kWhDelivered as EnergyDelivered, energy_providers.PricePolicyRef as PricePolicyRef,'
         + 'energy_providers.cost_per_kWh as CostPerKWh, sessions.cost as SessionCost '
         + 'FROM sessions,charging_points,energy_providers,(SELECT @n := 0) m '
         + 'WHERE sessions.charging_pointspoint_id = charging_points.point_id '
@@ -250,6 +250,7 @@ exports.getSessionsPerEV = (req, res, next) => {
 
         VehicleChargingSessionsList.forEach(x => {
             TotalEnergyConsumed += parseFloat(x.EnergyDelivered);
+            console.log(x);
         });
 
         if (format == 'csv') {
@@ -261,6 +262,7 @@ exports.getSessionsPerEV = (req, res, next) => {
                     RequestTimestamp: new Date(),
                     PeriodFrom: yyyymmdd_from,
                     PeriodTo: yyyymmdd_to,
+                    TotalEnergyConsumed: TotalEnergyConsumed + 'KWh',
                     NumberOfVisitedPoints: NumberOfVisitedPoints,
                     NumberOfVehicleChargingSessions: NumberOfVehicleChargingSessions,
                     ...vehicleChargingSession
@@ -270,11 +272,12 @@ exports.getSessionsPerEV = (req, res, next) => {
             res.csv(VehicleChargingSessionsArr, 200);
         }
         else {
-            res.status(201).json({
+            res.status(200).json({
                 VehicleID: vehicleID,
                 RequestTimestamp: new Date(),
                 PeriodFrom: yyyymmdd_from,
                 PeriodTo: yyyymmdd_to,
+                TotalEnergyConsumed: TotalEnergyConsumed + 'KWh',
                 NumberOfVisitedPoints: NumberOfVisitedPoints,
                 NumberOfVehicleChargingSessions: NumberOfVehicleChargingSessions,
                 VehicleChargingSessionsList: VehicleChargingSessionsList
@@ -361,7 +364,7 @@ exports.getSessionsPerProvider = (req, res, next) => {
             res.csv(ProviderChargingSessionsArr, 200);
         }
         else {
-            res.status(201).json({
+            res.status(200).json({
                 ProviderID: providerID,
                 ProviderName: ProviderName.energy_provider_name,
                 RequestTimestamp: new Date(),
