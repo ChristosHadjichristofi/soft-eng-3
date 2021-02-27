@@ -42,7 +42,7 @@ exports.getShowMap = (req, res, next) => {
 
         }
         else {
-            res.status(201).json({
+            res.status(200).json({
                 RequestTimestamp: new Date(),
                 StationsList: stations
             })
@@ -101,7 +101,7 @@ exports.getNearestStations = (req, res, next) => {
 
         }
         else {
-            res.status(201).json({
+            res.status(200).json({
                 RequestTimestamp: new Date(),
                 StationsList: stations
             })

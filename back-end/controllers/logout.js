@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
     let token = req.headers['x-observatory-auth'] || req.headers['authorization'];
 
         if (!token) {
-            return res.json({
+            return res.status(500).json({
             success: false,
             message: 'Auth token is not supplied'
           })

@@ -50,7 +50,7 @@ exports.getLicensePlate = (req, res, next) => {
             return res.status(402).json({ message: "No data found!" })
         }
 
-        res.status(201).json({
+        res.status(200).json({
             CarLicensePlate: licensePlate,
             RequestTimestamp: new Date(),
             CarDetails: supported_car

@@ -27,14 +27,14 @@ exports.postResetsessions = (req, res, next) => {
             .then (
                 sequelize.query('TRUNCATE TABLE ' + '`sessions`')
                 .then(() => {
-                    return res.status(200).json({status: "OK"});
+                    return res.status(200).json({status: "OK! sessions cleared"});
                 })
                 .catch(err => {
-                return res.status(500).json({status: "FAILED"});
+                return res.status(500).json({status: "Sessions reset failed"});
                 })
             )
             .catch (err => {
-                return res.status(500).json({status: "FAILED"});
+                return res.status(500).json({status: "Sessions reset failed"});
             })   
         }
         else {
@@ -44,18 +44,18 @@ exports.postResetsessions = (req, res, next) => {
             .then (
                 sequelize.query('TRUNCATE TABLE ' + '`sessions`')
                 .then(() => {
-                    return res.status(200).json({status: "OK"});
+                    return res.status(200).json({status: "OK! sessions cleared"});
                 })
                 .catch(err => {
-                return res.status(500).json({status: "FAILED"});
+                return res.status(500).json({status: "Sessions reset failed"});
                 })
             )
             .catch (err => {
-                return res.status(500).json({status: "FAILED"});
+                return res.status(500).json({status: "Sessions reset failed"});
             })  
         }
     }).catch (err => {
-        return res.status(500).json({status: "FAILED"});
+        return res.status(500).json({status: "Internal server error."});
     })  
     
 }
@@ -111,7 +111,7 @@ exports.login = (req, res, next) => {
     models.system_admins.findOne({ where: {username: username} })
     .then(systemAdmin => {
         if (!systemAdmin) {
-            res.status(401).json({error: 'This system admin account does not exist!'});
+            res.status(402).json({error: 'This system admin account does not exist!'});
         }
         loadedAdmin = systemAdmin;
         return bcrypt.compare(password, systemAdmin.password);
@@ -174,7 +174,7 @@ exports.postUsermod = (req, res, next) => {
                     administratorUser.save();
                 })
                 .then(result => {
-                    res.status(201).json({change_password: 'true', message: 'Password changed succesfully!'});
+                    res.status(200).json({change_password: 'true', message: 'Password changed succesfully!'});
                 })
                 .catch(err => {
                     return res.status(500).json({error: 'Internal server error.'})
@@ -218,7 +218,7 @@ exports.postUsermod = (req, res, next) => {
                     ownerUser.save();
                 })
                 .then(result => {
-                    res.status(201).json({change_password: 'true', message: 'Password changed succesfully!'});
+                    res.status(200).json({change_password: 'true', message: 'Password changed succesfully!'});
                 })
                 .catch(err => {
                     return res.status(500).json({error: 'Internal server error.'})
