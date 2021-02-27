@@ -1,0 +1,21 @@
+<div id="back">
+    <div class="login-card" style="background: rgba(255,255,255,0.25);"><img class="profile-img-card"
+            src="../../assets/img/avatar_2x.png">
+        <form class="form-signin">
+            <select class="custom-select" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" name="ddlRole" [(ngModel)]="inputRole"
+                style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);">
+                <option [selected]="role.value" *ngFor="let role of roles" [value]="role.value">{{ role.text }}</option>
+            </select>
+            <input class="form-control" type="text" name="username" [(ngModel)]="inputUsername"
+                placeholder="Username"><input class="form-control" type="password" name="password"
+                [(ngModel)]="inputPassword" required="" placeholder="Password">
+            <button class="btn btn-primary btn-block btn-lg btn-signin" type="submit" (click)="login()"
+                style="background: rgb(45,114,106);">Sign in
+            </button>
+            <div class="checkbox">
+                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label
+                        class="form-check-label" for="formCheck-1">Remember me</label></div>
+            </div>
+        </form>
+    </div>
+</div>
