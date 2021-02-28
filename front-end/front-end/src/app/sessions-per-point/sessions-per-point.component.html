@@ -1,0 +1,37 @@
+<div id="back">
+    <div class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
+        <form class="text-center form-signin" *ngIf="object == null">
+            <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Sessions Per Point</h2>
+            <input class="form-control" type="text" placeholder="Point ID" name="PointID" [(ngModel)]="inputPointID"
+                style="border-radius: 4px;height: 44px;margin: 10px 0px 10px;border-width: 1px;border-color: rgb(0,0,0);">
+            <input class="form-control" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" type="date"
+                name="dateFrom" [(ngModel)]="inputDateFrom"
+                style="border-radius: 4px;height: 44px;margin: 0px 0px 10px;border-color: rgb(0,0,0);"
+                title="Date From">
+            <input class="form-control" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" type="date"
+                name="dateTo" [(ngModel)]="inputDateTo"
+                style="border-radius: 4px;height: 44px;margin: 0px 0px 15px;border-color: rgb(0,0,0);" title="Date To">
+            <button class="btn btn-primary" id="result" type="button" (click)="FetchData()"
+                style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);"><strong>Results</strong>
+            </button>
+        </form>
+        <div *ngIf="object">
+            <h1>{{object.PointID}}</h1>
+            <div class="card" *ngFor="let session of object.ChargingSessionsList">
+                <div class="card-body">
+                    <h6>SessionIndex: {{session.SessionIndex}}</h6>
+                    <h6>SessionID: {{session.SessionID}}</h6>
+                    <h6>StartedOn: {{session.StartedOn}}</h6>
+                    <h6>FinishedOn: {{session.FinishedOn}}</h6>
+                    <h6>Protocol: {{session.Protocol}}</h6>
+                    <h6>EnergyDelivered: {{session.EnergyDelivered}}</h6>
+                    <h6>Payment: {{session.Payment}}</h6>
+                    <h6>VehicleType: {{session.VehicleType}}</h6>
+                </div>
+            </div>
+            <button class="btn btn-primary" (click)="object = null">
+                Search Again!
+            </button>
+        </div>
+    </div>
+</div>

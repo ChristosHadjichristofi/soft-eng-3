@@ -1,0 +1,62 @@
+#body {
+    background: url("./assets/img/blur_back2.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+
+#card-fix {
+    width: 400px;
+    padding: 40px 40px;
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.55);
+    border-radius: 8px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media (max-width: 400px) {
+    #card-fix {
+        width: 90%;
+        padding: 30px 10px;
+    }
+}
+
+#charging-back {
+    background: url("./assets/img/EV.gif") no-repeat center center fixed;
+    background-size: cover;
+}
+
+#card-error {
+    max-width: 800px;
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.55);
+    border-radius: 8px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#charging-card {
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.55);
+    border-radius: 8px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#options {
+    color: rgb(255, 255, 255);
+    background: rgb(37, 195, 146);
+    box-shadow: 0px 0px;
+    border-style: none;
+    border-color: rgb(0, 0, 0);
+    width: 260.2px;
+    margin: 10px 0px 0px 0px;
+}

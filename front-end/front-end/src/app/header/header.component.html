@@ -1,0 +1,17 @@
+<nav class="navbar navbar-light navbar-expand-md" id="navbar" style="background: rgb(37,195,146);">
+    <div class="container-fluid"><a class="navbar-brand" routerLink="/"><img src="../../assets/img/logo-blank2.jpg"
+                style="height: 100%;"></a><button data-toggle="collapse" class="navbar-toggler"
+            data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"
+                style="color: rgba(255,255,255,0.5);"></span></button>
+        <div class="collapse navbar-collapse d-md-flex d-xl-flex justify-content-md-end justify-content-xl-end"
+            id="navcol-1">
+            <ul class="navbar-nav" *ngIf="showNavItems()">
+                <li class="nav-item" style="border-style: none;" *ngFor="let item of getNavItemsForUser()">
+                        <a class="nav-link active text-right nav-item-style" routerLink="{{item.route}}" style="color: rgba(255,255,255,0.7)" [style.font-weight]="router.url == '/' + item.route ? 'bold' : 'normal'"
+                        >{{item.text}}
+                        </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
