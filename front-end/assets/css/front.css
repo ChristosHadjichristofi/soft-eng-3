@@ -1,0 +1,23 @@
+#fortistex_div {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+#div-login {
+  position: fixed;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+@media (max-width: 800px) {
+  #div-login {
+    position: fixed;
+    top: 61%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+}
+
