@@ -7,62 +7,6 @@ var models = initModels(sequelize);
 const Sequelize = require('sequelize');
 const op = Sequelize.Op;
 
-var supported_car_id;
-
-exports.getLicensePlate = (req, res, next) => {
-
-    const licensePlate = req.params.license_plate;
-
-    models.registered_cars.findOne({
-        raw: true,
-        where: {
-            license_plate: licensePlate
-        },
-        attributes: [
-            ['supported_carsid', 'SupportedCarID']
-        ]
-    })
-    .then(registered_car => {
-        
-        if (!registered_car) return;
-
-        supported_car_id = registered_car.SupportedCarID;
-
-        return models.supported_cars.findOne({
-            raw: true,
-            where: {
-                id: supported_car_id 
-            },
-            attributes: [
-                ['brand','Brand'],
-                ['type','Type'],
-                ['model','Model'],
-                ['release_year','ReleaseYear'],
-                ['variant','Variant'],
-                ['usable_battery_size','UsableBatterySize'],
-                ['average_consumption','AverageConsumption']
-            ]
-        })
-    })
-    .then(supported_car => {
-
-        if (!supported_car) {
-            return res.status(402).json({ message: "No data found!" })
-        }
-
-        res.status(200).json({
-            CarLicensePlate: licensePlate,
-            RequestTimestamp: new Date(),
-            CarDetails: supported_car
-        })
-    })
-    .catch (err => {
-        console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
-    })
-
-}
-
 exports.postCompleted = (req, res, next) => {
 
     models.sessions.create({
@@ -86,4 +30,156 @@ exports.postCompleted = (req, res, next) => {
         return res.status(500).json({error: 'Internal server error.'})
     });
 
+}
+
+exports.getStations = (req, res, next) => {
+
+    sequelize.query('SELECT charging_stations.station_id AS station_id, charging_stations.station_name AS station_name'
+        + ' FROM charging_stations'
+        + ' ORDER BY station_id', {type: sequelize.QueryTypes.SELECT})
+    .then( rows => {
+
+        StationList = rows;
+
+        if (!StationList.length){
+            return res.status(402).json({ message: "No data found!" })
+        }
+
+        res.status(200).json({
+            StationList: StationList
+        })
+
+    })
+    .catch (err => {
+        console.log(err)
+        return res.status(500).json({msg: "Internal server error."});
+    })
+}
+
+exports.getPoints = (req, res, next) => {
+
+    const stationid = req.params.stationid;
+
+    sequelize.query('SELECT charging_points.point_id AS point_id'
+        + ' FROM charging_points'
+        + ' WHERE charging_points.charging_stationsstation_id = ' + stationid
+        + ' ORDER BY point_id' , {type: sequelize.QueryTypes.SELECT})
+    .then( rows => {
+
+        PointList = rows;
+        if (!PointList.length){
+            return res.status(402).json({ message: "No data found!" })
+        }
+
+        res.status(200).json({
+            PointList: PointList
+        })
+
+    })
+    .catch (err => {
+        console.log(err)
+        return res.status(500).json({msg: "Internal server error."});
+    })
+}
+
+exports.getLicenseplates = (req, res, next) => {
+
+    const ownerid = req.params.ownerid;
+
+    sequelize.query('SELECT driven_by.registered_carslicense_plate AS license_plate'
+        + ' FROM driven_by'
+        + ' WHERE driven_by.owner_id = ' + ownerid
+        + ' ORDER BY license_plate' , {type: sequelize.QueryTypes.SELECT})
+    .then( rows => {
+
+        LicensePlateList = rows;
+        if (!LicensePlateList.length){
+            return res.status(402).json({ message: "No data found!" })
+        }
+
+        res.status(200).json({
+            LicensePlateList: LicensePlateList
+        })
+
+    })
+    .catch (err => {
+        console.log(err)
+        return res.status(500).json({msg: "Internal server error."});
+    })
+}
+
+exports.getownerid = (req, res, next) => {
+
+    const username = req.params.username;
+
+    sequelize.query('SELECT owners.owner_id AS owner_id'
+        + ' FROM owners'
+        + ' WHERE owners.email = \'' + username + '\'', {type: sequelize.QueryTypes.SELECT})
+    .then( rows => {
+
+        ownerid = rows[0];
+        if (!ownerid){
+            return res.status(402).json({ message: "No data found!" })
+        }
+        res.status(200).json({
+            owner_id : ownerid.owner_id
+        })
+
+    })
+    .catch (err => {
+        console.log(err)
+        return res.status(500).json({msg: "Internal server error."});
+    })
+}
+
+exports.getVehicletype = (req, res, next) => {
+
+    const licenseplate = req.params.licenseplate;
+
+    sequelize.query('SELECT supported_cars.type AS vehicle_type'
+        + ' FROM supported_cars,registered_cars'
+        + ' WHERE supported_cars.id= registered_cars.supported_carsid'
+        + ' AND registered_cars.license_plate = \'' + licenseplate + '\'', {type: sequelize.QueryTypes.SELECT})
+    .then( rows => {
+
+        vehicletype = rows[0];
+        if (!vehicletype){
+            return res.status(402).json({ message: "No data found!" })
+        }
+
+        res.status(200).json({
+            vehicletype: vehicletype.vehicle_type
+        })
+
+    })
+    .catch (err => {
+        console.log(err)
+        return res.status(500).json({msg: "Internal server error."});
+    })
+}
+
+exports.getCostperkwh = (req, res, next) => {
+
+    const pointid = req.params.pointid;
+
+    sequelize.query('SELECT energy_providers.cost_per_kWh AS cost_per_KWh'
+        + ' FROM energy_providers,charging_points'
+        + ' WHERE energy_providers.energy_provider_id = charging_points.energy_providerenergy_provider_id'
+        + ' AND charging_points.point_id = ' + pointid, {type: sequelize.QueryTypes.SELECT})
+    .then( rows => {
+
+        costperkwh = rows[0];
+        if (!costperkwh){
+            return res.status(402).json({ message: "No data found!" })
+        }
+
+        res.status(200).json({
+            costperkwh: costperkwh.cost_per_KWh
+        })
+
+    })
+    .catch (err => {
+        console.log(err)
+        return res.status(500).json({msg: "Internal server error."});
+    })
 }
