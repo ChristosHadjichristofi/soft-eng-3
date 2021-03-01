@@ -20,22 +20,24 @@
 </head>
 
 <body id="back">
-    <form class="text-center form-signin">
-        <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Charge</h2><label style="color: rgb(255,255,255);">Select EV</label><select class="custom-select" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);" title="Select EV">
-            <option value="">temp1</option>
-            <option value="">temp2</option>
-            <option value="">temp3</option>
-        </select><label style="color: rgb(255,255,255);">Charging Protocol</label><select class="custom-select" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);" title="Select EV">
-            <option value="">Normal</option>
-            <option value="">Fast</option>
-        </select><label style="color: rgb(255,255,255);">Station</label><select class="custom-select" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);" title="Select EV">
-            <option value="">Station1</option>
-            <option value="">Station2</option>
-        </select><label style="color: rgb(255,255,255);">Point</label><select class="custom-select" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);" title="Select EV">
-            <option value="">point1</option>
-            <option value="">point2</option>
-        </select><label style="color: rgb(255,255,255);">Connection Time</label><input class="form-control" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" type="datetime-local" style="border-radius: 4px;height: 44px;margin: 0px 0px 10px;border-color: rgb(0,0,0);" title="Date &amp; Time"><label style="color: rgb(255,255,255);">Disconnection Time</label><input class="form-control" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" type="datetime-local" style="border-radius: 4px;height: 44px;margin: 0px 0px 10px;border-color: rgb(0,0,0);" title="Date &amp; Time"><label style="color: rgb(255,255,255);">KWh Delivered</label><input class="form-control" type="number"><button class="btn btn-primary" type="button" style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);"><strong>Continue to Payment</strong><br></button>
-    </form>
+    <div class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);padding: 5px 10px;">
+        <form class="text-center form-signin">
+            <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;margin: 0px 0px 0px 0px;">Charge</h2><label style="color: rgb(255,255,255);margin: 0px;">Select EV</label><select class="custom-select" style="height: 35px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);">
+                <option value="">temp1</option>
+                <option value="">temp2</option>
+                <option value="">temp3</option>
+            </select><label style="color: rgb(255,255,255);margin: 0px;">Charging Protocol</label><select class="custom-select" style="height: 35px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);">
+                <option value="">Normal</option>
+                <option value="">Fast</option>
+            </select><label style="color: rgb(255,255,255);margin: 0px;">Station</label><select class="custom-select" style="height: 35px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);">
+                <option value="">Station1</option>
+                <option value="">Station2</option>
+            </select><label style="color: rgb(255,255,255);margin: 0px;">Point</label><select class="custom-select" style="height: 35px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);">
+                <option value="">point1</option>
+                <option value="">point2</option>
+            </select><label style="color: rgb(255,255,255);margin: 0px;">Connection Time</label><input class="form-control" type="datetime-local" style="border-radius: 4px;height: 35px;margin: 0px 0px 10px;border-color: rgb(0,0,0);"><label style="color: rgb(255,255,255);margin: 0px;">Disconnection Time</label><input class="form-control" type="datetime-local" style="border-radius: 4px;height: 35px;margin: 0px 0px 10px;border-color: rgb(0,0,0);"><label style="color: rgb(255,255,255);margin: 0px;">KWh Delivered</label><input class="form-control" type="number" style="height: 35px;margin:  ;"><button class="btn btn-primary" type="button" style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);margin: 10px;"><strong>Continue to Payment</strong><br></button>
+        </form>
+    </div>
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/bs-init.js"></script>
