@@ -28,8 +28,7 @@ module.exports = (req, res, next) => {
                     return res.status(401).json({msg: 'Not authenticated.'});
                 }
                 
-                const omit = (prop, { [prop]: _, ...rest }) => rest;
-                req.user = omit('password', decodedToken.user);
+                req.user = decodedToken.user;
             
                 next();
             }

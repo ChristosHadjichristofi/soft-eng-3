@@ -32,7 +32,12 @@ module.exports = (req, res, next) => {
                     return res.status(401).json({error:'Wrong password!'});
                 }
                 const token = jwt.sign(
-                    { user: loadedUser },
+                    { user: {
+                        administrator_id: loadedUser.administrator_id,
+                        name: loadedUser.name,
+                        email: loadedUser.email,
+                        role: loadedUser.role
+                    } },
                     'denthaseafisoumenatovreispotepotepote',
                     { expiresIn: '1h' }
                 );
@@ -67,7 +72,12 @@ module.exports = (req, res, next) => {
 
                 }
                 const token = jwt.sign(
-                    { user: loadedUser },
+                    { user: {
+                        owner_id: loadedUser.owner_id,
+                        name: loadedUser.name,
+                        email: loadedUser.email,
+                        role: loadedUser.role
+                    } },
                     'denthaseafisoumenatovreispotepotepote',
                     { expiresIn: '1h' }
                 );
