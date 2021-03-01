@@ -13,6 +13,7 @@ const charge = require('./routes/charge');
 const map = require('./routes/map');
 const logout = require('./routes/logout');
 const admin = require('./routes/admin');
+const chargeaux = require('./routes/chargeaux');
 /* end of ROUTES and how to import routes */
 
 const app = express();
@@ -33,6 +34,7 @@ app.use('/evcharge/api/login', login);
 app.use('/evcharge/api/charge', charge);
 app.use('/evcharge/api/map', map);
 app.use('/evcharge/api/logout', logout);
+app.use('/evcharge/api/chargeaux', chargeaux);
 app.use('/evcharge/api', sessions);   
 // /*End of routes used by our project */
 
