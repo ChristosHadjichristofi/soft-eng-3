@@ -38,7 +38,7 @@ export class LoginPageComponent implements OnInit {
 
     this.http.post<{role: string, token: string}>(url, body).subscribe(result => {
       localStorage.setItem('authToken', result.token)
-      let role =this.services.getUserRole();
+      let role = this.services.getUserRole();
 
       //let url = role == 'owner' ? 'sessionsPerEV' 
       this.router.navigateByUrl('/sessionsPerEV')

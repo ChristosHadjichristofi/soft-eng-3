@@ -16,6 +16,7 @@ import { SessionsPerProviderComponent } from './sessions-per-provider/sessions-p
 import { SessionsPerStationComponent } from './sessions-per-station/sessions-per-station.component';
 import { StationAdminLandingPageComponent } from './station-admin-landing-page/station-admin-landing-page.component';
 import { OwnerLandingPageComponent } from './owner-landing-page/owner-landing-page.component';
+import { ChargePageComponent } from './charge-page/charge-page.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { OwnerLandingPageComponent } from './owner-landing-page/owner-landing-pa
     SessionsPerProviderComponent,
     SessionsPerStationComponent,
     StationAdminLandingPageComponent,
-    OwnerLandingPageComponent
+    OwnerLandingPageComponent,
+    ChargePageComponent
   ],
   imports: [
     BrowserModule,

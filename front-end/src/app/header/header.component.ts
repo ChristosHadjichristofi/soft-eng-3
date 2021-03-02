@@ -16,11 +16,11 @@ interface NavItem {
 export class HeaderComponent implements OnInit {
 
   headerLinks: NavItem[] = [
-    { text: 'Points', route: '/sessionsPerPoint', canAccess: 'stationadmin' }
-    , { text: 'Stations', route: '/sessionsPerStation', canAccess: 'stationadmin' }
-    , { text: 'Providers', route: '/sessionsPerProvider', canAccess: 'stationadmin' }
+    { text: 'Points', route: 'sessionsPerPoint', canAccess: 'stationadmin' }
+    , { text: 'Stations', route: 'sessionsPerStation', canAccess: 'stationadmin' }
+    , { text: 'Providers', route: 'sessionsPerProvider', canAccess: 'stationadmin' }
     , { text: 'Sessions Per EV', route: 'sessionsPerEV', canAccess: 'owner' }
-    , { text: 'Charge', route: '/', canAccess: 'owner' }
+    , { text: 'Charge', route: 'charge', canAccess: 'owner' }
     , { text: 'Map', route: '/', canAccess: 'owner' }
     , { text: 'Invoice', route: '/', canAccess: 'owner,stationadmin' }
     , { text: 'Logout', route: '/', canAccess: 'owner,stationadmin' }

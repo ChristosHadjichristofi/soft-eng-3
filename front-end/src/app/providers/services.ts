@@ -36,5 +36,15 @@ export class Services {
     return '';
   }
 
+  getOwnerID(): string {
+    if (this.isAuthenticated()) {
+
+      let jwtData = localStorage.getItem('authToken').split('.')[1]
+      let decodedJwtJsonData = window.atob(jwtData)
+      let decodedJwtData = JSON.parse(decodedJwtJsonData)
+      return decodedJwtData.user.owner_id;
+    }
+    return '';
+  }
 
 }

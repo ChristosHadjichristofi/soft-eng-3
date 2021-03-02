@@ -1,5 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ChargePageComponent } from './charge-page/charge-page.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   , { path: 'sessionsPerStation', component: SessionsPerStationComponent }
   , { path: 'stationAdmin', component: StationAdminLandingPageComponent }
   , { path: 'owner', component: OwnerLandingPageComponent }
+  , { path: 'charge', component: ChargePageComponent }
   , { path: '**', component: NotFoundPageComponent }
 ];
 
