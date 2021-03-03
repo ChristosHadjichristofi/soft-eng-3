@@ -312,7 +312,7 @@ exports.getSessionsPerProvider = (req, res, next) => {
         + 'sessions.charging_pointscharging_stationsstation_id as StationID,sessions.session_id as SessionID,' 
         + 'sessions.driven_byregistered_carslicense_plate as VehicleID,'
         + 'sessions.connectionTime as StartedOn, sessions.disconnectTime as FinishedOn,'
-        + 'sessions.kWhDelivered as ΕnergyDelivered, energy_providers.PricePolicyRef as PricePolicyRef, '
+        + 'sessions.kWhDelivered as EnergyDelivered, energy_providers.PricePolicyRef as PricePolicyRef, '
         + 'energy_providers.cost_per_kWh as CostPerKWh, sessions.cost as sessionCost'
         + ' FROM sessions,charging_points,energy_providers'
         + ' WHERE sessions.charging_pointspoint_id = charging_points.point_id'
