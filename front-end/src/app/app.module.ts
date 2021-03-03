@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './header/header.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { SessionsPerEVComponent } from './sessions-per-ev/sessions-per-ev.component';
@@ -17,6 +17,10 @@ import { SessionsPerStationComponent } from './sessions-per-station/sessions-per
 import { StationAdminLandingPageComponent } from './station-admin-landing-page/station-admin-landing-page.component';
 import { OwnerLandingPageComponent } from './owner-landing-page/owner-landing-page.component';
 import { ChargePageComponent } from './charge-page/charge-page.component';
+import { PaymentPageComponent } from './payment-page/payment-page.component';
+import { RatingPageComponent } from './rating-page/rating-page.component';
+import { LogoutPageComponent } from './logout-page/logout-page.component';
+import { InvoicePageComponent } from './invoice-page/invoice-page.component';
 
 @NgModule({
   declarations: [
@@ -31,14 +35,19 @@ import { ChargePageComponent } from './charge-page/charge-page.component';
     SessionsPerStationComponent,
     StationAdminLandingPageComponent,
     OwnerLandingPageComponent,
-    ChargePageComponent
+    ChargePageComponent,
+    PaymentPageComponent,
+    RatingPageComponent,
+    LogoutPageComponent,
+    InvoicePageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

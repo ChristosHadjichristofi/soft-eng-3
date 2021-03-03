@@ -1,30 +1,37 @@
 <div id="back">
     <div class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);padding: 5px 10px;">
-        <form class="text-center form-signin">
+        <form [formGroup]="form" class="text-center form-signin">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;margin: 0px 0px 0px 0px;">Charge</h2>
-            <label style="color: rgb(255,255,255);margin: 0px;">Select EV</label><select class="custom-select">
-                <option value="">temp1</option>
-                <option value="">temp2</option>
-                <option value="">temp3</option>
+            <label style="color: rgb(255,255,255);margin: 0px;">Select EV</label>
+            <select class="custom-select" formControlName="UserVehicles" (change)="LicencePlateSelected($event)">
+                <option *ngFor="let vehicle of UserVehicles; let i = index" [value]="UserVehicles[i].license_plate">
+                    {{UserVehicles[i].license_plate}}
+                  </option>
             </select><label style="color: rgb(255,255,255);margin: 0px;">Charging Protocol</label><select
-                class="custom-select">
-                <option value="">Normal</option>
-                <option value="">Fast</option>
-            </select><label style="color: rgb(255,255,255);margin: 0px;">Station</label><select class="custom-select">
-                <option value="">Station1</option>
-                <option value="">Station2</option>
-            </select><label style="color: rgb(255,255,255);margin: 0px;">Point</label><select class="custom-select">
-                <option value="">point1</option>
-                <option value="">point2</option>
+                class="custom-select" formControlName="Protocols" (change)="ProtocolSelected($event)">
+                <option [selected] value="normal(20kW)">Normal</option>
+                <option value="fast(50kW)">Fast</option>
+            </select><label style="color: rgb(255,255,255);margin: 0px;">Station</label><select class="custom-select" formControlName="Stations" (change)="StationSelected($event)">
+                <option *ngFor="let station of Stations; let i = index" [value]="Stations[i].station_id">
+                    {{Stations[i].station_name}}
+                </option>
+            </select><label style="color: rgb(255,255,255);margin: 0px;">Point</label><select class="custom-select" formControlName="Points" (change)="PointSelected($event)">
+                <option *ngFor="let point of Points; let i = index" [value]="Points[i].point_id">
+                    {{Points[i].point_id}}
+                </option>
             </select><label style="color: rgb(255,255,255);margin: 0px;">Connection Time</label><input
-                class="form-control" type="datetime-local"
+                class="form-control" type="datetime-local" formControlName="ConnectionTime" (change)="ConnectionTimeSelected($event)"
                 style="border-radius: 4px;height: 35px;margin: 0px 0px 10px;border-color: rgb(0,0,0);"><label
                 style="color: rgb(255,255,255);margin: 0px;">Disconnection Time</label><input class="form-control"
-                type="datetime-local"
+                type="datetime-local" formControlName="DisconnectionTime" (change)="DisconnectionTimeSelected($event)"
                 style="border-radius: 4px;height: 35px;margin: 0px 0px 10px;border-color: rgb(0,0,0);"><label
-                style="color: rgb(255,255,255);margin: 0px;">KWh Delivered</label><input class="form-control"
-                type="number" style="height: 35px;margin: 0px;"><button class="btn btn-primary" type="button"><strong>Continue
+                style="color: rgb(255,255,255);margin: 0px;">KWh Delivered</label>
+                <input class="form-control" formControlName="KWhDelivered" (change)="KWhDeliveredSelected($event)"
+                type="number" style="height: 35px;margin: 0px;"><button class="btn btn-primary" type="button" (click)="proceedToPayment()"><strong>Continue
                     to Payment</strong><br></button>
         </form>
     </div>
 </div>
+
+
+<!-- je to end point ishe thema ithele /charge je tr en ok erkountai sto frontend-->

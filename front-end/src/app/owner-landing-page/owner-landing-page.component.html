@@ -1,7 +1,7 @@
 <div id="back">
     <div class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
         <form class="text-center form-signin">
-            <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Welcome, driver!</h2>
+            <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Welcome, {{services.getUserName()}}!</h2>
             <button class="btn btn-primary" id="options" type="button" routerLink="../sessionsPerEV">
                 <strong>Sessions Per EV</strong>
             </button>
@@ -11,7 +11,7 @@
             <button class="btn btn-primary" id="options" type="button" routerLink="../maps">
                 <strong>Maps</strong>
             </button>
-            <button class="btn btn-primary" id="options" type="button" routerLink="../sessionsPerPoint">
+            <button class="btn btn-primary" id="options" type="button" routerLink="../invoice">
                 <strong>Invoice</strong>
             </button>
             <button class="btn btn-primary" id="options" type="button" routerLink="../Logout">

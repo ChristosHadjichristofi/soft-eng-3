@@ -21,15 +21,13 @@ export class HeaderComponent implements OnInit {
     , { text: 'Providers', route: 'sessionsPerProvider', canAccess: 'stationadmin' }
     , { text: 'Sessions Per EV', route: 'sessionsPerEV', canAccess: 'owner' }
     , { text: 'Charge', route: 'charge', canAccess: 'owner' }
-    , { text: 'Map', route: '/', canAccess: 'owner' }
-    , { text: 'Invoice', route: '/', canAccess: 'owner,stationadmin' }
-    , { text: 'Logout', route: '/', canAccess: 'owner,stationadmin' }
+    , { text: 'Map', route: 'map', canAccess: 'owner' }
+    , { text: 'Invoice', route: 'invoice', canAccess: 'owner,stationadmin' }
+    , { text: 'Logout', route: 'logout', canAccess: 'owner,stationadmin' }
   ];
-  constructor(private services: Services, private router: Router) { }
+  constructor(private services: Services, private router: Router) {}
 
-  ngOnInit(): void {
-    console.log(this.router.url)
-  }
+  ngOnInit(): void {}
 
   showNavItems(): boolean {
     return !(
@@ -37,7 +35,10 @@ export class HeaderComponent implements OnInit {
       || this.router.url == '/login'
       || this.router.url == '/landing'
       || this.router.url == '/owner'
-      || this.router.url == '/stationAdmin'
+      || this.router.url == '/stationadmin'
+      || this.router.url == '/payment'
+      || this.router.url == '/rating'
+      || this.router.url == '/logout'
     );
   }
 

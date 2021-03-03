@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Services } from '../providers/services';
 
 @Component({
   selector: 'app-station-admin-landing-page',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StationAdminLandingPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(public services: Services) { }
 
   ngOnInit(): void {
   }

@@ -1,5 +1,4 @@
 import { HttpClient } from '@angular/common/http';
-import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Services } from '../providers/services';
@@ -37,11 +36,17 @@ export class LoginPageComponent implements OnInit {
      url += (this.inputRole === 'admin') ? 'true' : 'false';
 
     this.http.post<{role: string, token: string}>(url, body).subscribe(result => {
-      localStorage.setItem('authToken', result.token)
-      let role = this.services.getUserRole();
+      localStorage.setItem('authToken', result.token);
+      var role = this.services.getUserRole();
 
-      //let url = role == 'owner' ? 'sessionsPerEV' 
-      this.router.navigateByUrl('/sessionsPerEV')
+      if (role == 'owner') {
+        this.router.navigateByUrl('/owner');
+        
+      }
+      else if (role == 'stationadmin'){
+        this.router.navigateByUrl('/stationadmin');
+        
+      }
 
     }, (error => {
       console.log(error)

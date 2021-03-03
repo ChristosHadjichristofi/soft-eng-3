@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SessionsPerStationDto } from '../DTOs/SessionsPerStationDTO';
 import { Services } from '../providers/services';
@@ -23,13 +23,15 @@ export class SessionsPerStationComponent implements OnInit {
 
   FetchData() {
   
+    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
+
     var station = this.inputStationID;
     var fromDate = this.inputDateFrom.slice(0,4) + this.inputDateFrom.slice(5,7) + this.inputDateFrom.slice(8,10);
     var toDate = this.inputDateTo.slice(0,4) + this.inputDateTo.slice(5,7) + this.inputDateTo.slice(8,10);
 
     var url = 'http://localhost:8765/evcharge/api/SessionsPerStation/' + station + '/' + fromDate + '/' + toDate;
 
-    this.http.get<SessionsPerStationDto>(url).subscribe(sessions => {
+    this.http.get<SessionsPerStationDto>(url, {headers}).subscribe(sessions => {
       this.object = sessions;
     });
 

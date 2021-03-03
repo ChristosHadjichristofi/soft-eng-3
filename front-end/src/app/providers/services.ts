@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 })
 export class Services {
 
+  sessionObj: {}
+
   constructor(private router: Router) { }
 
   isAuthenticated(): boolean {
@@ -46,5 +48,4 @@ export class Services {
     }
     return '';
   }
-
 }

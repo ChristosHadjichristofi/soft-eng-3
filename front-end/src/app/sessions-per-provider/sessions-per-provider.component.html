@@ -1,8 +1,9 @@
 <div id="back">
-    <div class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
+    <div *ngIf="!object" class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
         <form class="text-center form-signin" *ngIf="object == null">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Sessions Per Provider</h2>
-            <input class="form-control" type="text" placeholder="Provider ID" name="ProviderID" [(ngModel)]="inputProviderID"
+            <input class="form-control" type="text" placeholder="Provider ID" name="ProviderID"
+                [(ngModel)]="inputProviderID"
                 style="border-radius: 4px;height: 44px;margin: 10px 0px 10px;border-width: 1px;border-color: rgb(0,0,0);">
             <input class="form-control" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" type="date"
                 name="dateFrom" [(ngModel)]="inputDateFrom"
@@ -15,25 +16,42 @@
                 style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);"><strong>Results</strong>
             </button>
         </form>
-        <div *ngIf="object">
-            <h1>{{object.ProviderID}}</h1>
-            <div class="card" *ngFor="let session of object.ProviderChargingSessionsList">
-                <div class="card-body">
-                    <h6>SessionIndex: {{session.SessionIndex}}</h6>
-                    <h6>StationID: {{session.StationID}}</h6>
-                    <h6>SessionID: {{session.SessionID}}</h6>
-                    <h6>VehicleID: {{session.VehicleID}}</h6>
-                    <h6>StartedOn: {{session.StartedOn}}</h6>
-                    <h6>FinishedOn: {{session.FinishedOn}}</h6>
-                    <h6>EnergyDelivered: {{session.EnergyDelivered}}</h6>
-                    <h6>PricePolicyRef: {{session.PricePolicyRef}}</h6>
-                    <h6>CostPerKWh: {{session.CostPerKWh}}</h6>
-                    <h6>sessionCost: {{session.sessionCost}}</h6>
-                </div>
-            </div>
-            <button class="btn btn-primary" (click)="object = null">
-                Search Again!
-            </button>
-        </div>
+    </div>
+    <div id="table-result" class="table-responsive" *ngIf="object">
+        <h1>{{object.ProviderID}}</h1>
+        <h1>{{object.ProviderName}}</h1>
+        <h1>{{object.RequestTimestamp}}</h1>
+        <h1>{{object.TotalCost}}</h1>
+        <table class="table table-striped" style="width: 100%">
+            <tr>
+                <th>SessionIndex </th>
+                <th>StationID</th>
+                <th>SessionID</th>
+                <th>VehicleID </th>
+                <th>StartedOn</th>
+                <th>FinishedOn</th>
+                <th>EnergyDelivered</th>
+                <th>PricePolicyRef</th>
+                <th>CostPerKWh</th>
+                <th>sessionCost</th>
+            </tr>
+            <tr *ngFor="let session of object.ProviderChargingSessionsList">
+                    <th>{{session.SessionIndex}}</th>
+                    <th>{{session.StationID}}</th>
+                    <th>{{session.SessionID}}</th>
+                    <th>{{session.VehicleID}}</th>
+                    <th>{{session.StartedOn}}</th>
+                    <th>{{session.FinishedOn}}</th>
+                    <th>{{session.EnergyDelivered}}</th>
+                    <th>{{session.PricePolicyRef}}</th>
+                    <th>{{session.CostPerKWh}}</th>
+                    <th>{{session.sessionCost}}</th>
+            </tr>
+        </table>
+        <!-- <h6>SessionIndex        StationID      SessionID       VehicleID        StartedOn       FinishedOn      EnergyDelivered</h6> -->
+        <!-- <h6>SessionIndex        StationID      SessionID       VehicleID        StartedOn, FinishedOn, EnergyDelivered, PricePolicyRef, CostPerKWh, sessionCost</h6> -->
+        <button class="btn btn-primary" (click)="object = null">
+            Search Again!
+        </button>
     </div>
 </div>

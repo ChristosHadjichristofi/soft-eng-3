@@ -22,9 +22,8 @@ export class SessionsPerEVComponent implements OnInit {
   }
 
   FetchData() {
-// var headers: HttpHeaders = {
-//   { 'X-OBSERVATORY-AUTH': ''}
-// }
+  
+    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
 
     var licencePlates = this.inputVehicleID;
     var fromDate = this.inputDateFrom.slice(0,4) + this.inputDateFrom.slice(5,7) + this.inputDateFrom.slice(8,10);
@@ -32,7 +31,7 @@ export class SessionsPerEVComponent implements OnInit {
 
     var url = 'http://localhost:8765/evcharge/api/SessionsPerEV/' + licencePlates + '/' + fromDate + '/' + toDate;
 
-    this.http.get<SessionsPerEVDto>(url).subscribe(sessions => {
+    this.http.get<SessionsPerEVDto>(url, {headers}).subscribe(sessions => {
       this.object = sessions;
     });
   }
