@@ -183,3 +183,40 @@ exports.getCostperkwh = (req, res, next) => {
         return res.status(500).json({msg: "Internal server error."});
     })
 }
+
+exports.getCost = (req, res, next) => {
+
+    const connectionTime = req.params.connectionTime;
+    const disconnectiontime = req.params.disconnectiontime;
+    const protocol = req.params.protocol;
+    const costperkwh = req.params.costperkwh;
+    
+    if (connectionTime == undefined || disconnectiontime == undefined || protocol == undefined || costperkwh == undefined){
+        return res.status(400).json({ message: "Some parameters are undefined" })
+    }
+    
+    var chours = parseInt(connectionTime.slice(11,13));
+    var dhours = parseInt(disconnectiontime.slice(11,13));   
+    var cmins = parseInt(connectionTime.slice(14,16));
+    var dmins = parseInt(disconnectiontime.slice(14,16));
+    var ctime = chours + (cmins/60);
+    var dtime = dhours + (dmins/60);
+
+    if(dhours > chours)    var ttime = dtime - ctime;
+    else                   var ttime = dtime + 24 - ctime;
+    if(protocol == 'normal(20kW)'){
+        var KWh_delivered = ttime * 20;
+        var cost = KWh_delivered * parseFloat(costperkwh);
+    } 
+    else{
+        var KWh_delivered = ttime * 50;
+        var cost = KWh_delivered * parseFloat(costperkwh) * 1.2;
+    }
+        
+    res.status(200).json({
+        kWhDelivered: KWh_delivered.toFixed(3),
+        cost: cost.toFixed(2)
+    })
+
+
+}
