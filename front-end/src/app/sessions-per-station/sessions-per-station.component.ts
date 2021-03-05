@@ -10,15 +10,24 @@ import { Services } from '../providers/services';
 })
 export class SessionsPerStationComponent implements OnInit {
 
-  inputStationID: string;
+  inputStationID = null;
   inputDateFrom: string;
   inputDateTo: string;
   object: SessionsPerStationDto;
+  AdminStations = [];
 
   constructor(private http: HttpClient, private services: Services) { }
 
   ngOnInit(): void {
     this.object = null;
+
+    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
+
+    var url = 'http://localhost:8765/evcharge/api/charge/adminstations/' + this.services.getAdminID();
+
+    this.http.get<{ StationList: { station_id: string, station_name: string }[] }>(url, {headers}).subscribe(result => {
+      this.AdminStations = result.StationList;
+    });
   }
 
   FetchData() {
@@ -33,7 +42,6 @@ export class SessionsPerStationComponent implements OnInit {
 
     this.http.get<SessionsPerStationDto>(url, {headers}).subscribe(sessions => {
       this.object = sessions;
-      console.log(sessions);
     });
 
   }

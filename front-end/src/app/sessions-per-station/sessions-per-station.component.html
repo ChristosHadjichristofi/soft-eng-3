@@ -2,8 +2,13 @@
     <div *ngIf="!object" class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
         <form class="text-center form-signin" *ngIf="object == null">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Sessions Per Station</h2>
-            <input class="form-control" type="text" placeholder="Station ID" name="StationID" [(ngModel)]="inputStationID"
+            <select class="custom-select" name="StationID" [(ngModel)]="inputStationID"
                 style="border-radius: 4px;height: 44px;margin: 10px 0px 10px;border-width: 1px;border-color: rgb(0,0,0);">
+                <option [ngValue]="null" [disabled]="true">StationID</option>
+                <option *ngFor="let station of AdminStations" [value]="station.station_id">
+                    {{station.station_name}}
+                </option>
+            </select>
             <input class="form-control" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" type="date"
                 name="dateFrom" [(ngModel)]="inputDateFrom"
                 style="border-radius: 4px;height: 44px;margin: 0px 0px 10px;border-color: rgb(0,0,0);"
@@ -25,8 +30,8 @@
         <table id="table-result" class="table table-striped" style="width: 100%">
             <tr>
                 <th>PointID</th>
-                <th>SessionID</th>
                 <th>PointSessions</th>
+                <th>EnergyDelivered</th>
             </tr>
             <tr *ngFor="let session of object.SessionsSummaryList">
                     <th>{{session.PointID}}</th>
@@ -38,17 +43,4 @@
             Search Again!
         </button>
     </div>
-    <!-- <div *ngIf="object">
-        <h1>{{object.StationID}}</h1>
-        <div class="card" *ngFor="let session of object.SessionsSummaryList">
-            <div class="card-body">
-                <h6>PointID: {{session.PointID}}</h6>
-                <h6>PointSessions: {{session.PointSessions}}</h6>
-                <h6>EnergyDelivered: {{session.EnergyDelivered}}</h6>
-            </div>
-        </div>
-        <button class="btn btn-primary" (click)="object = null">
-            Search Again!
-        </button>
-    </div> -->
 </div>
