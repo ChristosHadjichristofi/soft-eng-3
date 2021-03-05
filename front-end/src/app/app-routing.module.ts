@@ -14,6 +14,7 @@ import { SessionsPerPointComponent } from './sessions-per-point/sessions-per-poi
 import { SessionsPerProviderComponent } from './sessions-per-provider/sessions-per-provider.component';
 import { SessionsPerStationComponent } from './sessions-per-station/sessions-per-station.component';
 import { StationAdminLandingPageComponent } from './station-admin-landing-page/station-admin-landing-page.component';
+import { MapPageComponent } from './map-page/map-page.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent }
@@ -30,6 +31,7 @@ const routes: Routes = [
   , { path: 'rating', component: RatingPageComponent }
   , { path: 'logout', component: LogoutPageComponent }
   , { path: 'invoice', component: InvoicePageComponent }
+  , { path: 'map', component: MapPageComponent }
   , { path: '**', component: NotFoundPageComponent }
 ];
 

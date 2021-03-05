@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { AgmCoreModule } from '@agm/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +22,7 @@ import { PaymentPageComponent } from './payment-page/payment-page.component';
 import { RatingPageComponent } from './rating-page/rating-page.component';
 import { LogoutPageComponent } from './logout-page/logout-page.component';
 import { InvoicePageComponent } from './invoice-page/invoice-page.component';
+import { MapPageComponent } from './map-page/map-page.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { InvoicePageComponent } from './invoice-page/invoice-page.component';
     PaymentPageComponent,
     RatingPageComponent,
     LogoutPageComponent,
-    InvoicePageComponent
+    InvoicePageComponent,
+    MapPageComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,10 @@ import { InvoicePageComponent } from './invoice-page/invoice-page.component';
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBiDRgN8NunzmngcE1R_ZO2PMMwa4JbpJs'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

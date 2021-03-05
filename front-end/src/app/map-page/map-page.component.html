@@ -1,0 +1,44 @@
+<div id="back">
+    <agm-map [latitude]='lat' [longitude]='long' [zoom] = 11>
+        <div *ngIf="stations && nearestStations == null">
+            <div *ngFor="let station of stations.StationsList">
+                <agm-marker
+                    [latitude]="station.Latitude"
+                    [longitude]="station.Longitude"
+                >
+                </agm-marker>
+            </div>
+        </div>
+        <div *ngIf="nearestStations">
+            <div *ngFor="let neareststation of nearestStations.StationsList">
+                <agm-marker
+                    [latitude]="neareststation.Latitude"
+                    [longitude]="neareststation.Longitude"
+                >
+                </agm-marker>
+            </div>
+        </div>
+    </agm-map>
+    
+    <div class="login-card" style="background: rgba(255,255,255,0.25);">
+        <form class="form-map">
+
+
+            <input class="form-control" type="number" name="numberOfNearestStations" [(ngModel)]="inputNum" placeholder="number Of nearest stations">
+            <input class="form-control" type="number" name="CordX" [(ngModel)]="inputCordX" placeholder="Your X coordinate">
+            <input class="form-control" type="number" name="CordY" [(ngModel)]="inputCordY" placeholder="Your Y coordinate">
+            
+            
+            <button id="result" type="button" (click)="FetchData()"
+                        style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);display: inline-block;margin: 5px;"><strong>Find nearest stations</strong>
+            </button>
+            <button id="result" type="button" (click)="RestoreData()"
+                        style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);display: inline-block;margin: 5px;"><strong>Show all stations</strong>
+            </button>
+
+        
+        </form>
+    </div>
+
+
+</div>
