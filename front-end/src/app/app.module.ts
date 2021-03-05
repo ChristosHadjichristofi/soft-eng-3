@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AgmCoreModule } from '@agm/core';
+import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -51,6 +52,7 @@ import { MapPageComponent } from './map-page/map-page.component';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
+    ChartsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBiDRgN8NunzmngcE1R_ZO2PMMwa4JbpJs'
     })

@@ -51,8 +51,28 @@
                 <th>{{session.SessionCost}}</th>
             </tr>
         </table>
-        <button id="btn-search" class="btn btn-primary" (click)="object = null">
-            Search Again!
-        </button>
+        
+        <div class="chart-wrapper" id="card-chart">
+            <canvas baseChart 
+            [datasets]="chartData" 
+            [labels]="chartLabels"
+            [options]="chartOptions"
+            [chartType]="chartType">
+        </canvas>
     </div>
+    
+    <div class="chart-wrapper" id="card-chart">
+        <canvas baseChart 
+        [datasets]="chartData2" 
+        [options]="chartOptions2"
+        [legend]="chartLegend"
+        [chartType]="chartType2">
+    </canvas>
+    </div>   
+    <button id="btn-search" class="btn btn-primary" (click)="object = null">
+        Search Again!
+    </button>
+</div>
+
+
 </div>
