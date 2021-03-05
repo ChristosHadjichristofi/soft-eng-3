@@ -22,13 +22,11 @@ export class SessionsPerEVComponent implements OnInit {
     this.object = null;
 
     const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
-    console.log(headers)
+
     var url = 'http://localhost:8765/evcharge/api/charge/licenseplates/' + this.services.getOwnerID();
 
     this.http.get<{ LicensePlateList: { license_plate: string }[] }>(url, {headers}).subscribe(result => {
-      console.log(result)
       this.UserVehicles = result.LicensePlateList;
-      console.log(this.UserVehicles)
     });
   }
 
