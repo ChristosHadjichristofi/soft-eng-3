@@ -10,15 +10,24 @@ import { Services } from '../providers/services';
 })
 export class SessionsPerPointComponent implements OnInit {
 
-  inputPointID: string;
+  inputPointID = null;
   inputDateFrom: string;
   inputDateTo: string;
   object: SessionsPerPointDto;
+  AdminPoints = [];
 
   constructor(private http: HttpClient, private services: Services) { }
 
   ngOnInit(): void {
     this.object = null;
+
+    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
+
+    var url = 'http://localhost:8765/evcharge/api/charge/adminpoints/' + this.services.getAdminID();
+
+    this.http.get<{ PointList: { point_id: string }[] }>(url, {headers}).subscribe(result => {
+      this.AdminPoints = result.PointList;
+    });
   }
 
   FetchData() {
@@ -33,7 +42,6 @@ export class SessionsPerPointComponent implements OnInit {
 
     this.http.get<SessionsPerPointDto>(url, {headers}).subscribe(sessions => {
       this.object = sessions;
-      console.log(sessions);
     });
 
   }
