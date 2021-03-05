@@ -26,7 +26,7 @@
     top: 150%;
     left: 50%;
     transform: translate(-50%, -50%);
-    animation: move 7s linear infinite;
+    animation: move 6s linear infinite;
 }
 
 @media (max-width: 600px) {
@@ -37,9 +37,9 @@
 
 @keyframes move {
     0% {
-        transform: translateX(-900%);
+        transform: translateX(-500%);
     }
     100% {
-        transform: translateX(900%);
+        transform: translateX(500%);
     }
 }

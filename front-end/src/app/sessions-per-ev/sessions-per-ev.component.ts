@@ -33,6 +33,7 @@ export class SessionsPerEVComponent implements OnInit {
 
     this.http.get<SessionsPerEVDto>(url, {headers}).subscribe(sessions => {
       this.object = sessions;
+      console.log(sessions);
     });
   }
 

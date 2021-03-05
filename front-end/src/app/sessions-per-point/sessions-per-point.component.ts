@@ -33,6 +33,7 @@ export class SessionsPerPointComponent implements OnInit {
 
     this.http.get<SessionsPerPointDto>(url, {headers}).subscribe(sessions => {
       this.object = sessions;
+      console.log(sessions);
     });
 
   }

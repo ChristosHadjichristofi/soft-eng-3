@@ -1,5 +1,5 @@
 <div id="back">
-    <div class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
+    <div *ngIf="!object" class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
         <form class="text-center form-signin" *ngIf="object == null">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Sessions Per Station</h2>
             <input class="form-control" type="text" placeholder="Station ID" name="StationID" [(ngModel)]="inputStationID"
@@ -15,18 +15,40 @@
                 style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);"><strong>Results</strong>
             </button>
         </form>
-        <div *ngIf="object">
-            <h1>{{object.ProviderID}}</h1>
-            <div class="card" *ngFor="let session of object.SessionsSummaryList">
-                <div class="card-body">
-                    <h6>PointID: {{session.PointID}}</h6>
-                    <h6>PointSessions: {{session.PointSessions}}</h6>
-                    <h6>EnergyDelivered: {{session.EnergyDelivered}}</h6>
-                </div>
-            </div>
-            <button class="btn btn-primary" (click)="object = null">
-                Search Again!
-            </button>
-        </div>
     </div>
+    <div id="objects" class="table-responsive" *ngIf="object">
+        <h4>Station ID: {{object.StationID}}</h4>
+        <h5>Operator: {{object.Operator}}</h5>
+        <h5>Period from: {{object.PeriodFrom}}</h5>
+        <h5>Period to: {{object.PeriodTo}}</h5>
+        <h5>Total energy delivered: {{object.TotalEnergyDelivered}}</h5>
+        <table id="table-result" class="table table-striped" style="width: 100%">
+            <tr>
+                <th>PointID</th>
+                <th>SessionID</th>
+                <th>PointSessions</th>
+            </tr>
+            <tr *ngFor="let session of object.SessionsSummaryList">
+                    <th>{{session.PointID}}</th>
+                    <th>{{session.PointSessions}}</th>
+                    <th>{{session.EnergyDelivered}}</th>
+            </tr>
+        </table>
+        <button id="btn-search" class="btn btn-primary" (click)="object = null">
+            Search Again!
+        </button>
+    </div>
+    <!-- <div *ngIf="object">
+        <h1>{{object.StationID}}</h1>
+        <div class="card" *ngFor="let session of object.SessionsSummaryList">
+            <div class="card-body">
+                <h6>PointID: {{session.PointID}}</h6>
+                <h6>PointSessions: {{session.PointSessions}}</h6>
+                <h6>EnergyDelivered: {{session.EnergyDelivered}}</h6>
+            </div>
+        </div>
+        <button class="btn btn-primary" (click)="object = null">
+            Search Again!
+        </button>
+    </div> -->
 </div>

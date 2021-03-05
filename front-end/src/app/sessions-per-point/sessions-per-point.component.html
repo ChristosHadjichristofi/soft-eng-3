@@ -1,5 +1,5 @@
 <div id="back">
-    <div class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
+    <div *ngIf="!object" class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
         <form class="text-center form-signin" *ngIf="object == null">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Sessions Per Point</h2>
             <input class="form-control" type="text" placeholder="Point ID" name="PointID" [(ngModel)]="inputPointID"
@@ -15,23 +15,36 @@
                 style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);"><strong>Results</strong>
             </button>
         </form>
-        <div *ngIf="object">
-            <h1>{{object.PointID}}</h1>
-            <div class="card" *ngFor="let session of object.ChargingSessionsList">
-                <div class="card-body">
-                    <h6>SessionIndex: {{session.SessionIndex}}</h6>
-                    <h6>SessionID: {{session.SessionID}}</h6>
-                    <h6>StartedOn: {{session.StartedOn}}</h6>
-                    <h6>FinishedOn: {{session.FinishedOn}}</h6>
-                    <h6>Protocol: {{session.Protocol}}</h6>
-                    <h6>EnergyDelivered: {{session.EnergyDelivered}}</h6>
-                    <h6>Payment: {{session.Payment}}</h6>
-                    <h6>VehicleType: {{session.VehicleType}}</h6>
-                </div>
-            </div>
-            <button class="btn btn-primary" (click)="object = null">
-                Search Again!
-            </button>
-        </div>
+    </div>
+    <div id="objects" class="table-responsive" *ngIf="object">
+        <h4>Point ID: {{object.Point}}</h4>
+        <h5>Point Operator: {{object.PointOperator}}</h5>
+        <h5>Period from: {{object.PeriodFrom}}</h5>
+        <h5>Period to: {{object.PeriodTo}}</h5>
+        <table id="table-result" class="table table-striped" style="width: 100%">
+            <tr>
+                <th>SessionIndex</th>
+                <th>SessionID</th>
+                <th>StartedOn</th>
+                <th>FinishedOn</th>
+                <th>Protocol</th>
+                <th>EnergyDelivered</th>
+                <th>Payment</th>
+                <th>VehicleType</th>
+            </tr>
+            <tr *ngFor="let session of object.ChargingSessionsList">
+                    <th>{{session.SessionIndex}}</th>
+                    <th>{{session.SessionID}}</th>
+                    <th>{{session.StartedOn}}</th>
+                    <th>{{session.FinishedOn}}</th>
+                    <th>{{session.Protocol}}</th>
+                    <th>{{session.EnergyDelivered}}</th>
+                    <th>{{session.Payment}}</th>
+                    <th>{{session.VehicleType}}</th>
+            </tr>
+        </table>
+        <button id="btn-search" class="btn btn-primary" (click)="object = null">
+            Search Again!
+        </button>
     </div>
 </div>

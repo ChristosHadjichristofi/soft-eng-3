@@ -17,14 +17,15 @@
             </button>
         </form>
     </div>
-    <div id="table-result" class="table-responsive" *ngIf="object">
-        <h1>{{object.ProviderID}}</h1>
-        <h1>{{object.ProviderName}}</h1>
-        <h1>{{object.RequestTimestamp}}</h1>
-        <h1>{{object.TotalCost}}</h1>
-        <table class="table table-striped" style="width: 100%">
+    <div id="objects" class="table-responsive" *ngIf="object">
+        <h4>Provider ID: {{object.ProviderID}}</h4>
+        <h5>Provider Name: {{object.ProviderName}}</h5>
+        <h5>Period from: {{object.PeriodFrom}}</h5>
+        <h5>Period to: {{object.PeriodTo}}</h5>
+        <h5>Total Cost: {{object.TotalCost}}</h5>
+        <table id="table-result" class="table table-striped" style="width: 100%">
             <tr>
-                <th>SessionIndex </th>
+                <th>SessionIndex</th>
                 <th>StationID</th>
                 <th>SessionID</th>
                 <th>VehicleID </th>
@@ -33,7 +34,7 @@
                 <th>EnergyDelivered</th>
                 <th>PricePolicyRef</th>
                 <th>CostPerKWh</th>
-                <th>sessionCost</th>
+                <th>SessionCost</th>
             </tr>
             <tr *ngFor="let session of object.ProviderChargingSessionsList">
                     <th>{{session.SessionIndex}}</th>
@@ -48,9 +49,7 @@
                     <th>{{session.sessionCost}}</th>
             </tr>
         </table>
-        <!-- <h6>SessionIndex        StationID      SessionID       VehicleID        StartedOn       FinishedOn      EnergyDelivered</h6> -->
-        <!-- <h6>SessionIndex        StationID      SessionID       VehicleID        StartedOn, FinishedOn, EnergyDelivered, PricePolicyRef, CostPerKWh, sessionCost</h6> -->
-        <button class="btn btn-primary" (click)="object = null">
+        <button id="btn-search" class="btn btn-primary" (click)="object = null">
             Search Again!
         </button>
     </div>

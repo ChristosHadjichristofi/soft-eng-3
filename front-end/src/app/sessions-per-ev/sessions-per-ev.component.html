@@ -1,5 +1,5 @@
 <div id="back">
-    <div class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
+    <div *ngIf="!object" class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
         <form class="text-center form-signin" *ngIf="object == null">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Sessions Per EV</h2>
             <input class="form-control" type="text" placeholder="Electric Vehicle" name="VehicleID" [(ngModel)]="inputVehicleID"
@@ -17,22 +17,36 @@
             </button>
         </form>
     </div>
-    <div *ngIf="object">
-        <h1>{{object.VehicleID}}</h1>
-        <div class="card" *ngFor="let session of object.VehicleChargingSessionsList">
-            <div class="card-body">
-                <h6>SessionIndex: {{session.SessionIndex}}</h6>
-                <h6>SessionID: {{session.SessionID}}</h6>
-                <h6>EnergyProvider: {{session.EnergyProvider}}</h6>
-                <h6>StartedOn: {{session.StartedOn}}</h6>
-                <h6>FinishedOn: {{session.FinishedOn}}</h6>
-                <h6>EnergyDelivered: {{session.EnergyDelivered}}</h6>
-                <h6>PricePolicyRef: {{session.PricePolicyRef}}</h6>
-                <h6>CostPerKWh: {{session.CostPerKWh}}</h6>
-                <h6>SessionCost: {{session.SessionCost}}</h6>
-            </div>
-        </div>
-        <button class="btn btn-primary" id="options" (click)="object = null">
+    <div id="objects" class="table-responsive" *ngIf="object">
+        <h4>Vehicle ID: {{object.VehicleID}}</h4>
+        <h5>Period from: {{object.PeriodFrom}}</h5>
+        <h5>Period to: {{object.PeriodTo}}</h5>
+        <h5>Total Energy Consumed: {{object.TotalEnergyConsumed}}</h5>
+        <table id="table-result" class="table table-striped" style="width: 100%">
+            <tr>
+                <th>SessionIndex</th>
+                <th>SessionID</th>
+                <th>EnergyProvider </th>
+                <th>StartedOn</th>
+                <th>FinishedOn</th>
+                <th>EnergyDelivered</th>
+                <th>PricePolicyRef</th>
+                <th>CostPerKWh</th>
+                <th>SessionCost</th>
+            </tr>
+            <tr *ngFor="let session of object.VehicleChargingSessionsList">
+                    <th>{{session.SessionIndex}}</th>
+                    <th>{{session.SessionID}}</th>
+                    <th>{{session.EnergyProvider}}</th>
+                    <th>{{session.StartedOn}}</th>
+                    <th>{{session.FinishedOn}}</th>
+                    <th>{{session.EnergyDelivered}}</th>
+                    <th>{{session.PricePolicyRef}}</th>
+                    <th>{{session.CostPerKWh}}</th>
+                    <th>{{session.SessionCost}}</th>
+            </tr>
+        </table>
+        <button id="btn-search" class="btn btn-primary" (click)="object = null">
             Search Again!
         </button>
     </div>
