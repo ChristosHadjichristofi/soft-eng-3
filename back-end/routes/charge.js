@@ -21,8 +21,14 @@ router.get('/vehicletype/:licenseplate', isAuth, permit('owner'), chargeControll
 
 router.get('/costperkwh/:pointid', isAuth, permit('owner'), chargeController.getCostperkwh);
 
-// router.get('/cost/:connectionTime/:disconnectiontime/:protocol/:costperkwh', isAuth, permit('owner'), chargeController.getCost);
-router.get('/cost/:connectionTime/:disconnectiontime/:protocol/:costperkwh', chargeController.getCost);
+router.get('/cost/:connectionTime/:disconnectiontime/:protocol/:costperkwh', isAuth, permit('owner'), chargeController.getCost);
+
+router.get('/adminstations/:administratorid', isAuth, permit('stationadmin'), chargeController.getAdminstations);
+
+router.get('/adminpoints/:administratorid', isAuth, permit('stationadmin'), chargeController.getAdminpoints);
+
+router.get('/providers', isAuth, permit('stationadmin'), chargeController.getProviders);
+
 
 
 module.exports = router;

@@ -220,3 +220,79 @@ exports.getCost = (req, res, next) => {
 
 
 }
+
+exports.getAdminstations = (req, res, next) => {
+
+    const administratorid = req.params.administratorid;
+
+    sequelize.query('SELECT charging_stations.station_id AS station_id, charging_stations.station_name AS station_name'
+        + ' FROM charging_stations'
+        + ' WHERE charging_stations.administrator_administrator_id = ' + administratorid
+        + ' ORDER BY station_id' , {type: sequelize.QueryTypes.SELECT})
+    .then( rows => {
+
+        StationList = rows;
+        if (!StationList.length){
+            return res.status(402).json({ message: "No data found!" })
+        }
+
+        res.status(200).json({
+            StationList: StationList
+        })
+
+    })
+    .catch (err => {
+        console.log(err)
+        return res.status(500).json({msg: "Internal server error."});
+    })
+}
+
+exports.getAdminpoints = (req, res, next) => {
+
+    const administratorid = req.params.administratorid;
+
+    sequelize.query('SELECT charging_points.point_id AS point_id'
+        + ' FROM charging_stations,charging_points'
+        + ' WHERE charging_stations.station_id = charging_points.charging_stationsstation_id'
+        + ' AND charging_stations.administrator_administrator_id = ' + administratorid
+        + ' ORDER BY point_id' , {type: sequelize.QueryTypes.SELECT})
+    .then( rows => {
+
+        PointList = rows;
+        if (!PointList.length){
+            return res.status(402).json({ message: "No data found!" })
+        }
+
+        res.status(200).json({
+            PointList: PointList
+        })
+
+    })
+    .catch (err => {
+        console.log(err)
+        return res.status(500).json({msg: "Internal server error."});
+    })
+}
+
+exports.getProviders = (req, res, next) => {
+
+    sequelize.query('SELECT energy_provider_id, energy_provider_name'
+        + ' FROM energy_providers'
+        + ' ORDER BY energy_provider_id' , {type: sequelize.QueryTypes.SELECT})
+    .then( rows => {
+
+        ProviderList = rows;
+        if (!ProviderList.length){
+            return res.status(402).json({ message: "No data found!" })
+        }
+
+        res.status(200).json({
+            ProviderList: ProviderList
+        })
+
+    })
+    .catch (err => {
+        console.log(err)
+        return res.status(500).json({msg: "Internal server error."});
+    })
+}
