@@ -162,7 +162,7 @@ exports.getSessionsPerStation = (req, res, next) => {
                     RequestTimestamp: new Date(),
                     PeriodFrom: yyyymmdd_from,
                     PeriodTo: yyyymmdd_to,
-                    TotalEnergyDelivered: TotalEnergyDelivered.toFixed(2),
+                    TotalEnergyDelivered: TotalEnergyDelivered.toFixed(3) + 'KWh',
                     NumberOfChargingSessions: NumberOfChargingSessions,
                     NumberOfActivePoints: NumberOfActivePoints,
                     ...sessionSummary
@@ -178,7 +178,7 @@ exports.getSessionsPerStation = (req, res, next) => {
                 RequestTimestamp: new Date(),
                 PeriodFrom: yyyymmdd_from,
                 PeriodTo: yyyymmdd_to,
-                TotalEnergyDelivered: TotalEnergyDelivered.toFixed(2),
+                TotalEnergyDelivered: TotalEnergyDelivered.toFixed(3) + 'KWh',
                 NumberOfChargingSessions: NumberOfChargingSessions,
                 NumberOfActivePoints: NumberOfActivePoints,
                 SessionsSummaryList: SessionsSummaryList
@@ -262,7 +262,7 @@ exports.getSessionsPerEV = (req, res, next) => {
                     RequestTimestamp: new Date(),
                     PeriodFrom: yyyymmdd_from,
                     PeriodTo: yyyymmdd_to,
-                    TotalEnergyConsumed: TotalEnergyConsumed + 'KWh',
+                    TotalEnergyConsumed: TotalEnergyConsumed.toFixed(3) + 'KWh',
                     NumberOfVisitedPoints: NumberOfVisitedPoints,
                     NumberOfVehicleChargingSessions: NumberOfVehicleChargingSessions,
                     ...vehicleChargingSession
@@ -277,7 +277,7 @@ exports.getSessionsPerEV = (req, res, next) => {
                 RequestTimestamp: new Date(),
                 PeriodFrom: yyyymmdd_from,
                 PeriodTo: yyyymmdd_to,
-                TotalEnergyConsumed: TotalEnergyConsumed + 'KWh',
+                TotalEnergyConsumed: TotalEnergyConsumed.toFixed(3) + 'KWh',
                 NumberOfVisitedPoints: NumberOfVisitedPoints,
                 NumberOfVehicleChargingSessions: NumberOfVehicleChargingSessions,
                 VehicleChargingSessionsList: VehicleChargingSessionsList
