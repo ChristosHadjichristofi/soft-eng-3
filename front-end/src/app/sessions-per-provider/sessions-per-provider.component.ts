@@ -10,15 +10,24 @@ import { Services } from '../providers/services';
 })
 export class SessionsPerProviderComponent implements OnInit {
 
-  inputProviderID: string;
+  inputProviderID = null;
   inputDateFrom: string;
   inputDateTo: string;
   object: SessionsPerProviderDto;
+  Providers = [];
 
   constructor(private http: HttpClient, private services: Services) { }
 
   ngOnInit(): void {
     this.object = null;
+
+    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
+
+    var url = 'http://localhost:8765/evcharge/api/charge/providers';
+
+    this.http.get<{ ProviderList: { energy_provider_id: string, energy_provider_name: string }[] }>(url, {headers}).subscribe(result => {
+      this.Providers = result.ProviderList;
+    });
   }
 
   FetchData() {
@@ -33,7 +42,6 @@ export class SessionsPerProviderComponent implements OnInit {
 
     this.http.get<SessionsPerProviderDto>(url, {headers}).subscribe(sessions => {
       this.object = sessions;
-      console.log(sessions)
     });
 
   }

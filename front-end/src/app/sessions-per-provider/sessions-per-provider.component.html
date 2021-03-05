@@ -2,9 +2,13 @@
     <div *ngIf="!object" class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
         <form class="text-center form-signin" *ngIf="object == null">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Sessions Per Provider</h2>
-            <input class="form-control" type="text" placeholder="Provider ID" name="ProviderID"
-                [(ngModel)]="inputProviderID"
+            <select class="custom-select" name="ProviderID" [(ngModel)]="inputProviderID"
                 style="border-radius: 4px;height: 44px;margin: 10px 0px 10px;border-width: 1px;border-color: rgb(0,0,0);">
+                <option [ngValue]="null" [disabled]="true">ProviderID</option>
+                <option *ngFor="let provider of Providers" [value]="provider.energy_provider_id">
+                    {{provider.energy_provider_name}}
+                </option>
+            </select>
             <input class="form-control" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" type="date"
                 name="dateFrom" [(ngModel)]="inputDateFrom"
                 style="border-radius: 4px;height: 44px;margin: 0px 0px 10px;border-color: rgb(0,0,0);"
