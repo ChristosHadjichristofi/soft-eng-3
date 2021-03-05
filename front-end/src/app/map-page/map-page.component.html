@@ -23,8 +23,14 @@
     <div class="map-card" style="background: rgba(255,255,255,0.25);">
         <form class="form-map">
 
+            <select class="custom-select" name="numberOfNearestStations" [(ngModel)]="inputNum" >
+                <option [ngValue]="null" [disabled]="true" >number Of nearest stations</option>
+                <option *ngFor="let i of stationNumberList" [value]="i">
+                    {{i}}
+                  </option>
+            </select>
 
-            <input class="form-control" type="number" name="numberOfNearestStations" [(ngModel)]="inputNum" placeholder="number Of nearest stations">
+            <!-- <input class="form-control" type="number" name="numberOfNearestStations" [(ngModel)]="inputNum" placeholder="number Of nearest stations"> -->
             <input class="form-control" type="number" name="CordX" [(ngModel)]="inputCordX" placeholder="Your X coordinate">
             <input class="form-control" type="number" name="CordY" [(ngModel)]="inputCordY" placeholder="Your Y coordinate">
             

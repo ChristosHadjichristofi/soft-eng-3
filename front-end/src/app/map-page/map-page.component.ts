@@ -17,21 +17,24 @@ export class MapPageComponent implements OnInit {
   nearestStations: NearestStationsDto;
   inputCordX: number;
   inputCordY: number;
-  inputNum: number;
-  // StationNum = 5;
+  inputNum= null;
+  StationNum: number;
+  stationNumberList: any;
 
-  constructor(private http: HttpClient, private services: Services) { }
-
+  constructor(private http: HttpClient, private services: Services) { 
+  }
+  
   ngOnInit(): void {
     this.stations = null;
-
+    
     const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
-  
+    
     var url = 'http://localhost:8765/evcharge/api/map/show';
-  
+    
     this.http.get<StationsDto>(url, {headers}).subscribe(stations => {
       this.stations = stations;
-      // this.StationNum = stations.StationsList.length;
+      this.StationNum = stations.StationsList.length;
+      this.stationNumberList = new Array(this.StationNum).fill(0).map((x,i)=>i+1);
     });
   }
 
