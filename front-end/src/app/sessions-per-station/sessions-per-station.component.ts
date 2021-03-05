@@ -21,18 +21,18 @@ export class SessionsPerStationComponent implements OnInit {
   ngOnInit(): void {
     this.object = null;
 
-    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
+    
 
     var url = 'http://localhost:8765/evcharge/api/charge/adminstations/' + this.services.getAdminID();
 
-    this.http.get<{ StationList: { station_id: string, station_name: string }[] }>(url, {headers}).subscribe(result => {
+    this.http.get<{ StationList: { station_id: string, station_name: string }[] }>(url, { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.AdminStations = result.StationList;
     });
   }
 
   FetchData() {
   
-    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
+    
 
     var station = this.inputStationID;
     var fromDate = this.inputDateFrom.slice(0,4) + this.inputDateFrom.slice(5,7) + this.inputDateFrom.slice(8,10);
@@ -40,7 +40,7 @@ export class SessionsPerStationComponent implements OnInit {
 
     var url = 'http://localhost:8765/evcharge/api/SessionsPerStation/' + station + '/' + fromDate + '/' + toDate;
 
-    this.http.get<SessionsPerStationDto>(url, {headers}).subscribe(sessions => {
+    this.http.get<SessionsPerStationDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(sessions => {
       this.object = sessions;
     });
 

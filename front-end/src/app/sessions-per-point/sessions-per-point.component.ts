@@ -21,18 +21,18 @@ export class SessionsPerPointComponent implements OnInit {
   ngOnInit(): void {
     this.object = null;
 
-    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
+    
 
     var url = 'http://localhost:8765/evcharge/api/charge/adminpoints/' + this.services.getAdminID();
 
-    this.http.get<{ PointList: { point_id: string }[] }>(url, {headers}).subscribe(result => {
+    this.http.get<{ PointList: { point_id: string }[] }>(url, { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.AdminPoints = result.PointList;
     });
   }
 
   FetchData() {
   
-    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
+    
 
     var point = this.inputPointID;
     var fromDate = this.inputDateFrom.slice(0,4) + this.inputDateFrom.slice(5,7) + this.inputDateFrom.slice(8,10);
@@ -40,7 +40,7 @@ export class SessionsPerPointComponent implements OnInit {
 
     var url = 'http://localhost:8765/evcharge/api/SessionsPerPoint/' + point + '/' + fromDate + '/' + toDate;
 
-    this.http.get<SessionsPerPointDto>(url, {headers}).subscribe(sessions => {
+    this.http.get<SessionsPerPointDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(sessions => {
       this.object = sessions;
     });
 

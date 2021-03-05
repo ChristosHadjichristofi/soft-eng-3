@@ -21,18 +21,18 @@ export class SessionsPerEVComponent implements OnInit {
   ngOnInit(): void {
     this.object = null;
 
-    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
+    
 
     var url = 'http://localhost:8765/evcharge/api/charge/licenseplates/' + this.services.getOwnerID();
 
-    this.http.get<{ LicensePlateList: { license_plate: string }[] }>(url, {headers}).subscribe(result => {
+    this.http.get<{ LicensePlateList: { license_plate: string }[] }>(url, { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.UserVehicles = result.LicensePlateList;
     });
   }
 
   FetchData() {
   
-    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
+    
 
     var licencePlates = this.inputVehicleID;
     var fromDate = this.inputDateFrom.slice(0,4) + this.inputDateFrom.slice(5,7) + this.inputDateFrom.slice(8,10);
@@ -40,7 +40,7 @@ export class SessionsPerEVComponent implements OnInit {
 
     var url = 'http://localhost:8765/evcharge/api/SessionsPerEV/' + licencePlates + '/' + fromDate + '/' + toDate;
 
-    this.http.get<SessionsPerEVDto>(url, {headers}).subscribe(sessions => {
+    this.http.get<SessionsPerEVDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(sessions => {
       this.object = sessions;
     });
   }

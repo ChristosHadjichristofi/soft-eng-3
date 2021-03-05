@@ -26,12 +26,10 @@ export class MapPageComponent implements OnInit {
   
   ngOnInit(): void {
     this.stations = null;
-    
-    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
-    
+        
     var url = 'http://localhost:8765/evcharge/api/map/show';
     
-    this.http.get<StationsDto>(url, {headers}).subscribe(stations => {
+    this.http.get<StationsDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(stations => {
       this.stations = stations;
       this.StationNum = stations.StationsList.length;
       this.stationNumberList = new Array(this.StationNum).fill(0).map((x,i)=>i+1);
@@ -46,12 +44,12 @@ export class MapPageComponent implements OnInit {
     var number = this.inputNum;
     
 
-    const headers = new HttpHeaders().set('X-OBSERVATORY-AUTH', localStorage.getItem('authToken'));
+    
 
     var url = 'http://localhost:8765/evcharge/api/map/nearest/' + cordX + '/' + cordY + '?number=' + number;
     console.log(url);
 
-    this.http.get<NearestStationsDto>(url, {headers}).subscribe(nearestStations => {
+    this.http.get<NearestStationsDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(nearestStations => {
       this.nearestStations = nearestStations;
       console.log(this.nearestStations);
     });
