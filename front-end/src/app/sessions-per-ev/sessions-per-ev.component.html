@@ -2,8 +2,15 @@
     <div *ngIf="!object" class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
         <form class="text-center form-signin" *ngIf="object == null">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Sessions Per EV</h2>
-            <input class="form-control" type="text" placeholder="Electric Vehicle" name="VehicleID" [(ngModel)]="inputVehicleID"
+            <select class="custom-select" name="VehicleID" [(ngModel)]="inputVehicleID"
                 style="border-radius: 4px;height: 44px;margin: 10px 0px 10px;border-width: 1px;border-color: rgb(0,0,0);">
+                <option [ngValue]="null" [disabled]="true">VehicleID</option>
+                <option *ngFor="let licencePlate of UserVehicles" [value]="licencePlate.license_plate">
+                    {{licencePlate.license_plate}}
+                </option>
+            </select>
+            <!-- <input class="form-control" type="text" placeholder="Electric Vehicle" name="VehicleID" [(ngModel)]="inputVehicleID"
+                style="border-radius: 4px;height: 44px;margin: 10px 0px 10px;border-width: 1px;border-color: rgb(0,0,0);"> -->
             <input class="form-control" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" type="date"
                 name="dateFrom" [(ngModel)]="inputDateFrom"
                 style="border-radius: 4px;height: 44px;margin: 0px 0px 10px;border-color: rgb(0,0,0);"
@@ -35,15 +42,15 @@
                 <th>SessionCost</th>
             </tr>
             <tr *ngFor="let session of object.VehicleChargingSessionsList">
-                    <th>{{session.SessionIndex}}</th>
-                    <th>{{session.SessionID}}</th>
-                    <th>{{session.EnergyProvider}}</th>
-                    <th>{{session.StartedOn}}</th>
-                    <th>{{session.FinishedOn}}</th>
-                    <th>{{session.EnergyDelivered}}</th>
-                    <th>{{session.PricePolicyRef}}</th>
-                    <th>{{session.CostPerKWh}}</th>
-                    <th>{{session.SessionCost}}</th>
+                <th>{{session.SessionIndex}}</th>
+                <th>{{session.SessionID}}</th>
+                <th>{{session.EnergyProvider}}</th>
+                <th>{{session.StartedOn}}</th>
+                <th>{{session.FinishedOn}}</th>
+                <th>{{session.EnergyDelivered}}</th>
+                <th>{{session.PricePolicyRef}}</th>
+                <th>{{session.CostPerKWh}}</th>
+                <th>{{session.SessionCost}}</th>
             </tr>
         </table>
         <button id="btn-search" class="btn btn-primary" (click)="object = null">
