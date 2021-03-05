@@ -21,7 +21,7 @@ exports.postCompleted = (req, res, next) => {
         payment: req.body.payment,
         cost: req.body.cost,
         vehicle_type: req.body.vehicle_type,
-        rating: null
+        rating: req.body.rating
     })
     .then(() =>{
         res.status(201).json({message: 'Sessions record created!'});
