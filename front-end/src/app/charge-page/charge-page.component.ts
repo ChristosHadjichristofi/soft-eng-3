@@ -19,7 +19,6 @@ export class ChargePageComponent implements OnInit {
   Protocols = [];
   ConnectionTime: string;
   DisconnectionTime: string;
-  KWhDelivered: string;
 
   constructor(private formBuilder: FormBuilder, public http: HttpClient, public services: Services, private router: Router) {
     this.form = this.formBuilder.group({
@@ -28,8 +27,7 @@ export class ChargePageComponent implements OnInit {
       Points: [''],
       Protocols: [''],
       ConnectionTime: '',
-      DisconnectionTime: '',
-      KWhDelivered: ''
+      DisconnectionTime: ''
     });
 
     // show user vehicles on form
@@ -74,33 +72,15 @@ export class ChargePageComponent implements OnInit {
     });
   }
 
-  StationSelected(event) {
-    this.getPoints(this.form.controls.Stations.value);
-  }
+  StationSelected(event) {}
 
-  PointSelected(event) {
-    console.log(this.form.controls.Points.value);
-  }
+  PointSelected(event) {}
 
-  ProtocolSelected(event) {
-    console.log(this.form.controls.Protocols.value);
-    console.log('value', this.form.value);
-  }
+  ProtocolSelected(event) {}
 
-  ConnectionTimeSelected(event) {
-    console.log(this.form.controls.ConnectionTime.value);
-    console.log('value', this.form.value);
-  }
+  ConnectionTimeSelected(event) {}
 
-  DisconnectionTimeSelected(event) {
-    console.log(this.form.controls.DisconnectionTime.value);
-    console.log('value', this.form.value);
-  }
-
-  KWhDeliveredSelected(event) {
-    console.log(this.form.controls.KWhDelivered.value);
-    console.log('value', this.form.value);
-  }
+  DisconnectionTimeSelected(event) {}
 
   proceedToPayment() {
     localStorage.setItem("SessionData", this.services.encrypt(JSON.stringify(this.form.value)));
@@ -108,8 +88,6 @@ export class ChargePageComponent implements OnInit {
     this.router.navigateByUrl('/payment');
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
 }

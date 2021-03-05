@@ -5,22 +5,26 @@
         <label class="text-center" style="font-size: 18px;margin: 10px 0px 20px;color: rgb(255,255,255);"><strong>Your vehicle is charging...</strong></label>
         <label class="text-center" style="font-size: 16px;color: rgb(255,255,255);margin: 0px;">Feel free to give us a rate!&nbsp;</label>
         <div class="stars">
-            <input class="star star-5" id="star-5" type="radio" name="star" />
+            <input class="star star-5" id="star-5" type="radio" name="star" (click)="rating = 5" />
             <label class="star star-5" for="star-5"></label>
-            <input class="star star-4" id="star-4" type="radio" name="star" />
+            <input class="star star-4" id="star-4" type="radio" name="star" (click)="rating = 4"/>
             <label class="star star-4" for="star-4"></label>
-            <input class="star star-3" id="star-3" type="radio" name="star" />
+            <input class="star star-3" id="star-3" type="radio" name="star" (click)="rating = 3"/>
             <label class="star star-3" for="star-3"></label>
-            <input class="star star-2" id="star-2" type="radio" name="star" />
+            <input class="star star-2" id="star-2" type="radio" name="star" (click)="rating = 2" />
             <label class="star star-2" for="star-2"></label>
-            <input class="star star-1" id="star-1" type="radio" name="star" />
+            <input class="star star-1" id="star-1" type="radio" name="star" (click)="rating = 1"/>
             <label class="star star-1" for="star-1"></label>
         <div>
     </div>
 </div>
 <div class="container">
     <div class="row" style="margin: 0px 0px 10px 0px;">
-        <div class="col-md-6"><button class="btn btn-primary" type="button" style="width: 100px;border-radius: 4px;background: rgb(44,91,100);border-style: none;height: 35px;">Submit</button></div>
-        <div class="col-md-6"><button class="btn btn-primary" type="button" style="width: 100px;border-radius: 4px;background: rgb(44,91,100);border-style: none;height: 35px;">Skip</button></div>
+        <div class="col-md-6">
+            <button class="btn btn-primary" type="button" style="width: 100px;border-radius: 4px;background: rgb(44,91,100);border-style: none;height: 35px;" (click)="sessionWithRating()">Submit</button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-primary" type="button" style="width: 100px;border-radius: 4px;background: rgb(44,91,100);border-style: none;height: 35px;" (click)="sessionWithoutRating()">Skip</button>
+        </div>
     </div>
 </div>
