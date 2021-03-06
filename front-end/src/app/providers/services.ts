@@ -79,16 +79,14 @@ export class Services {
     return '';
   }
 
-  // logout(): void {
-  //   if (this.isAuthenticated()) {
-
-      
-  //     let url = 'http://localhost:8765/evcharge/api/logout';
-  //     this.http.post(url, { headers: this.services.getAuthHeaders() }).subscribe(result => {
-  //       console.log(result);
-
-  //     })
-  //   }
-  // }
+  logout() {
+    if (this.isAuthenticated()) {
+      let url = 'http://localhost:8765/evcharge/api/logout';
+      let body = {};
+      this.http.post(url, body, { headers: this.getAuthHeaders() }).subscribe()
+      localStorage.clear();
+      this.router.navigateByUrl('/logout');
+    }
+  }
 
 }

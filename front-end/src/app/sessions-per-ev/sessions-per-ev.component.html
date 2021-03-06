@@ -22,11 +22,15 @@
             </button>
         </form>
     </div>
-    <div id="objects" class="table-responsive" *ngIf="object">
+
+    <div id="objects" class="table-responsive col-md-12" *ngIf="object">
         <h4>Vehicle ID: {{object.VehicleID}}</h4>
         <h5>Period from: {{object.PeriodFrom}}</h5>
         <h5>Period to: {{object.PeriodTo}}</h5>
         <h5>Total Energy Consumed: {{object.TotalEnergyConsumed}}</h5>
+        <button id="btn-search" class="btn btn-primary" style="float: right;" (click)="object = null">
+            Search Again!
+        </button>
         <table id="table-result" class="table table-striped" style="width: 100%">
             <tr>
                 <th>SessionIndex</th>
@@ -51,28 +55,24 @@
                 <th>{{session.SessionCost}}</th>
             </tr>
         </table>
-        
-        <div class="chart-wrapper" id="card-chart">
-            <canvas baseChart 
-            [datasets]="chartData" 
-            [labels]="chartLabels"
-            [options]="chartOptions"
-            [chartType]="chartType">
-        </canvas>
+
+        <div class="container col-md-12">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="chart-wrapper" id="card-chart">
+                        <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions"
+                            [chartType]="chartType">
+                        </canvas>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="chart-wrapper" id="card-chart">
+                        <canvas baseChart [datasets]="chartData2" [options]="chartOptions2" [legend]="chartLegend"
+                            [chartType]="chartType2">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <div class="chart-wrapper" id="card-chart">
-        <canvas baseChart 
-        [datasets]="chartData2" 
-        [options]="chartOptions2"
-        [legend]="chartLegend"
-        [chartType]="chartType2">
-    </canvas>
-    </div>   
-    <button id="btn-search" class="btn btn-primary" (click)="object = null">
-        Search Again!
-    </button>
-</div>
-
-
 </div>

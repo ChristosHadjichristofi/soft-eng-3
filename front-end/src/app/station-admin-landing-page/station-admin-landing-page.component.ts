@@ -10,7 +10,6 @@ export class StationAdminLandingPageComponent implements OnInit {
 
   constructor(public services: Services) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 }

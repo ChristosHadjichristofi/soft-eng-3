@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Services } from '../providers/services';
 
 @Component({
@@ -10,7 +12,6 @@ export class OwnerLandingPageComponent implements OnInit {
 
   constructor(public services: Services) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 }
