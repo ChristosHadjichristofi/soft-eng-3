@@ -81,7 +81,7 @@ exports.getSessionsPerPoint = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -187,7 +187,7 @@ exports.getSessionsPerStation = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -286,7 +286,7 @@ exports.getSessionsPerEV = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -378,6 +378,6 @@ exports.getSessionsPerProvider = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }

@@ -27,7 +27,7 @@ exports.postCompleted = (req, res, next) => {
         res.status(201).json({message: 'Sessions record created!'});
     })
     .catch(err => {
-        return res.status(500).json({error: 'Internal server error.'})
+        return res.status(500).json({message: 'Internal server error.'})
     });
 
 }
@@ -52,7 +52,7 @@ exports.getStations = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -78,7 +78,7 @@ exports.getPoints = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -104,7 +104,7 @@ exports.getLicenseplates = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -128,7 +128,7 @@ exports.getownerid = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -154,7 +154,7 @@ exports.getVehicletype = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -180,7 +180,7 @@ exports.getCostperkwh = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -243,7 +243,7 @@ exports.getAdminstations = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -270,7 +270,7 @@ exports.getAdminpoints = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -293,6 +293,6 @@ exports.getProviders = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }

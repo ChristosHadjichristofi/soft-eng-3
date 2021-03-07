@@ -55,7 +55,7 @@ exports.postResetsessions = (req, res, next) => {
             })  
         }
     }).catch (err => {
-        return res.status(500).json({status: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })  
     
 }
@@ -70,24 +70,24 @@ exports.getUser = (req, res, next) => {
         models.administrators.findOne({ where: {email: email} })
         .then(administratorDoc => {
             if (!administratorDoc) {
-                return res.status(402).json({error: 'User was not found!'});
+                return res.status(402).json({message: 'User was not found!'});
             }
             res.send(administratorDoc);
         })
         .catch(err => {
-            return res.status(500).json({error: 'Internal server error.'})
+            return res.status(500).json({message: 'Internal server error.'})
         })
     }
     else {
         models.owners.findOne({ where: {email: email} })
         .then(ownerDoc => {
             if (!ownerDoc) {
-                return res.status(402).json({error: 'User was not found!'});
+                return res.status(402).json({message: 'User was not found!'});
             }
             res.send(ownerDoc);
         })
         .catch(err => {
-            return res.status(500).json({error: 'Internal server error.'})
+            return res.status(500).json({message: 'Internal server error.'})
         })
     }
 }
@@ -111,14 +111,14 @@ exports.login = (req, res, next) => {
     models.system_admins.findOne({ where: {username: username} })
     .then(systemAdmin => {
         if (!systemAdmin) {
-            res.status(402).json({error: 'This system admin account does not exist!'});
+            res.status(401).json({message:'Wrong credentials!'});
         }
         loadedAdmin = systemAdmin;
         return bcrypt.compare(password, systemAdmin.password);
     })
     .then (isEqual => {
         if (!isEqual) {
-            res.status(401).json({error: 'Wrong password!'});
+            res.status(401).json({message:'Wrong credentials!'});
         }
         const token = jwt.sign(
             { user: {
@@ -133,7 +133,7 @@ exports.login = (req, res, next) => {
         });
     })
     .catch(err => {
-        return res.status(500).json({error: 'Internal server error.'})
+        return res.status(500).json({message: 'Internal server error.'})
     });
 }
 
@@ -166,7 +166,7 @@ exports.postUsermod = (req, res, next) => {
                     res.status(201).json({signup: 'true', message: 'Account created succesfully!'});
                 })
                 .catch(err => {
-                    return res.status(500).json({error: 'Internal server error.'})
+                    return res.status(500).json({message: 'Internal server error.'})
                 });
             }
 
@@ -180,12 +180,12 @@ exports.postUsermod = (req, res, next) => {
                     res.status(200).json({change_password: 'true', message: 'Password changed succesfully!'});
                 })
                 .catch(err => {
-                    return res.status(500).json({error: 'Internal server error.'})
+                    return res.status(500).json({message: 'Internal server error.'})
                 });
             }
         })
         .catch(err => {
-            return res.status(500).json({error: 'Internal server error.'})
+            return res.status(500).json({message: 'Internal server error.'})
         });
     }
     else {
@@ -210,7 +210,7 @@ exports.postUsermod = (req, res, next) => {
                     res.status(201).json({signup: 'true', message: 'Account created succesfully!'});
                 })
                 .catch(err => {
-                    return res.status(500).json({error: 'Internal server error.'})
+                    return res.status(500).json({message: 'Internal server error.'})
                 });
             }
 
@@ -224,12 +224,12 @@ exports.postUsermod = (req, res, next) => {
                     res.status(200).json({change_password: 'true', message: 'Password changed succesfully!'});
                 })
                 .catch(err => {
-                    return res.status(500).json({error: 'Internal server error.'})
+                    return res.status(500).json({message: 'Internal server error.'})
                 });
             }
         })
         .catch(err => {
-            return res.status(500).json({error: 'Internal server error.'})
+            return res.status(500).json({message: 'Internal server error.'})
         });
     }
 }

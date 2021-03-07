@@ -50,7 +50,7 @@ exports.getShowMap = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 
 }
@@ -109,7 +109,7 @@ exports.getNearestStations = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 
 }

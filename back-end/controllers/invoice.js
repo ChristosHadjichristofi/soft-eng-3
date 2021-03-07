@@ -31,7 +31,7 @@ exports.getCostenergytotals = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -65,7 +65,7 @@ exports.getChargeslist = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }
 
@@ -111,6 +111,6 @@ exports.getAdminlist = (req, res, next) => {
     })
     .catch (err => {
         console.log(err)
-        return res.status(500).json({msg: "Internal server error."});
+        return res.status(500).json({message: "Internal server error."});
     })
 }

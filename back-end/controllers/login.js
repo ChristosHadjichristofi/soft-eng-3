@@ -21,7 +21,7 @@ module.exports = (req, res, next) => {
             .then(administratorUser => {
                 if(!administratorUser){
                     loadedUser = administratorUser;
-                    return res.status(402).json({error:'A user with this email could not be found.'});
+                    return res.status(401).json({message:'Wrong credentials!'});
                 }
                 loadedUser = administratorUser;
                 return bcrypt.compare(password, administratorUser.password);
@@ -29,7 +29,7 @@ module.exports = (req, res, next) => {
             .then(isEqual => {
                 if (!loadedUser) return;
                 if(!isEqual){
-                    return res.status(401).json({error:'Wrong password!'});
+                    return res.status(401).json({message:'Wrong credentials!'});
                 }
                 const token = jwt.sign(
                     { user: {
@@ -47,10 +47,7 @@ module.exports = (req, res, next) => {
                 });
             })
             .catch(err => {
-                if (!err.statusCode) {
-                    err.statusCode = 500;
-                }
-                next(err);
+                return res.status(500).json({message: 'Internal server error.'})
             });
     }
     // end check for administrator
@@ -60,7 +57,7 @@ module.exports = (req, res, next) => {
             .then(ownerUser => {
                 if(!ownerUser){
                     loadedUser = ownerUser;
-                    return res.status(402).json({error:'A user with this email could not be found.'});
+                    return res.status(401).json({message:'Wrong credentials!'});
                 }
                 loadedUser = ownerUser;
                 return bcrypt.compare(password, ownerUser.password);
@@ -68,7 +65,7 @@ module.exports = (req, res, next) => {
             .then(isEqual => {
                 if (!loadedUser) return;
                 if(!isEqual){
-                    return res.status(401).json({error:'Wrong password!'});
+                    return res.status(401).json({message:'Wrong credentials!'});
 
                 }
                 const token = jwt.sign(
@@ -87,10 +84,7 @@ module.exports = (req, res, next) => {
                 });
             })
             .catch(err => {
-                if (!err.statusCode) {
-                    err.statusCode = 500;
-                }
-                next(err);
+                return res.status(500).json({message: 'Internal server error.'})
             });
         //  end check for car owner
     }
