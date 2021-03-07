@@ -29,7 +29,6 @@
 
     <div id="objects" class="table-responsive col-md-12" *ngIf="role == 'owner' && ownerTotals">
         <h5>Name: {{name}}</h5>
-        <h5>Username: {{username}}</h5>
         <h5>Month: {{month}}/{{year}}</h5>
         <div *ngIf="ownerList" >
             <h5>Total cost: {{ownerTotals.total_cost}}</h5>
@@ -73,7 +72,6 @@
 
     <div id="objects" class="table-responsive col-md-12" *ngIf="role != 'owner' && adminList">
         <h5>Name: {{name}}</h5>
-        <h5>Username: {{username}}</h5>
         <h5>Month: {{month}}/{{year}}</h5>
         <div *ngIf="adminList.total_cost>0" >
             <button id="btn-search" class="btn btn-primary" style="float: right;" (click)="adminList = null">
@@ -93,7 +91,7 @@
                             <tr>
                                 <td><strong>Total Profit</strong></td>
                                 <td></td>
-                                <td><strong>{{adminList.total_cost}}€</strong></td>
+                                <td><strong>{{station.total_cost}}€</strong></td>
                             </tr>
                             <tr>
                                 <td>Total Energy Delivered<br></td>
@@ -103,23 +101,23 @@
                             <tr>
                                 <td><strong>Total Energy Cost</strong><br></td>
                                 <td><br></td>
-                                <td><strong>{{station.total_cost * 0.7}}‎€</strong></td>
+                                <td><strong>{{station.totalEnergyCost}}‎€</strong></td>
                             </tr>
                             <tr></tr>
                             <tr>
                                 <td></td>
                                 <td><em>Point's Maintenance Cost</em><br></td>
-                                <td><em>20‎€</em></td>
+                                <td><em>{{station.pointMaintenanceCost}}€</em></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td><em>Point's Cleaning Cost</em><br></td>
-                                <td><em>20‎€</em></td>
+                                <td><em>{{station.pointCleaningCost}}‎€</em></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td><em>Point Employee's Salary</em><br></td>
-                                <td><em>20‎€</em></td>
+                                <td><em>{{station.employeeSalary}}€</em></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -129,12 +127,12 @@
                             <tr>
                                 <td><strong>Operational Costs</strong><br></td>
                                 <td></td>
-                                <td><strong>{{station.number_of_points * (20+20+20)}}€</strong></td>
+                                <td><strong>{{station.operationalCost}}€</strong></td>
                             </tr>
                             <tr>
                                 <td><strong>Total Station Cost</strong></td>
                                 <td></td>
-                                <td><strong>{{station.total_cost * 0.7 + station.number_of_points * (20+20+20)}}€</strong></td>
+                                <td><strong>{{station.totalStationCost}}€</strong></td>
                             </tr>
                         </tbody>
                     </table>

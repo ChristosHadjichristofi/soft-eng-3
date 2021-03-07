@@ -31,5 +31,11 @@ interface AdminArray {
     total_cost: number;
     total_engery_delivered: number;
     avg_rating: number;
+    pointMaintenanceCost: number;
+    pointCleaningCost: number;
+    employeeSalary: number;
+    totalEnergyCost: number;
+    operationalCost: number;
+    totalStationCost: number;
 }
 

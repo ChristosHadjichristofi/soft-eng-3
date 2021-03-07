@@ -33,7 +33,6 @@ export class InvoicePageComponent implements OnInit {
     this.month = this.inputMonth;
     this.role = this.services.getUserRole();
     this.name = this.services.getUserName();
-    this.username = this.services.getUserName();
     if(this.role == 'owner'){
       this.ownerTotals = null;
       this.ownerList = null;
