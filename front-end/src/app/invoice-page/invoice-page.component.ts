@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/htt
 import { Services } from '../providers/services';
 import { OwnerTotalsDto } from '../DTOs/InvoiceDTO';
 import { OwnerListDto } from '../DTOs/InvoiceDTO';
+import { AdminlistDto } from '../DTOs/InvoiceDTO';
 
 @Component({
   selector: 'app-invoice-page',
@@ -13,6 +14,7 @@ export class InvoicePageComponent implements OnInit {
 
   ownerTotals: OwnerTotalsDto;
   ownerList: OwnerListDto;
+  adminList: AdminlistDto;
   inputYear: string;
   inputMonth: string;
   role: string;
@@ -51,7 +53,13 @@ export class InvoicePageComponent implements OnInit {
       });
     }
     else{
-      console.log("admin");
+      this.adminList = null;
+      var url = 'http://localhost:8765/evcharge/api/invoice/adminlist/' + this.services.getAdminID() + '/' + this.year + '/' + this.month;
+
+      this.http.get<AdminlistDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(adminList => {
+        this.adminList = adminList;
+        console.log(this.adminList);
+      });
     }
   }
 

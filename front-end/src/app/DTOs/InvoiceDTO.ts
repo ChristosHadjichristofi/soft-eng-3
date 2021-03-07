@@ -20,4 +20,16 @@ interface OwnerArray {
     cost: number;
 }
 
+export interface AdminlistDto {
+    total_cost: number;
+    adminlist: AdminArray[];
+}
+
+interface AdminArray {
+    station_id: number;
+    number_of_points: number;
+    total_cost: number;
+    total_engery_delivered: number;
+    avg_rating: number;
+}
 

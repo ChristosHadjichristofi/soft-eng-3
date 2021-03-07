@@ -1,5 +1,5 @@
 <div id="back">
-    <div class="login-card" id="card-fix" *ngIf="!ownerTotals">
+    <div class="login-card" id="card-fix" *ngIf="!ownerTotals && !adminList">
         <form class="text-center form-signin">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;margin: 0px 0px 10px 0px;">Invoice
             </h2><label style="color: rgb(255,255,255);margin: 0px;">Year</label><select class="custom-select" name="year" [(ngModel)]="inputYear"
@@ -66,6 +66,86 @@
             <br><br>
             <h6><em>No sessions this month</em></h6>
             <button id="btn-search" class="btn btn-primary" style="float: right;" (click)="ownerList = null; ownerTotals = null">
+                Search Again!
+            </button>
+        </div>
+    </div>
+
+    <div id="objects" class="table-responsive col-md-12" *ngIf="role != 'owner' && adminList">
+        <h5>Name: {{name}}</h5>
+        <h5>Username: {{username}}</h5>
+        <h5>Month: {{month}}/{{year}}</h5>
+        <div *ngIf="adminList.total_cost>0" >
+            <button id="btn-search" class="btn btn-primary" style="float: right;" (click)="adminList = null">
+                Search Again!
+            </button>
+
+            <div *ngFor="let station of adminList.adminlist">
+                <div class="table-responsive col-md-8 mx-4" >
+                    <br><br>
+                    <table id="table-result" class="table table-striped center" style="width: 100%">
+                        <tbody>
+                            <tr>
+                                <td>Station ID</td>
+                                <td></td>
+                                <td>{{station.station_id}}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Profit</strong></td>
+                                <td></td>
+                                <td><strong>{{adminList.total_cost}}€</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Total Energy Delivered<br></td>
+                                <td><br></td>
+                                <td>{{station.total_engery_delivered}}KWh</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Energy Cost</strong><br></td>
+                                <td><br></td>
+                                <td><strong>{{station.total_cost * 0.7}}‎€</strong></td>
+                            </tr>
+                            <tr></tr>
+                            <tr>
+                                <td></td>
+                                <td><em>Point's Maintenance Cost</em><br></td>
+                                <td><em>20‎€</em></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><em>Point's Cleaning Cost</em><br></td>
+                                <td><em>20‎€</em></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><em>Point Employee's Salary</em><br></td>
+                                <td><em>20‎€</em></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><em>Number of Points</em><br></td>
+                                <td><em>{{station.number_of_points}}</em></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Operational Costs</strong><br></td>
+                                <td></td>
+                                <td><strong>{{station.number_of_points * (20+20+20)}}€</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Station Cost</strong></td>
+                                <td></td>
+                                <td><strong>{{station.total_cost * 0.7 + station.number_of_points * (20+20+20)}}€</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div *ngIf="adminList.total_cost==0" >
+            <br><br>
+            <h6><em>No sessions this month</em></h6>
+            <button id="btn-search" class="btn btn-primary" style="float: right;" (click)="adminList = null">
                 Search Again!
             </button>
         </div>
