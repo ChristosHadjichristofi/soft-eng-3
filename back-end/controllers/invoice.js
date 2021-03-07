@@ -68,3 +68,49 @@ exports.getChargeslist = (req, res, next) => {
         return res.status(500).json({msg: "Internal server error."});
     })
 }
+
+
+exports.getAdminlist = (req, res, next) => {
+
+    const administratorid = req.params.administratorid;
+    const year = req.params.year;
+    const month = req.params.month;
+
+    sequelize.query('SELECT station_id, number_of_points, total_cost, total_engery_delivered, avg_rating' 
+        + ' FROM (SELECT station_id, COUNT(charging_points.point_id) AS number_of_points'
+        + ' FROM charging_points, charging_stations'
+        + ' WHERE charging_stations.station_id = charging_points.charging_stationsstation_id'
+        + ' AND charging_stations.administrator_administrator_id = ' + administratorid
+        + ' GROUP BY charging_stations.station_id) AS q1'
+        + ' JOIN (SELECT charging_stations.station_id AS charging_station_id, SUM(sessions.cost) AS total_cost,'
+        + ' SUM(sessions.kWhDelivered) AS total_engery_delivered, AVG(sessions.rating) AS avg_rating'
+        + ' FROM sessions, charging_stations'
+        + ' WHERE sessions.charging_pointscharging_stationsstation_id = charging_stations.station_id'
+        + ' AND sessions.connectionTime LIKE \'' + year + '-' + month + '%\''
+        + ' AND charging_stations.administrator_administrator_id = ' + administratorid
+        + ' GROUP BY charging_stations.station_id) AS q2'
+        + ' ON q1.station_id = q2.charging_station_id', {type: sequelize.QueryTypes.SELECT})
+    .then( rows => {
+
+        adminlist = rows;
+        if (!adminlist.length){
+            return res.status(402).json({ message: "No data found!" })
+        }
+
+        let total_cost = 0;
+        
+        adminlist.forEach(element => {
+            total_cost+=parseFloat(element.total_cost);
+        });
+
+        res.status(200).json({
+            total_cost: total_cost,
+            adminlist: adminlist
+        })
+
+    })
+    .catch (err => {
+        console.log(err)
+        return res.status(500).json({msg: "Internal server error."});
+    })
+}
