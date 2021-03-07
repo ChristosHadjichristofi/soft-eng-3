@@ -1,29 +1,73 @@
 <div id="back">
-    <div class="login-card" id="card-fix">
+    <div class="login-card" id="card-fix" *ngIf="!ownerTotals">
         <form class="text-center form-signin">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;margin: 0px 0px 10px 0px;">Invoice
-            </h2><label style="color: rgb(255,255,255);margin: 0px;">Year</label><select class="custom-select"
+            </h2><label style="color: rgb(255,255,255);margin: 0px;">Year</label><select class="custom-select" name="year" [(ngModel)]="inputYear"
                 style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);">
-                <option value="">2018</option>
-                <option value="">2019</option>
-                <option value="">2020</option>
-            </select><label style="color: rgb(255,255,255);margin: 0px;">Month</label><select class="custom-select"
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+            </select><label style="color: rgb(255,255,255);margin: 0px;">Month</label><select class="custom-select" name="month" [(ngModel)]="inputMonth"
                 style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);">
-                <option value="">01</option>
-                <option value="">02</option>
-                <option value="">03</option>
-                <option value="">04</option>
-                <option value="">05</option>
-                <option value="">06</option>
-                <option value="">07</option>
-                <option value="">08</option>
-                <option value="">09</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-            </select><button class="btn btn-primary" type="button"
-                style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);margin: 10px 0px 0px 0px;"><strong>Download
-                    Invoice in pdf</strong><br></button>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select><button class="btn btn-primary" type="button" (click)="FetchData()"
+                style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);margin: 10px 0px 0px 0px;"><strong>View
+                    Invoice</strong><br></button>
         </form>
+    </div>
+
+    <div id="objects" class="table-responsive col-md-12" *ngIf="role == 'owner' && ownerTotals">
+        <h5>Name: {{name}}</h5>
+        <h5>Username: {{username}}</h5>
+        <h5>Month: {{month}}/{{year}}</h5>
+        <div *ngIf="ownerList" >
+            <h5>Total cost: {{ownerTotals.total_cost}}</h5>
+            <h5>Total energy consumed: {{ownerTotals.total_energy_consumed}}</h5>
+            <button id="btn-search" class="btn btn-primary" style="float: right;" (click)="ownerList = null; ownerTotals = null">
+                Search Again!
+            </button>
+            <table id="table-result" class="table table-striped" style="width: 100%">
+                <tr>
+                    <th>License number</th>
+                    <th>Connection time</th>
+                    <th>Disconnection time </th>
+                    <th>Station name</th>
+                    <th>Point id</th>
+                    <th>Charging protocol</th>
+                    <th>KWh delivered</th>
+                    <th>Cost per KWh</th>
+                    <th>Session Cost</th>
+                </tr>
+                <tr *ngFor="let session of ownerList.chargeslist">
+                    <th>{{session.license_number}}</th>
+                    <th>{{session.connection_time}}</th>
+                    <th>{{session.disconnection_time}}</th>
+                    <th>{{session.station_name}}</th>
+                    <th>{{session.point_id}}</th>
+                    <th>{{session.charging_protocol}}</th>
+                    <th>{{session.KWh_delivered}}</th>
+                    <th>{{session.cost_per_KWh}}</th>
+                    <th>{{session.cost}}</th>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="!ownerList" >
+            <br><br>
+            <h6><em>No sessions this month</em></h6>
+            <button id="btn-search" class="btn btn-primary" style="float: right;" (click)="ownerList = null; ownerTotals = null">
+                Search Again!
+            </button>
+        </div>
     </div>
 </div>

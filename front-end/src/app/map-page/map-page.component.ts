@@ -21,8 +21,7 @@ export class MapPageComponent implements OnInit {
   StationNum: number;
   stationNumberList: any;
 
-  constructor(private http: HttpClient, private services: Services) { 
-  }
+  constructor(private http: HttpClient, private services: Services) { }
   
   ngOnInit(): void {
     this.stations = null;
@@ -42,16 +41,11 @@ export class MapPageComponent implements OnInit {
     var cordX = this.inputCordX;
     var cordY = this.inputCordY;
     var number = this.inputNum;
-    
-
-    
 
     var url = 'http://localhost:8765/evcharge/api/map/nearest/' + cordX + '/' + cordY + '?number=' + number;
-    console.log(url);
 
     this.http.get<NearestStationsDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(nearestStations => {
       this.nearestStations = nearestStations;
-      console.log(this.nearestStations);
     });
 
   }
