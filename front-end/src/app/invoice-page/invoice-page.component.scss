@@ -1,15 +1,19 @@
 #table-result{
+    position: relative;
+    margin: auto;
+    margin-bottom: 20px;
     text-align: center;
     color: rgb(255, 255, 255);
     background-color: rgb(255,255,255, 0.3);
 }
 
 #objects{
+    margin: 10px 10px 0px 0px;
     color: rgba(255, 255, 255, 0.863);
 }
 
 #btn-search{
-    margin: 0px 0px 20px 45%;
+    margin: 0px 0px 20px 50%;
     background-color: rgb(37,195,146);
     border-color: rgb(37,195,146);   
 }
