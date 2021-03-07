@@ -5,8 +5,6 @@ import { Services } from '../providers/services';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
 
-
-
 @Component({
   selector: 'app-sessions-per-ev',
   templateUrl: './sessions-per-ev.component.html',
@@ -26,7 +24,6 @@ export class SessionsPerEVComponent implements OnInit {
   chartLabels = [];
   chartType: string;
   chartLegend: boolean;
-  chartPlugins = [];
   chartData = [];
 
   chartOptions2: ChartOptions = {
@@ -60,22 +57,7 @@ export class SessionsPerEVComponent implements OnInit {
     this.http.get<SessionsPerEVDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(sessions => {
       this.object = sessions;
 
-
-      this.chartOptions = {
-        responsive: true,
-        title: {
-          display: true,
-          text: 'Charges per engergy provider',
-          fontSize: 18,
-          fontColor: 'white'
-        }, 
-        legend: {
-            labels: {
-               fontColor: 'white'
-            }
-        }
-      };
-
+      // first chart's data
       let x_providers = [];
       let y_providers = [];
       for (let item of this.object.VehicleChargingSessionsList){
@@ -88,15 +70,49 @@ export class SessionsPerEVComponent implements OnInit {
           y_providers[tempidx]++;
         }
       }
-
+      // first chart's options
+      this.chartOptions = {
+        responsive: true,
+        title: {
+          display: true,
+          text: 'Sessions per engergy provider',
+          fontSize: 18,
+          fontColor: 'white'
+        }, 
+        legend: {
+            labels: {
+               fontColor: 'white'
+            }
+        }
+      };
       this.chartLabels  = x_providers;
       this.chartType = 'doughnut';
       this.chartLegend = true;
-      this.chartPlugins = [];
       this.chartData = [
-        { data:y_providers, label:"charges"}
+        { data:y_providers, label:"sessions"}
       ];
 
+      // second chart's data
+      let x_providers2 = [];
+      let x_providers2_aux = [];
+      let y_providers3 = [];
+      let y_providers2 = [];
+      for (let item of this.object.VehicleChargingSessionsList){
+        let raw_date = item.StartedOn;
+        let charge_date = new Date(parseInt(raw_date.slice(0,4)), parseInt(raw_date.slice(5,7))-1, parseInt(raw_date.slice(8,10)));
+        let tempidx = x_providers2_aux.indexOf(charge_date.toString());
+        if(tempidx<0){
+          x_providers2_aux.push(charge_date.toString());
+          x_providers2.push(charge_date);
+          y_providers2.push(parseFloat(item.SessionCost));
+          y_providers3.push(parseFloat(item.EnergyDelivered));
+        }
+        else{
+          y_providers2[tempidx]+=parseFloat(item.SessionCost);
+          y_providers3[tempidx]+=parseFloat(item.EnergyDelivered);
+        }
+      }
+      // second chart's options
       this.chartOptions2 = {
         legend: {
           display: false
@@ -142,24 +158,6 @@ export class SessionsPerEVComponent implements OnInit {
           ]
         }        
       };
-      let x_providers2 = [];
-      let y_providers3 = [];
-      let y_providers2 = [];
-      for (let item of this.object.VehicleChargingSessionsList){
-        let raw_date = item.StartedOn;
-        let charge_date = new Date(parseInt(raw_date.slice(0,4)), parseInt(raw_date.slice(5,7))-1, parseInt(raw_date.slice(8,10)));
-        let tempidx = x_providers2.indexOf(charge_date);
-        if(tempidx<0){
-          x_providers2.push(charge_date);
-          y_providers2.push(parseFloat(item.SessionCost));
-          y_providers3.push(parseFloat(item.EnergyDelivered));
-        }
-        else{
-          y_providers2[tempidx]+=parseFloat(item.SessionCost);
-          y_providers3[tempidx]+=parseFloat(item.EnergyDelivered);
-        }
-      }
-      
       this.chartType2 = 'bubble';
       var chartDataTriplets = [];
       x_providers2.forEach(function(e, i) {
@@ -169,7 +167,6 @@ export class SessionsPerEVComponent implements OnInit {
           r: parseFloat(y_providers2[i]),
         });
       });
-      
       this.chartData2 = [
         {
           data: chartDataTriplets,
@@ -181,10 +178,6 @@ export class SessionsPerEVComponent implements OnInit {
 
     });
   
-  
-
   }
-
-
 
 }

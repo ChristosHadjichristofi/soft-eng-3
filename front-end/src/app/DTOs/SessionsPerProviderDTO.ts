@@ -16,7 +16,7 @@ interface ProviderChargingSessionsList {
     VehicleID: string;
     StartedOn: string;
     FinishedOn: string;
-    ΕnergyDelivered: string;
+    EnergyDelivered: string;
     PricePolicyRef: string;
     CostPerKWh: string;
     sessionCost: string;
