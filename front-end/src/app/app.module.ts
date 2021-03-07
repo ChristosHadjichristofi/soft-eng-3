@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AgmCoreModule } from '@agm/core';
 import { ChartsModule } from 'ng2-charts';
 
@@ -24,6 +25,8 @@ import { RatingPageComponent } from './rating-page/rating-page.component';
 import { LogoutPageComponent } from './logout-page/logout-page.component';
 import { InvoicePageComponent } from './invoice-page/invoice-page.component';
 import { MapPageComponent } from './map-page/map-page.component';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -47,17 +50,23 @@ import { MapPageComponent } from './map-page/map-page.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    ChartsModule,
+    ChartsModule
+    , ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    }),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBiDRgN8NunzmngcE1R_ZO2PMMwa4JbpJs'
     })
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
