@@ -11,5 +11,8 @@ router.get('/costenergytotals/:ownerid/:year/:month', isAuth, permit('owner'), i
 
 router.get('/chargeslist/:ownerid/:year/:month', isAuth, permit('owner'), invoiceController.getChargeslist);
 
+router.get('/adminlist/:administratorid/:year/:month', invoiceController.getAdminlist);
+// router.get('/adminlist/:administratorid/:year/:month', isAuth, permit('stationadmin'), invoiceController.getAdminlist);
+
 
 module.exports = router;
