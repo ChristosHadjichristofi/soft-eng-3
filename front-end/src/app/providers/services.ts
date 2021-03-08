@@ -9,13 +9,21 @@ const secretKey = 'MyVerySecretKey';
 })
 export class Services {
 
-  sessionObj: {}
+  private sessionProgress: string = "";
   constructor(private router: Router, private http: HttpClient) { }
 
   //#region Encryption 
   
   encrypt(value: string): string {
     return CryptoJS.AES.encrypt(value, secretKey).toString();
+  }
+
+  setSessionProgress(progress: string) {
+    this.sessionProgress = progress;
+  }
+
+  getSessionProgress(): string {
+    return this.sessionProgress;
   }
 
   decrypt(textToDecrypt: string) {
