@@ -32,7 +32,6 @@ export class PaymentPageComponent implements OnInit {
   constructor(public services: Services, public http: HttpClient, private router: Router) {
     this.sessionData = JSON.parse(this.services.decrypt(localStorage.getItem("SessionData")));
     localStorage.removeItem("SessionData");
-    console.log(this.sessionData);
 
     let costPerkWhUrl = 'http://localhost:8765/evcharge/api/charge/costperkwh/' + this.sessionData.Points;
 
@@ -51,15 +50,36 @@ export class PaymentPageComponent implements OnInit {
 
     let vehicleTypeUrl = 'http://localhost:8765/evcharge/api/charge/vehicletype/' + this.sessionData.UserVehicles;
 
-    this.http.get<{vehicletype: string}>(vehicleTypeUrl, { headers: this.services.getAuthHeaders() }).subscribe(result => {
+    this.http.get<{ vehicletype: string }>(vehicleTypeUrl, { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.sessionData.vehicleType = result.vehicletype;
     })
   }
 
   proceedToRating() {
-    localStorage.setItem("SessionData", this.services.encrypt(JSON.stringify(this.sessionData)));
 
-    this.router.navigateByUrl('/rating');
+    let sessionUrl = 'http://localhost:8765/evcharge/api/charge/completed';
+
+    let body = {
+      owner_id: parseInt(this.services.getOwnerID()),
+      car_license_plate: this.sessionData.UserVehicles,
+      charging_point_id: parseInt(this.sessionData.Points),
+      charging_station_id: parseInt(this.sessionData.Stations),
+      connection_time: this.sessionData.ConnectionTime,
+      disconnect_time: this.sessionData.DisconnectionTime,
+      kWh_delivered: this.sessionData.KWhDelivered,
+      protocol: this.sessionData.Protocols,
+      payment: "card",
+      cost: this.sessionData.cost,
+      vehicle_type: this.sessionData.vehicleType,
+      rating: null
+    }
+
+    this.http.post<{ message: string, session_id: number }>(sessionUrl, body, { headers: this.services.getAuthHeaders() }).subscribe(result => {
+
+      localStorage.setItem("SessionID", this.services.encrypt(JSON.stringify(result.session_id)));
+      this.router.navigateByUrl('/rating');
+
+    });
   }
 
   ngOnInit(): void {

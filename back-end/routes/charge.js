@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.post('/completed', isAuth, permit('owner'), chargeController.postCompleted);
 
+router.post('/setrating', isAuth, permit('owner'), chargeController.postRating);
+
 router.get('/stations', isAuth, permit('owner'), chargeController.getStations);
 
 router.get('/points/:stationid', isAuth, permit('owner'), chargeController.getPoints);
@@ -29,6 +31,7 @@ router.get('/adminpoints/:administratorid', isAuth, permit('stationadmin'), char
 
 router.get('/providers', isAuth, permit('stationadmin'), chargeController.getProviders);
 
+router.get('/getyears', isAuth, permit('owner', 'stationadmin'), chargeController.getYears);
 
 
 module.exports = router;
