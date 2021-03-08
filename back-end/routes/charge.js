@@ -31,6 +31,7 @@ router.get('/adminpoints/:administratorid', isAuth, permit('stationadmin'), char
 
 router.get('/providers', isAuth, permit('stationadmin'), chargeController.getProviders);
 
+router.get('/getyears', isAuth, permit('owner', 'stationadmin'), chargeController.getYears);
 
 
 module.exports = router;

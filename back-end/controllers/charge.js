@@ -77,6 +77,28 @@ exports.getStations = (req, res, next) => {
         })
 }
 
+exports.getYears = (req, res, next) => {
+
+    sequelize.query('SELECT DISTINCT YEAR(connectionTime) AS year FROM sessions ORDER BY year ASC', { type: sequelize.QueryTypes.SELECT })
+        .then(rows => {
+
+            yearsList = rows;
+
+            if (!yearsList.length) {
+                return res.status(402).json({ message: "No data found!" })
+            }
+
+            res.status(200).json({
+                yearsList: yearsList
+            })
+
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(500).json({ message: "Internal server error." });
+        })
+}
+
 exports.getPoints = (req, res, next) => {
 
     const stationid = req.params.stationid;
