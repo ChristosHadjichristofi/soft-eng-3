@@ -15,23 +15,96 @@ import { SessionsPerProviderComponent } from './sessions-per-provider/sessions-p
 import { SessionsPerStationComponent } from './sessions-per-station/sessions-per-station.component';
 import { StationAdminLandingPageComponent } from './station-admin-landing-page/station-admin-landing-page.component';
 import { MapPageComponent } from './map-page/map-page.component';
+import { AuthGuard } from './guards/auth.guard';
+import { SessionGuard } from './guards/session.guard';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent }
   , { path: 'landing', component: LandingPageComponent }
   , { path: 'login', component: LoginPageComponent }
-  , { path: 'sessionsPerEV', component: SessionsPerEVComponent }
-  , { path: 'sessionsPerPoint', component: SessionsPerPointComponent }
-  , { path: 'sessionsPerProvider', component: SessionsPerProviderComponent }
-  , { path: 'sessionsPerStation', component: SessionsPerStationComponent }
-  , { path: 'stationadmin', component: StationAdminLandingPageComponent }
-  , { path: 'owner', component: OwnerLandingPageComponent }
-  , { path: 'charge', component: ChargePageComponent }
-  , { path: 'payment', component: PaymentPageComponent }
-  , { path: 'rating', component: RatingPageComponent }
-  , { path: 'logout', component: LogoutPageComponent }
-  , { path: 'invoice', component: InvoicePageComponent }
-  , { path: 'map', component: MapPageComponent }
+  , {
+    path: 'sessionsPerEV',
+    component: SessionsPerEVComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['owner'] }
+  }
+  , {
+    path: 'sessionsPerPoint',
+    component: SessionsPerPointComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['stationadmin'] }
+  }
+  , {
+    path: 'sessionsPerProvider',
+    component: SessionsPerProviderComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['stationadmin'] }
+  }
+  , {
+    path: 'sessionsPerStation',
+    component: SessionsPerStationComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['stationadmin'] }
+  }
+  , {
+    path: 'stationadmin',
+    component: StationAdminLandingPageComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['stationadmin'] }
+  }
+  , {
+    path: 'owner',
+    component: OwnerLandingPageComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['owner'] }
+  }
+  , {
+    path: 'charge',
+    component: ChargePageComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['owner'] }
+  }
+  , {
+    path: 'payment',
+    component: PaymentPageComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    canDeactivate: [SessionGuard],
+    data: { roles: ['owner'] }
+  }
+  , {
+    path: 'rating',
+    component: RatingPageComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['owner'] } 
+  }
+  , {
+    path: 'logout',
+    component: LogoutPageComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['owner', 'stationadmin'] }
+  }
+  , {
+    path: 'invoice', component: InvoicePageComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['owner', 'stationadmin'] }
+  }
+  , {
+    path: 'map', component: MapPageComponent,
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['owner'] }
+  }
   , { path: '**', component: NotFoundPageComponent }
 ];
 

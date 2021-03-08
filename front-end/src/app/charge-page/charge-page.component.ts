@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit, ɵbypassSanitizationTrustScript } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Services } from '../providers/services';
 
 @Component({
@@ -20,14 +20,22 @@ export class ChargePageComponent implements OnInit {
   ConnectionTime: string;
   DisconnectionTime: string;
 
-  constructor(private formBuilder: FormBuilder, public http: HttpClient, public services: Services, private router: Router) {
+  constructor(public toastr: ToastrService, private formBuilder: FormBuilder, public http: HttpClient, public services: Services, private router: Router) {
+
+    if (this.services.getSessionProgress() != "") {
+      this.toastr.info("No Session in Progress!");
+      this.services.setSessionProgress("");
+      this.router.navigateByUrl('/owner');
+      return;
+    }
+
     this.form = this.formBuilder.group({
       UserVehicles: [''],
       Stations: [''],
       Points: [''],
       Protocols: [''],
       ConnectionTime: '',
-      DisconnectionTime: ''
+      DisconnectionTime: '', 
     });
 
     // show user vehicles on form
@@ -45,7 +53,7 @@ export class ChargePageComponent implements OnInit {
 
   // api call to get user vehicles and patch value on form (preselected the first plates)
   getUserVehicles() {
-    
+
     this.http.get<{ LicensePlateList: { license_plate: string }[] }>('http://localhost:8765/evcharge/api/charge/licenseplates/' + this.services.getOwnerID(), { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.UserVehicles = result.LicensePlateList;
       this.form.controls.UserVehicles.patchValue(this.UserVehicles[0].license_plate);
@@ -54,7 +62,7 @@ export class ChargePageComponent implements OnInit {
 
   // api call to get stations and patch value on form (preselected the first station)
   getStations() {
-    
+
     this.http.get<{ StationList: { station_id: string, station_name: string }[] }>('http://localhost:8765/evcharge/api/charge/stations', { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.Stations = result.StationList;
       this.form.controls.Stations.patchValue(this.Stations[0].station_id.toString());
@@ -65,29 +73,33 @@ export class ChargePageComponent implements OnInit {
 
   // api call to get points and patch value on form (preselected the first point)
   getPoints(stationID: string) {
-    
+
     this.http.get<{ PointList: { point_id: string }[] }>('http://localhost:8765/evcharge/api/charge/points/' + stationID, { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.Points = result.PointList;
       this.form.controls.Points.patchValue(this.Points[0].point_id.toString());
     });
   }
 
-  StationSelected(event) {}
+  StationSelected(event) { }
 
-  PointSelected(event) {}
+  PointSelected(event) { }
 
-  ProtocolSelected(event) {}
+  ProtocolSelected(event) { }
 
-  ConnectionTimeSelected(event) {}
+  ConnectionTimeSelected(event) { }
 
-  DisconnectionTimeSelected(event) {}
+  DisconnectionTimeSelected(event) { }
 
   proceedToPayment() {
+
     localStorage.setItem("SessionData", this.services.encrypt(JSON.stringify(this.form.value)));
 
+    this.services.setSessionProgress("payment");
+
     this.router.navigateByUrl('/payment');
+
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
 }
