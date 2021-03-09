@@ -102,12 +102,12 @@ exports.getAdminlist = (req, res, next) => {
         adminlist.forEach(element => {
             element.avg_rating = parseFloat(element.avg_rating).toFixed(1);
             total_cost+=parseFloat(element.total_cost);
-            element.pointMaintenanceCost = 20;
-            element.pointCleaningCost = 20;
-            element.employeeSalary = 20;
-            element.totalEnergyCost = parseFloat((element.total_cost * 0.7).toFixed(2));
+            element.pointMaintenanceCost = 25;
+            element.pointCleaningCost = 10;
+            element.employeeSalary = 150;
+            element.totalEnergyCost = parseFloat((element.total_cost * 0.5).toFixed(2));
             element.operationalCost = parseFloat((element.number_of_points * (element.pointMaintenanceCost + element.pointCleaningCost + element.employeeSalary)).toFixed(2));
-            element.totalStationCost = parseFloat(element.totalEnergyCost) + parseFloat(element.operationalCost);
+            element.totalStationProfit = (parseFloat(element.totalEnergyCost) - parseFloat(element.operationalCost)).toFixed(2);
         });
 
         res.status(200).json({

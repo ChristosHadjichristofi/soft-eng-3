@@ -7,6 +7,7 @@
                 <option value="2018">2018</option>
                 <option value="2019">2019</option>
                 <option value="2020">2020</option>
+                <option value="2021">2021</option>
             </select><label style="color: rgb(255,255,255);margin: 0px;">Month</label><select class="custom-select" name="month" [(ngModel)]="inputMonth"
                 style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);">
                 <option value="01">01</option>
@@ -88,19 +89,19 @@
                                 <td>{{station.station_id}}</td>
                             </tr>
                             <tr>
-                                <td><strong>Total Profit</strong></td>
+                                <td><strong>Total Income</strong></td>
                                 <td></td>
                                 <td><strong>{{station.total_cost}}€</strong></td>
                             </tr>
                             <tr>
-                                <td>Total Energy Delivered<br></td>
+                                <td><em>Total Energy Delivered</em><br></td>
                                 <td><br></td>
-                                <td>{{station.total_engery_delivered}}KWh</td>
+                                <td><em>{{station.total_engery_delivered}}KWh</em></td>
                             </tr>
                             <tr>
                                 <td><strong>Total Energy Cost</strong><br></td>
                                 <td><br></td>
-                                <td><strong>{{station.totalEnergyCost}}‎€</strong></td>
+                                <td><strong>-{{station.totalEnergyCost}}‎€</strong></td>
                             </tr>
                             <tr></tr>
                             <tr>
@@ -126,12 +127,12 @@
                             <tr>
                                 <td><strong>Operational Costs</strong><br></td>
                                 <td></td>
-                                <td><strong>{{station.operationalCost}}€</strong></td>
+                                <td><strong>-{{station.operationalCost}}€</strong></td>
                             </tr>
                             <tr>
-                                <td><strong>Total Station Cost</strong></td>
+                                <td><strong>Total Station Profit</strong></td>
                                 <td></td>
-                                <td><strong>{{station.totalStationCost}}€</strong></td>
+                                <td><strong>{{station.totalStationProfit}}€</strong></td>
                             </tr>
                         </tbody>
                     </table>

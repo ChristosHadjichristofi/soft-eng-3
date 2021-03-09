@@ -36,6 +36,6 @@ interface AdminArray {
     employeeSalary: number;
     totalEnergyCost: number;
     operationalCost: number;
-    totalStationCost: number;
+    totalStationProfit: number;
 }
 

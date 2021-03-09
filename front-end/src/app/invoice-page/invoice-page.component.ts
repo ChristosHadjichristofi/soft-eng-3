@@ -57,7 +57,7 @@ export class InvoicePageComponent implements OnInit {
 
       this.http.get<AdminlistDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(adminList => {
         this.adminList = adminList;
-        console.log(this.adminList);
+        console.log(url);
       });
     }
   }
