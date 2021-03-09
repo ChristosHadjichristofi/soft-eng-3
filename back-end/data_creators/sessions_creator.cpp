@@ -2,7 +2,7 @@
 #include<iostream>
 #include <stdlib.h>
 #include <iomanip>
-#define cout fout
+// #define cout fout
 
 using namespace std;
 
@@ -89,11 +89,13 @@ int main(){
 while(!finpoints.eof()){
     finpoints>>points[pointsN].point_id>>points[pointsN].station_id>>points[pointsN].cost_p_kwh;
     pointsN++;
+    cout<<points[pointsN].point_id<<" "<<points[pointsN].station_id<<" "<<points[pointsN].cost_p_kwh<<" ";
 }
 pointsN--;
 while(!findrivenby.eof()){
     findrivenby>>drives[drivesN].ownerid>>drives[drivesN].license_plate>>drives[drivesN].battery_size>>drives[drivesN].type;
     drivesN++;
+    cout<<drives[drivesN].ownerid;
 }
 drivesN--;
 
