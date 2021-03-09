@@ -1,5 +1,5 @@
 <div id="back">
-    <div class="login-card" id="card-fix" *ngIf="!ownerTotals && !adminList">
+    <div class="login-card" id="card-fix" *ngIf="!ownerList && !adminList">
         <form class="text-center form-signin">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;margin: 0px 0px 10px 0px;">Invoice
             </h2><label style="color: rgb(255,255,255);margin: 0px;">Year</label><select class="custom-select" name="year" [(ngModel)]="inputYear"
@@ -16,7 +16,7 @@
         </form>
     </div>
 
-    <div id="objects" class="table-responsive col-md-12" *ngIf="role == 'owner' && ownerTotals">
+    <div id="objects" class="table-responsive col-md-12" *ngIf="role == 'owner' && ownerList">
         <h5>Name: {{name}}</h5>
         <h5>Month: {{month}}/{{year}}</h5>
         <div *ngIf="ownerList" >
@@ -49,13 +49,6 @@
                     <th>{{session.cost}}</th>
                 </tr>
             </table>
-        </div>
-        <div *ngIf="!ownerList" >
-            <br><br>
-            <h6><em>No sessions this month</em></h6>
-            <button id="btn-search" class="btn btn-primary" style="float: right;" (click)="ownerList = null; ownerTotals = null">
-                Search Again!
-            </button>
         </div>
     </div>
 
@@ -126,14 +119,6 @@
                     </table>
                 </div>
             </div>
-
-        </div>
-        <div *ngIf="adminList.total_cost==0" >
-            <br><br>
-            <h6><em>No sessions this month</em></h6>
-            <button id="btn-search" class="btn btn-primary" style="float: right;" (click)="adminList = null">
-                Search Again!
-            </button>
         </div>
     </div>
 </div>

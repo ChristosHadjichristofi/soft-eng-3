@@ -23,6 +23,10 @@ exports.getCostenergytotals = (req, res, next) => {
         if (!costenergytotals){
             return res.status(402).json({ message: "No data found!" })
         }
+        if (costenergytotals.totalEnergyCost==null){
+            return res.status(402).json({ message: "No data found!" })
+        }
+        console.log(costenergytotals);
         res.status(200).json({
             total_energy_consumed : costenergytotals.total_energy_consumed,
             total_cost : costenergytotals.total_cost
