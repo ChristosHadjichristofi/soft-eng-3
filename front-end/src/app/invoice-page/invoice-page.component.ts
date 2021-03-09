@@ -15,15 +15,21 @@ export class InvoicePageComponent implements OnInit {
   ownerTotals: OwnerTotalsDto;
   ownerList: OwnerListDto;
   adminList: AdminlistDto;
-  inputYear: string;
-  inputMonth: string;
+  inputYear = null;
+  inputMonth = null;
   role: string;
   name: string;
   username: string;
   year: string;
   month: string;
+  months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+  yearsList = [];
 
-  constructor(private http: HttpClient, private services: Services) { }
+  constructor(private http: HttpClient, private services: Services) { 
+
+    this.getYears();
+  
+  }
 
   ngOnInit(): void {
   }
@@ -60,6 +66,13 @@ export class InvoicePageComponent implements OnInit {
         console.log(url);
       });
     }
+  }
+
+  getYears() {
+    let url = 'http://localhost:8765/evcharge/api/charge/getyears';
+    this.http.get<{ yearsList: { year: string }[] }>(url, { headers: this.services.getAuthHeaders() }).subscribe(result => {
+      this.yearsList = result.yearsList;
+    });
   }
 
 }

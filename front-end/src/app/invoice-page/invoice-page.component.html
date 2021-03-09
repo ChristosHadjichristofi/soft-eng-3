@@ -4,24 +4,12 @@
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;margin: 0px 0px 10px 0px;">Invoice
             </h2><label style="color: rgb(255,255,255);margin: 0px;">Year</label><select class="custom-select" name="year" [(ngModel)]="inputYear"
                 style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);">
-                <option value="2018">2018</option>
-                <option value="2019">2019</option>
-                <option value="2020">2020</option>
-                <option value="2021">2021</option>
+                <option [ngValue]="null" [disabled]="true" >Select year</option>
+                <option *ngFor="let yearObj of yearsList" [value]="yearObj.year"> {{yearObj.year}} </option>
             </select><label style="color: rgb(255,255,255);margin: 0px;">Month</label><select class="custom-select" name="month" [(ngModel)]="inputMonth"
                 style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);">
-                <option value="01">01</option>
-                <option value="02">02</option>
-                <option value="03">03</option>
-                <option value="04">04</option>
-                <option value="05">05</option>
-                <option value="06">06</option>
-                <option value="07">07</option>
-                <option value="08">08</option>
-                <option value="09">09</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
+                <option [ngValue]="null" [disabled]="true" >Select month</option>
+                <option *ngFor="let month of months" [value]="month"> {{month}} </option>
             </select><button class="btn btn-primary" type="button" (click)="FetchData()"
                 style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);margin: 10px 0px 0px 0px;"><strong>View
                     Invoice</strong><br></button>
