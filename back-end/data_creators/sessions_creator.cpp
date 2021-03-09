@@ -2,13 +2,16 @@
 #include<iostream>
 #include <stdlib.h>
 #include <iomanip>
-// #define cout fout
+#define cout fout
 
 using namespace std;
 
 ifstream finpoints("points.in");
 ifstream findrivenby("drivenby.in");
-ofstream fout("sessions.csv");
+ofstream fout("sessionsB2021.csv");
+
+int year = 2021;
+int N=1000;
 
 struct point{
     int point_id;
@@ -24,20 +27,21 @@ struct drivenby{
 };
 
 point points[100];
-drivenby drives[100];
-int pointsN=0,drivesN=0,N=200;
+drivenby drives[200];
+int pointsN=0,drivesN=0;
 string protocols[2]={"normal(20kW)","fast(50kW)"};
 
 
 void printTimes(float charging_time){
     int charging_hours=int(charging_time);
     int charging_minutes=60*(charging_time - charging_hours);
-    int c_month=1+rand()%12;
+    // int c_month=1+rand()%12;
+    int c_month=1+rand()%2;
     int c_day=1+rand()%31;
     int c_hour=rand()%24;
     int c_mins=rand()%60;
     int c_secs=rand()%60;
-    int c_year=2020;
+    int c_year=year;
 
     if(c_month==2 && c_day>28)
         c_day=28;
@@ -64,7 +68,7 @@ void printTimes(float charging_time){
     }
     if((c_day>=32 && (c_month==1 || c_month==3 || c_month==5 || c_month==7 ||c_month==8 || c_month==10 ||c_month==12))
         ||(c_day>=31 && (c_month==4 || c_month==6 || c_month==9 || c_month==11))
-        ||(c_day>=30 && c_month==2)){
+        ||(c_day>=29 && c_month==2 && c_year!=2020) || (c_day>=30 && c_month==2 && c_year==2020)){
             c_month++;
             c_day=1;
        }
@@ -89,13 +93,11 @@ int main(){
 while(!finpoints.eof()){
     finpoints>>points[pointsN].point_id>>points[pointsN].station_id>>points[pointsN].cost_p_kwh;
     pointsN++;
-    cout<<points[pointsN].point_id<<" "<<points[pointsN].station_id<<" "<<points[pointsN].cost_p_kwh<<" ";
 }
 pointsN--;
 while(!findrivenby.eof()){
     findrivenby>>drives[drivesN].ownerid>>drives[drivesN].license_plate>>drives[drivesN].battery_size>>drives[drivesN].type;
     drivesN++;
-    cout<<drives[drivesN].ownerid;
 }
 drivesN--;
 
