@@ -14,7 +14,11 @@ module.exports = function(o) {
         else {
             var config = {
                 method: 'post',
-                url: url
+                url: url,
+                headers: {
+                    'X-OBSERVATORY-AUTH': data,
+                    'Content-Type' :  'multipart/form-data'
+                }
             };
             axios(config)
             .then(res => console.log(res.data))
