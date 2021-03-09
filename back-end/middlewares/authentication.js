@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
                 try {
                     decodedToken = jwt.verify(token, 'denthaseafisoumenatovreispotepotepote');
                 } catch (err) {
-                    return res.status(500).json({message: 'Internal server error.'});
+                    return res.status(401).json({message: 'Invalid Token.'});
                 }
                 if (!decodedToken) {
                     return res.status(401).json({message: 'Not authenticated.'});
