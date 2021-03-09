@@ -1,4 +1,5 @@
 const constructURL = require('../lib/constructURL');
+const errorHandler = require('../lib/errorHandler');
 const chalk = require('chalk');
 const axios = require('axios');
 const fs = require('fs');
@@ -33,7 +34,7 @@ module.exports = function(o) {
                 axios(config)
                 .then(res => console.log(res.data))
                 .catch(err => {
-                    console.log(chalk.red(err.message + '\nUser does not exist!'));
+                    errorHandler(err, 'Please check again the username you typed!');
                 })
             }
         })        

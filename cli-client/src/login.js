@@ -3,6 +3,7 @@ const axios = require('axios');
 const fs = require('fs');
 var qs = require('qs');
 const constructURL = require('../lib/constructURL');
+const errorHandler = require('../lib/errorHandler');
 
 module.exports = function(o) {
     
@@ -32,19 +33,19 @@ module.exports = function(o) {
                        
                     axios(config)
                     .then(res => {
-                        console.log(res.data);
                         fs.writeFile('../cli-client/softeng20bAPI.token', res.data.token, error_create_file => {
                             if (error_create_file) throw error_create_file;
                             console.log(chalk.green('User successfully logged in'));
                         })
                     })
                     .catch(err => {
-                        console.log(chalk.red(err.message));
+                        errorHandler(err);
                     })
                 }
             }
             else {
-                console.log(chalk.red('Error, you already logged in'));
+                console.log(chalk.red('Error, you already logged in!'));
+                console.log(chalk.yellow('Please use the following command for more: ev_group03 --help'))
             }
         })        
     }

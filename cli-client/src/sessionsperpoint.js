@@ -1,4 +1,5 @@
 const constructURL = require('../lib/constructURL');
+const errorHandler = require('../lib/errorHandler');
 const axios = require('axios');
 const chalk = require('chalk');
 const fs = require('fs');
@@ -33,7 +34,7 @@ module.exports = function(o) {
                 axios(config)
                 .then(res => console.log(res.data))
                 .catch(err => {
-                    console.log(chalk.red(err.message));
+                    errorHandler(err);
                 })
             }
         });

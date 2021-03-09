@@ -1,4 +1,5 @@
 const constructURL = require('../lib/constructURL');
+const errorHandler = require('../lib/errorHandler');
 const chalk = require('chalk');
 const axios = require('axios');
 const fs = require('fs');
@@ -22,7 +23,7 @@ module.exports = function(o) {
         url = constructURL('/admin/', param1, param2, param3, param4);
 
         fs.readFile('../cli-client/softeng20bAPI.token', 'utf8', (error, data) => {
-            if (error){
+            if (error) {
                 console.log(chalk.red('Not authorized user!'))
             }
             else {
@@ -32,9 +33,11 @@ module.exports = function(o) {
                     headers: { 'X-OBSERVATORY-AUTH': data }
                 };
                 axios(config)
-                .then(res => console.log(res.data))
+                .then(res => {                    
+                    console.log(chalk.green(res.data.message));
+                })
                 .catch(err => {
-                    console.log(chalk.red(err.message + '\nUser could not be created or modified!'));
+                    errorHandler(err, 'User could not be created or modified!');
                 })
             }
         })

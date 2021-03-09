@@ -1,4 +1,5 @@
 const constructURL = require('../lib/constructURL');
+const errorHandler = require('../lib/errorHandler');
 const chalk = require('chalk');
 const request = require('request');
 const fs = require('fs');
@@ -26,15 +27,19 @@ module.exports = function(o) {
                     url: url,
                     headers: {
                         'X-OBSERVATORY-AUTH': data,
-                        'Content-Type' :  'multipart/form-data'
+                        'Content-Type' : 'multipart/form-data'
                     },
                     formData: {
                         "file" : fs.createReadStream(o.source)  
                     }
                 };
-                request(config, function (err, _, body) {
-                    if(err) console.log(err);
-                    else console.log(body);
+                request(config, function (err, data, body) {
+                    if(err) console.log(chalk.red("This file doesn't exist!\nPlease choose an other file!"));
+                    else {
+                        console.log(chalk.green("Sessions in Uploaded File: " + JSON.parse(body).SessionsInUploadedFile));
+                        console.log(chalk.green("Sessions Imported: " + JSON.parse(body).SessionsImported));
+                        console.log(chalk.green("Total Sessions in Database: " + JSON.parse(body).TotalSessionsInDatabase));
+                    }
                 }); 
             }
         })
