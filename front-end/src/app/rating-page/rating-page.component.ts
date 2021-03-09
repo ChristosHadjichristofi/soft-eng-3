@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Services } from '../providers/services';
 
 interface SessionData {
@@ -27,7 +28,14 @@ export class RatingPageComponent implements OnInit {
   rating: number = 0;
   sessionID: number;
 
-  constructor(public services: Services, public http: HttpClient, private router: Router) {
+  constructor(public toastr: ToastrService, public services: Services, public http: HttpClient, private router: Router) {
+
+    if (this.services.getSessionProgress() != 'rating') {
+      this.toastr.info("No Session in Progress!");
+      this.services.setSessionProgress("");
+      this.router.navigateByUrl('/owner');
+      return;
+    }
 
     this.sessionID = JSON.parse(this.services.decrypt(localStorage.getItem("SessionID")));
     localStorage.removeItem("SessionID");
@@ -54,5 +62,9 @@ export class RatingPageComponent implements OnInit {
   }
 
   ngOnInit(): void { }
+
+  ngOnDestroy(): void {
+    this.services.setSessionProgress("");
+  }
 
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { Services } from '../providers/services';
 
 interface SessionData {
@@ -29,7 +29,15 @@ export class PaymentPageComponent implements OnInit {
   totalCost: string;
   vehicleType: string;
 
-  constructor(public services: Services, public http: HttpClient, private router: Router) {
+  constructor(public toastr: ToastrService, public services: Services, public http: HttpClient, private router: Router) {
+
+    if (this.services.getSessionProgress() != "payment") {
+      this.toastr.info("No Session in Progress!");
+      this.services.setSessionProgress("");
+      this.router.navigateByUrl('/owner');
+      return;
+    }
+
     this.sessionData = JSON.parse(this.services.decrypt(localStorage.getItem("SessionData")));
     localStorage.removeItem("SessionData");
 
@@ -78,10 +86,17 @@ export class PaymentPageComponent implements OnInit {
 
       localStorage.setItem("SessionID", this.services.encrypt(JSON.stringify(result.session_id)));
       this.router.navigateByUrl('/rating');
+      this.services.setSessionProgress("rating");
 
     });
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    if (this.services.getSessionProgress() != "rating") {
+      this.services.setSessionProgress("");
+    }
   }
 }

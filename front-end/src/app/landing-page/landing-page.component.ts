@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Services } from '../providers/services';
 
 @Component({
   selector: 'app-landing-page',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private services: Services, private router: Router) { }
 
   ngOnInit(): void {
+    if (localStorage.getItem('authToken'))
+      this.router.navigateByUrl(this.services.getUserRole());
   }
 
 }

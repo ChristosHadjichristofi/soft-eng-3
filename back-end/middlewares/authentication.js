@@ -9,23 +9,23 @@ var models = initModels(sequelize);
 module.exports = (req, res, next) => {
     const authHeader = req.header('X-OBSERVATORY-AUTH');
     if (!authHeader) {
-        return res.status(401).json({msg: 'Not authenticated.'});
+        return res.status(401).json({message: 'Not authenticated.'});
     }
     const token = authHeader;
 
     if (token) {
         models.expired_tokens.findOne({ where: {token: token}})
         .then(expired => {
-            if (expired) { return res.status(401).json({msg: 'Invalid Token.'}) }
+            if (expired) { return res.status(401).json({message: 'Invalid Token.'}) }
             else {
                 let decodedToken;
                 try {
                     decodedToken = jwt.verify(token, 'denthaseafisoumenatovreispotepotepote');
                 } catch (err) {
-                    return res.status(500).json({msg: 'Internal server error.'});
+                    return res.status(500).json({message: 'Internal server error.'});
                 }
                 if (!decodedToken) {
-                    return res.status(401).json({msg: 'Not authenticated.'});
+                    return res.status(401).json({message: 'Not authenticated.'});
                 }
                 
                 req.user = decodedToken.user;
