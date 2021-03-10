@@ -92,11 +92,13 @@ export class PaymentPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  ngOnDestroy(): void {
-    if (this.services.getSessionProgress() != "rating") {
+    if (this.services.getSessionProgress() == 'payment') {
+      this.services.setSessionProgress("skipped");
+      localStorage.setItem("sessionProgress", this.services.encrypt(JSON.stringify(this.services.getSessionProgress())));
+    }
+    else if (this.services.getSessionProgress() != "rating") {
       this.services.setSessionProgress("");
     }
+    
   }
 }

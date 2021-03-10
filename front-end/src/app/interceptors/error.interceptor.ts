@@ -19,6 +19,10 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
+        if (error.error.message == 'Invalid Token.') {
+          this.router.navigateByUrl('/login');
+          localStorage.clear();
+        }
         this.toastr.error(error.error.message);
         return throwError(error);
       })

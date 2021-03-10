@@ -27,11 +27,18 @@ export class RatingPageComponent implements OnInit {
   sessionData: SessionData;
   rating: number = 0;
   sessionID: number;
+  sessionProgress: string;
 
   constructor(public toastr: ToastrService, public services: Services, public http: HttpClient, private router: Router) {
 
+    try {
+      this.sessionProgress = JSON.parse(this.services.decrypt(localStorage.getItem("sessionProgress")))
+      localStorage.removeItem("sessionProgress")
+    }
+    catch { }
+
     if (this.services.getSessionProgress() != 'rating') {
-      this.toastr.info("No Session in Progress!");
+      (this.sessionProgress == 'skipped') ? this.toastr.info("Session simulation Dropped!") : this.toastr.info("No Session simulation in Progress!");
       this.services.setSessionProgress("");
       this.router.navigateByUrl('/owner');
       return;

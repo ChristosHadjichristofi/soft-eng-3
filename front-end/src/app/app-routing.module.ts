@@ -16,7 +16,6 @@ import { SessionsPerStationComponent } from './sessions-per-station/sessions-per
 import { StationAdminLandingPageComponent } from './station-admin-landing-page/station-admin-landing-page.component';
 import { MapPageComponent } from './map-page/map-page.component';
 import { AuthGuard } from './guards/auth.guard';
-import { SessionGuard } from './guards/session.guard';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent }
@@ -76,7 +75,6 @@ const routes: Routes = [
     component: PaymentPageComponent,
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
-    canDeactivate: [SessionGuard],
     data: { roles: ['owner'] }
   }
   , {
@@ -86,13 +84,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: ['owner'] } 
   }
-  , {
-    path: 'logout',
-    component: LogoutPageComponent,
-    runGuardsAndResolvers: 'always',
-    canActivate: [AuthGuard],
-    data: { roles: ['owner', 'stationadmin'] }
-  }
+  , { path: 'logout', component: LogoutPageComponent }
   , {
     path: 'invoice', component: InvoicePageComponent,
     runGuardsAndResolvers: 'always',

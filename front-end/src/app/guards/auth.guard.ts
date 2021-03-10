@@ -15,7 +15,6 @@ export class AuthGuard implements CanActivate{
   canActivate(
     route: ActivatedRouteSnapshot): boolean {
     this.userRole = this.services.getUserRole();
-    // console.log("AUTH GUARD: (UserRole): ", this.userRole);
 
     if (this.userRole == '') {
       this.toastr.error('Unauthorized');
@@ -25,7 +24,6 @@ export class AuthGuard implements CanActivate{
 
     let roles = route.data.roles as Array<string>;
 
-    // console.log("AUTH GUARD: (roles): ", roles.join(","));
     if (!roles.includes(this.userRole)) {
       this.toastr.error("You don't have permission to access this route.");
       
@@ -36,7 +34,6 @@ export class AuthGuard implements CanActivate{
 
       return false;
     }
-    // console.log("AUTH GUARD: (Can activate!)");
     return true;
   }
 
