@@ -57,8 +57,8 @@
                 </tr>
                 <tr *ngFor="let session of ownerList.chargeslist">
                     <th>{{session.license_number}}</th>
-                    <th>{{session.connection_time}}</th>
-                    <th>{{session.disconnection_time}}</th>
+                    <th>{{session.connection_time | date: 'short'}}</th>
+                    <th>{{session.disconnection_time | date: 'short'}}</th>
                     <th>{{session.station_name}}</th>
                     <th>{{session.point_id}}</th>
                     <th>{{session.charging_protocol}}</th>
