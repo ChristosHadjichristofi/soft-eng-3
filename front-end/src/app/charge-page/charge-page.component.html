@@ -3,12 +3,14 @@
         <form [formGroup]="form" class="text-center form-signin">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;margin: 0px 0px 0px 0px;">Charge</h2>
             <label style="color: rgb(255,255,255);margin: 0px;">Select EV</label>
-            <select class="custom-select" formControlName="UserVehicles" (change)="LicencePlateSelected($event)">
+            <select class="custom-select" formControlName="UserVehicles" required
+                (change)="LicencePlateSelected($event)">
                 <option *ngFor="let vehicle of UserVehicles; let i = index" [value]="UserVehicles[i].license_plate">
                     {{UserVehicles[i].license_plate}}
                 </option>
-            </select><label style="color: rgb(255,255,255);margin: 0px;">Charging Protocol</label><select
-                class="custom-select" formControlName="Protocols" (change)="ProtocolSelected($event)">
+            </select>
+            <label style="color: rgb(255,255,255);margin: 0px;">Charging Protocol</label><select class="custom-select"
+                formControlName="Protocols" (change)="ProtocolSelected($event)">
                 <option [selected] value="normal(20kW)">Normal</option>
                 <option value="fast(50kW)">Fast</option>
             </select><label style="color: rgb(255,255,255);margin: 0px;">Station</label><select class="custom-select"
@@ -21,16 +23,33 @@
                 <option *ngFor="let point of Points; let i = index" [value]="Points[i].point_id">
                     {{Points[i].point_id}}
                 </option>
-            </select><label style="color: rgb(255,255,255);margin: 0px;">Connection Time</label><input
-                class="form-control" type="datetime-local" formControlName="ConnectionTime"
-                (change)="ConnectionTimeSelected($event)"
-                style="border-radius: 4px;height: 35px;margin: 0px 0px 10px;border-color: rgb(0,0,0);"><label
-                style="color: rgb(255,255,255);margin: 0px;">Disconnection Time</label><input class="form-control"
-                type="datetime-local" formControlName="DisconnectionTime" (change)="DisconnectionTimeSelected($event)"
+            </select>
+            <label style="color: rgb(255,255,255);margin: 0px;">Connection Time</label>
+            <input class="form-control" type="datetime-local" formControlName="ConnectionTime"
+                (change)="ConnectionTimeSelected($event)" required
                 style="border-radius: 4px;height: 35px;margin: 0px 0px 10px;border-color: rgb(0,0,0);">
+            <div *ngIf="ConnectionTime.invalid && ConnectionTime.touched" class="alert alert-danger">
+
+                <div *ngIf="ConnectionTime.errors.required">
+                    ConnectionTime is required.
+                </div>
+
+            </div>
+            <label style="color: rgb(255,255,255);margin: 0px;">Disconnection Time</label>
+            <input class="form-control" required type="datetime-local" formControlName="DisconnectionTime"
+                (change)="DisconnectionTimeSelected($event)"
+                style="border-radius: 4px;height: 35px;margin: 0px 0px 10px;border-color: rgb(0,0,0);">
+            <div *ngIf="DisconnectionTime.invalid && DisconnectionTime.touched" class="alert alert-danger">
+
+                <div *ngIf="DisconnectionTime.errors.required">
+                    DisconnectionTime is required.
+                </div>
+
+            </div>
             <button class="btn btn-primary" type="button" (click)="proceedToPayment()"><strong>Continue
                     to Payment</strong><br></button>
         </form>
+
     </div>
 </div>
 

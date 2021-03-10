@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Services } from '../providers/services';
 
 @Component({
@@ -9,31 +11,40 @@ import { Services } from '../providers/services';
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
-
+  
+  form: FormGroup;
+  
   roles: { text: string, value: string }[] = 
     [
-      { text: 'User', value: 'user' }, 
-      { text: 'Admin', value: 'admin' }
+      { text: 'Driver', value: 'user' }, 
+      { text: 'Station Admin', value: 'admin' }
     ];
 
+  get inputUsername() { return this.form.get('inputUsername'); }
+  get inputPassword() { return this.form.get('inputPassword'); }
+  get inputRole() { return this.form.get('inputRole'); }
 
-  inputUsername: string;
-  inputPassword: string;
-  inputRole: string = this.roles[0].value;
-
-  constructor(private http: HttpClient, private router: Router, private services: Services) {}
+  constructor(public toastr: ToastrService, private http: HttpClient, private router: Router, private services: Services) {
+    this.form = new FormGroup({
+      inputRole: new FormControl(this.roles[0].value, Validators.required),
+      inputUsername: new FormControl(null, Validators.required),
+      inputPassword: new FormControl(null, Validators.required)
+    });
+  }
 
   ngOnInit(): void {}
+
+  attemptLogin() { (this.form.valid) ? this.login() : this.toastr.error("Form invalid!"); }
 
   login(): void {
     var url = 'http://localhost:8765/evcharge/api/login?isAdministrator=';
 
     var body = {
-      email: this.inputUsername,
-      password: this.inputPassword
+      email: this.inputUsername.value,
+      password: this.inputPassword.value
     };
     
-     url += (this.inputRole === 'admin') ? 'true' : 'false';
+     url += (this.inputRole.value === 'admin') ? 'true' : 'false';
 
     this.http.post<{role: string, token: string}>(url, body).subscribe(result => {
       localStorage.setItem('authToken', result.token);

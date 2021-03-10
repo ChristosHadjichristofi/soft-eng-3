@@ -1,27 +1,48 @@
 <div id="back">
     <div *ngIf="!object" class="text-left card" id="card-fix" style="background: rgba(255,255,255,0.35);">
-        <form class="text-center form-signin" *ngIf="object == null">
+        <form class="text-center form-signin" [formGroup]="form" *ngIf="object == null">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Sessions Per Point</h2>
-            <select class="custom-select" name="PointID" [(ngModel)]="inputPointID"
+            <select class="custom-select" name="PointID" formControlName="inputPointID"
                 style="border-radius: 4px;height: 44px;margin: 10px 0px 10px;border-width: 1px;border-color: rgb(0,0,0);">
                 <option [ngValue]="null" [disabled]="true">PointID</option>
                 <option *ngFor="let point of AdminPoints" [value]="point.point_id">
                     {{point.point_id}}
                 </option>
             </select>
+            <div *ngIf="inputPointID.invalid && inputPointID.touched" class="alert alert-danger">
+
+                <div *ngIf="inputPointID.errors.required">
+                    PointID is required.
+                </div>
+
+            </div>
             <input class="form-control" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" type="date"
-                name="dateFrom" [(ngModel)]="inputDateFrom"
+                name="dateFrom" formControlName="inputDateFrom"
                 style="border-radius: 4px;height: 44px;margin: 0px 0px 10px;border-color: rgb(0,0,0);"
                 title="Date From">
+            <div *ngIf="inputDateFrom.invalid && inputDateFrom.touched" class="alert alert-danger">
+
+                <div *ngIf="inputDateFrom.errors.required">
+                    DateFrom is required.
+                </div>
+
+            </div>
             <input class="form-control" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" type="date"
-                name="dateTo" [(ngModel)]="inputDateTo"
+                name="dateTo" formControlName="inputDateTo"
                 style="border-radius: 4px;height: 44px;margin: 0px 0px 15px;border-color: rgb(0,0,0);" title="Date To">
-            <button class="btn btn-primary" id="result" type="button" (click)="FetchData()"
+            <div *ngIf="inputDateTo.invalid && inputDateTo.touched" class="alert alert-danger">
+
+                <div *ngIf="inputDateTo.errors.required">
+                    DateTo is required.
+                </div>
+
+            </div>
+            <button class="btn btn-primary" id="result" type="button" (click)="getResults()"
                 style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);"><strong>Results</strong>
             </button>
         </form>
     </div>
-    
+
     <div id="objects" class="table-responsive col-md-12" *ngIf="object">
         <h4>Point ID: {{object.Point}}</h4>
         <h5>Point Operator: {{object.PointOperator}}</h5>
@@ -42,14 +63,14 @@
                 <th>VehicleType</th>
             </tr>
             <tr *ngFor="let session of object.ChargingSessionsList">
-                    <th>{{session.SessionIndex}}</th>
-                    <th>{{session.SessionID}}</th>
-                    <th>{{session.StartedOn}}</th>
-                    <th>{{session.FinishedOn}}</th>
-                    <th>{{session.Protocol}}</th>
-                    <th>{{session.EnergyDelivered}}</th>
-                    <th>{{session.Payment}}</th>
-                    <th>{{session.VehicleType}}</th>
+                <th>{{session.SessionIndex}}</th>
+                <th>{{session.SessionID}}</th>
+                <th>{{session.StartedOn | date: 'short'}}</th>
+                <th>{{session.FinishedOn | date: 'short'}}</th>
+                <th>{{session.Protocol}}</th>
+                <th>{{session.EnergyDelivered}}</th>
+                <th>{{session.Payment}}</th>
+                <th>{{session.VehicleType}}</th>
             </tr>
         </table>
         <div class="container col-md-12">
@@ -77,7 +98,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="chart-wrapper" id="card-chart">
-                        <canvas baseChart [datasets]="chartData4" [labels]="chartLabels4" [options]="chartOptions4" 
+                        <canvas baseChart [datasets]="chartData4" [labels]="chartLabels4" [options]="chartOptions4"
                             [legend]="chartLegend" [chartType]="chartType4">
                         </canvas>
                     </div>

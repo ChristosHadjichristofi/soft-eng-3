@@ -1,9 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SessionsPerStationDto } from '../DTOs/SessionsPerStationDTO';
 import { Services } from '../providers/services';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import { Label } from 'ng2-charts';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-sessions-per-station',
@@ -12,9 +14,12 @@ import { Label } from 'ng2-charts';
 })
 export class SessionsPerStationComponent implements OnInit {
 
-  inputStationID = null;
-  inputDateFrom: string;
-  inputDateTo: string;
+  form: FormGroup;
+
+  get inputStationID() { return this.form.get('inputStationID'); }
+  get inputDateFrom() { return this.form.get('inputDateFrom'); }
+  get inputDateTo() { return this.form.get('inputDateTo'); }
+
   object: SessionsPerStationDto;
   AdminStations = [];
 
@@ -31,12 +36,16 @@ export class SessionsPerStationComponent implements OnInit {
   chartType2: string;
   chartData2 = [];
 
-  constructor(private http: HttpClient, private services: Services) { }
+  constructor(public toastr: ToastrService, private http: HttpClient, private services: Services) {
+    this.form = new FormGroup({
+      inputStationID: new FormControl(null, Validators.required),
+      inputDateFrom: new FormControl('', Validators.required),
+      inputDateTo: new FormControl('', Validators.required)
+    });
+  }
 
   ngOnInit(): void {
     this.object = null;
-
-    
 
     var url = 'http://localhost:8765/evcharge/api/charge/adminstations/' + this.services.getAdminID();
 
@@ -45,14 +54,14 @@ export class SessionsPerStationComponent implements OnInit {
     });
   }
 
+  getResults() { (this.form.valid) ? this.FetchData() : this.toastr.error("Form invalid!"); }
+
   FetchData() {
-  
+
+    var station = this.inputStationID.value;
+    var fromDate = formatDate(this.inputDateFrom.value, 'YYYYMMdd', 'en-US').toString();
+    var toDate = formatDate(this.inputDateTo.value, 'YYYYMMdd', 'en-US').toString();
     
-
-    var station = this.inputStationID;
-    var fromDate = this.inputDateFrom.slice(0,4) + this.inputDateFrom.slice(5,7) + this.inputDateFrom.slice(8,10);
-    var toDate = this.inputDateTo.slice(0,4) + this.inputDateTo.slice(5,7) + this.inputDateTo.slice(8,10);
-
     var url = 'http://localhost:8765/evcharge/api/SessionsPerStation/' + station + '/' + fromDate + '/' + toDate;
 
     this.http.get<SessionsPerStationDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(sessions => {
@@ -62,12 +71,12 @@ export class SessionsPerStationComponent implements OnInit {
       let x_providers = [];
       let y_providers = [];
       let y_providers2 = [];
-      for (let item of this.object.SessionsSummaryList){
+      for (let item of this.object.SessionsSummaryList) {
         x_providers.push(item.PointID);
         y_providers.push(item.PointSessions);
         y_providers2.push(item.EnergyDelivered);
       }
-      
+
       // first chart's options
       this.chartOptions = {
         responsive: true,
@@ -76,18 +85,18 @@ export class SessionsPerStationComponent implements OnInit {
           text: 'Sessions per point',
           fontSize: 18,
           fontColor: 'white'
-        }, 
+        },
         legend: {
-            labels: {
-               fontColor: 'white'
-            }
+          labels: {
+            fontColor: 'white'
+          }
         }
       };
-      this.chartLabels  = x_providers;
+      this.chartLabels = x_providers;
       this.chartType = 'polarArea';
       this.chartLegend = true;
       this.chartData = [
-        { data:y_providers}
+        { data: y_providers }
       ];
       // second chart's options
       this.chartOptions2 = {
@@ -97,16 +106,16 @@ export class SessionsPerStationComponent implements OnInit {
           text: 'Energy delivered(KWh) per point',
           fontSize: 18,
           fontColor: 'white'
-        }, 
+        },
         legend: {
-            labels: {
-               fontColor: 'white'
-            }
+          labels: {
+            fontColor: 'white'
+          }
         }
       };
       this.chartType2 = 'polarArea';
       this.chartData2 = [
-        { data:y_providers2}
+        { data: y_providers2 }
       ];
 
     });

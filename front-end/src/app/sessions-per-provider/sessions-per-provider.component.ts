@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { SessionsPerProviderDto } from '../DTOs/SessionsPerProviderDTO';
 import { Services } from '../providers/services';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import { Label } from 'ng2-charts';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-sessions-per-provider',
@@ -12,9 +14,12 @@ import { Label } from 'ng2-charts';
 })
 export class SessionsPerProviderComponent implements OnInit {
 
-  inputProviderID = null;
-  inputDateFrom: string;
-  inputDateTo: string;
+  form: FormGroup;
+
+  get inputProviderID() { return this.form.get('inputProviderID'); }
+  get inputDateFrom() { return this.form.get('inputDateFrom'); }
+  get inputDateTo() { return this.form.get('inputDateTo'); }
+
   object: SessionsPerProviderDto;
   Providers = [];
 
@@ -30,7 +35,13 @@ export class SessionsPerProviderComponent implements OnInit {
   };
   chartData2 = [];
 
-  constructor(private http: HttpClient, private services: Services) { }
+  constructor(public toastr: ToastrService, private http: HttpClient, private services: Services) { 
+    this.form = new FormGroup({
+      inputProviderID: new FormControl(null, Validators.required),
+      inputDateFrom: new FormControl('', Validators.required),
+      inputDateTo: new FormControl('', Validators.required)
+    });
+  }
 
   ngOnInit(): void {
     this.object = null;
@@ -42,13 +53,13 @@ export class SessionsPerProviderComponent implements OnInit {
     });
   }
 
-  FetchData() {
-  
-    
+  getResults() { (this.form.valid) ? this.FetchData() : this.toastr.error("Form invalid!"); }
 
-    var point = this.inputProviderID;
-    var fromDate = this.inputDateFrom.slice(0,4) + this.inputDateFrom.slice(5,7) + this.inputDateFrom.slice(8,10);
-    var toDate = this.inputDateTo.slice(0,4) + this.inputDateTo.slice(5,7) + this.inputDateTo.slice(8,10);
+  FetchData() {
+
+    var point = this.inputProviderID.value;
+    var fromDate = formatDate(this.inputDateFrom.value, 'YYYYMMdd', 'en-US').toString();
+    var toDate = formatDate(this.inputDateTo.value, 'YYYYMMdd', 'en-US').toString();
 
     var url = 'http://localhost:8765/evcharge/api/SessionsPerProvider/' + point + '/' + fromDate + '/' + toDate;
 

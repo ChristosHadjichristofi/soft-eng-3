@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, ɵbypassSanitizationTrustScript } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { HttpClient} from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Services } from '../providers/services';
@@ -17,10 +17,11 @@ export class ChargePageComponent implements OnInit {
   Stations = [];
   Points = [];
   Protocols = [];
-  ConnectionTime: string;
-  DisconnectionTime: string;
 
-  constructor(public toastr: ToastrService, private formBuilder: FormBuilder, public http: HttpClient, public services: Services, private router: Router) {
+  get ConnectionTime() { return this.form.get('ConnectionTime'); }
+  get DisconnectionTime() { return this.form.get('DisconnectionTime'); }
+
+  constructor(public toastr: ToastrService, public http: HttpClient, public services: Services, private router: Router) {
 
     if (this.services.getSessionProgress() != "") {
       this.toastr.info("No Session in Progress!");
@@ -29,13 +30,13 @@ export class ChargePageComponent implements OnInit {
       return;
     }
 
-    this.form = this.formBuilder.group({
-      UserVehicles: [''],
-      Stations: [''],
-      Points: [''],
-      Protocols: [''],
-      ConnectionTime: '',
-      DisconnectionTime: '', 
+    this.form = new FormGroup({
+      UserVehicles: new FormControl(this.UserVehicles, Validators.required),
+      Stations: new FormControl(this.Stations, Validators.required),
+      Points: new FormControl(this.Points, Validators.required),
+      Protocols: new FormControl(this.Protocols, Validators.required),
+      ConnectionTime: new FormControl("", Validators.required),
+      DisconnectionTime: new FormControl("", Validators.required),
     });
 
     // show user vehicles on form
@@ -46,10 +47,7 @@ export class ChargePageComponent implements OnInit {
     this.form.controls.Protocols.patchValue('normal(20kW)');
   }
 
-  LicencePlateSelected(event) {
-    console.log(this.form.controls.UserVehicles.value);
-    console.log('value', this.form.value);
-  }
+  LicencePlateSelected(event) { }
 
   // api call to get user vehicles and patch value on form (preselected the first plates)
   getUserVehicles() {
@@ -91,12 +89,16 @@ export class ChargePageComponent implements OnInit {
   DisconnectionTimeSelected(event) { }
 
   proceedToPayment() {
+    if (this.form.valid)
+    {
 
-    localStorage.setItem("SessionData", this.services.encrypt(JSON.stringify(this.form.value)));
-
-    this.services.setSessionProgress("payment");
-
-    this.router.navigateByUrl('/payment');
+      localStorage.setItem("SessionData", this.services.encrypt(JSON.stringify(this.form.value)));
+      
+      this.services.setSessionProgress("payment");
+      
+      this.router.navigateByUrl('/payment');
+    }
+    else this.toastr.error("Form invalid!")
 
   }
 

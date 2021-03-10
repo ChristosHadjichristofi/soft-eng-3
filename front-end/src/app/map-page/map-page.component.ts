@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { StationsDto } from '../DTOs/MapDTO';
 import { NearestStationsDto } from '../DTOs/MapDTO';
 import { Services } from '../providers/services';
@@ -11,17 +13,26 @@ import { Services } from '../providers/services';
 })
 export class MapPageComponent implements OnInit {
 
+  form: FormGroup;
+
   lat = 37.990832;
   long = 23.7033199;
   stations: StationsDto;
   nearestStations: NearestStationsDto;
-  inputCordX: number;
-  inputCordY: number;
-  inputNum= null;
   StationNum: number;
   stationNumberList: any;
 
-  constructor(private http: HttpClient, private services: Services) { }
+  get inputCordX() { return this.form.get('inputCordX'); }
+  get inputCordY() { return this.form.get('inputCordY'); }
+  get inputNum() { return this.form.get('inputNum'); }
+
+  constructor(public toastr: ToastrService, private http: HttpClient, private services: Services) { 
+    this.form = new FormGroup({
+      inputCordX: new FormControl("", Validators.required),
+      inputCordY: new FormControl("", Validators.required),
+      inputNum: new FormControl(null, Validators.required)
+    });
+   }
   
   ngOnInit(): void {
     this.stations = null;
@@ -35,6 +46,7 @@ export class MapPageComponent implements OnInit {
     });
   }
 
+  getResults() { (this.form.valid) ? this.FetchData() : this.toastr.error("Form invalid!"); }
 
   FetchData() {
     this.nearestStations = null;

@@ -1,47 +1,66 @@
 <div id="back">
-    <agm-map [latitude]='lat' [longitude]='long' [zoom] = 11>
+    <agm-map [latitude]='lat' [longitude]='long' [zoom]=11>
         <div *ngIf="stations && nearestStations == null">
             <div *ngFor="let station of stations.StationsList">
-                <agm-marker
-                    [latitude]="station.Latitude"
-                    [longitude]="station.Longitude"
-                >
+                <agm-marker [latitude]="station.Latitude" [longitude]="station.Longitude">
                 </agm-marker>
             </div>
         </div>
         <div *ngIf="nearestStations">
             <div *ngFor="let neareststation of nearestStations.StationsList">
-                <agm-marker
-                    [latitude]="neareststation.Latitude"
-                    [longitude]="neareststation.Longitude"
-                >
+                <agm-marker [latitude]="neareststation.Latitude" [longitude]="neareststation.Longitude">
                 </agm-marker>
             </div>
         </div>
     </agm-map>
-    
-    <div class="map-card" style="background: rgba(255,255,255,0.25);">
-        <form class="form-map">
 
-            <select class="custom-select" name="numberOfNearestStations" [(ngModel)]="inputNum" >
-                <option [ngValue]="null" [disabled]="true" >number Of nearest stations</option>
+    <div class="map-card" style="background: rgba(255,255,255,0.25);">
+        <form class="form-map" [formGroup]="form">
+
+            <select class="custom-select" name="numberOfNearestStations" formControlName="inputNum">
+                <option [ngValue]="null" [disabled]="true">number Of nearest stations</option>
                 <option *ngFor="let i of stationNumberList" [value]="i">
                     {{i}}
-                  </option>
+                </option>
             </select>
+            <div *ngIf="inputNum.invalid && inputNum.touched" class="alert alert-danger">
 
-            <input class="form-control" type="number" name="CordX" [(ngModel)]="inputCordX" placeholder="Your X coordinate">
-            <input class="form-control" type="number" name="CordY" [(ngModel)]="inputCordY" placeholder="Your Y coordinate">
-            
-            
-            <button id="result" type="button" (click)="FetchData()"
-                        style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);display: inline-block;margin: 5px;"><strong>Find nearest stations</strong>
+                <div *ngIf="inputNum.errors.required">
+                    Number of Nearest Stations is required.
+                </div>
+
+            </div>
+
+            <input class="form-control" type="number" name="CordX" formControlName="inputCordX"
+                placeholder="Your X coordinate">
+            <div *ngIf="inputCordX.invalid && inputCordX.touched" class="alert alert-danger">
+
+                <div *ngIf="inputCordX.errors.required">
+                    X Coordinate is required.
+                </div>
+
+            </div>
+            <input class="form-control" type="number" name="CordY" formControlName="inputCordY"
+                placeholder="Your Y coordinate">
+            <div *ngIf="inputCordY.invalid && inputCordY.touched" class="alert alert-danger">
+
+                <div *ngIf="inputCordY.errors.required">
+                    Y Coordinate is required.
+                </div>
+
+            </div>
+
+
+            <button id="result" type="button" (click)="getResults()"
+                style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);display: inline-block;margin: 5px;"><strong>Find
+                    nearest stations</strong>
             </button>
             <button id="result" type="button" (click)="RestoreData()"
-                        style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);display: inline-block;margin: 5px;"><strong>Show all stations</strong>
+                style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);display: inline-block;margin: 5px;"><strong>Show
+                    all stations</strong>
             </button>
 
-        
+
         </form>
     </div>
 

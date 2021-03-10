@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { SessionsPerEVDto } from '../DTOs/SessionsPerEVDTO';
 import { Services } from '../providers/services';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import { Label } from 'ng2-charts';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { formatDate, getLocaleDateFormat } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sessions-per-ev',
@@ -12,9 +14,12 @@ import { Label } from 'ng2-charts';
 })
 export class SessionsPerEVComponent implements OnInit {
 
-  inputVehicleID = null;
-  inputDateFrom: string;
-  inputDateTo: string;
+  form: FormGroup;
+
+  get inputVehicleID() { return this.form.get('inputVehicleID'); }
+  get inputDateFrom() { return this.form.get('inputDateFrom'); }
+  get inputDateTo() { return this.form.get('inputDateTo'); }
+
   UserVehicles = [];
   object: SessionsPerEVDto;
 
@@ -34,7 +39,15 @@ export class SessionsPerEVComponent implements OnInit {
   chartType2: string;
   chartData3 = [];
 
-  constructor(private http: HttpClient, private services: Services) { }
+  constructor(public toastr: ToastrService, private http: HttpClient, private services: Services) {
+
+    this.form = new FormGroup({
+      inputVehicleID: new FormControl(null, Validators.required),
+      inputDateFrom: new FormControl('', Validators.required),
+      inputDateTo: new FormControl('', Validators.required)
+    });
+
+   }
 
   ngOnInit(): void {
     this.object = null;
@@ -46,11 +59,12 @@ export class SessionsPerEVComponent implements OnInit {
     });
   }
 
+  getResults() { (this.form.valid) ? this.FetchData() : this.toastr.error("Form invalid!"); }
+
   FetchData() {
-  
-    var licencePlates = this.inputVehicleID;
-    var fromDate = this.inputDateFrom.slice(0,4) + this.inputDateFrom.slice(5,7) + this.inputDateFrom.slice(8,10);
-    var toDate = this.inputDateTo.slice(0,4) + this.inputDateTo.slice(5,7) + this.inputDateTo.slice(8,10);
+    var licencePlates = this.inputVehicleID.value;
+    var fromDate = formatDate(this.inputDateFrom.value, 'YYYYMMdd', 'en-US').toString();
+    var toDate = formatDate(this.inputDateTo.value, 'YYYYMMdd', 'en-US').toString();
 
     var url = 'http://localhost:8765/evcharge/api/SessionsPerEV/' + licencePlates + '/' + fromDate + '/' + toDate;
 
