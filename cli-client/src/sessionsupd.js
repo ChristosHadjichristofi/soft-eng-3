@@ -3,6 +3,7 @@ const errorHandler = require('../lib/errorHandler');
 const chalk = require('chalk');
 const request = require('request');
 const fs = require('fs');
+const https = require('https');
 
 module.exports = function(o) {
     
@@ -31,7 +32,8 @@ module.exports = function(o) {
                     },
                     formData: {
                         "file" : fs.createReadStream(o.source)  
-                    }
+                    },
+                    httpsAgent: new https.Agent({ rejectUnauthorized: false })
                 };
                 request(config, function (err, data, body) {
                     if(err) console.log(chalk.red("This file doesn't exist!\nPlease choose an other file!"));

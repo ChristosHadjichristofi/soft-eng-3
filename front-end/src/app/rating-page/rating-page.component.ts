@@ -51,7 +51,7 @@ export class RatingPageComponent implements OnInit {
 
   sessionWithRating() {
 
-    let sessionUrl = 'http://localhost:8765/evcharge/api/charge/setrating';
+    let sessionUrl = 'https://localhost:8765/evcharge/api/charge/setrating';
 
     let body = {
       session_id: this.sessionID,

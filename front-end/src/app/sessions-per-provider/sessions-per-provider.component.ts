@@ -46,7 +46,7 @@ export class SessionsPerProviderComponent implements OnInit {
   ngOnInit(): void {
     this.object = null;
 
-    var url = 'http://localhost:8765/evcharge/api/charge/providers';
+    var url = 'https://localhost:8765/evcharge/api/charge/providers';
 
     this.http.get<{ ProviderList: { energy_provider_id: string, energy_provider_name: string }[] }>(url, { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.Providers = result.ProviderList;
@@ -61,7 +61,7 @@ export class SessionsPerProviderComponent implements OnInit {
     var fromDate = formatDate(this.inputDateFrom.value, 'YYYYMMdd', 'en-US').toString();
     var toDate = formatDate(this.inputDateTo.value, 'YYYYMMdd', 'en-US').toString();
 
-    var url = 'http://localhost:8765/evcharge/api/SessionsPerProvider/' + point + '/' + fromDate + '/' + toDate;
+    var url = 'https://localhost:8765/evcharge/api/SessionsPerProvider/' + point + '/' + fromDate + '/' + toDate;
 
     this.http.get<SessionsPerProviderDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(sessions => {
       this.object = sessions;

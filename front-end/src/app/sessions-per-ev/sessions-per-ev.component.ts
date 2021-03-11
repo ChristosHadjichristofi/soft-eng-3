@@ -52,7 +52,7 @@ export class SessionsPerEVComponent implements OnInit {
   ngOnInit(): void {
     this.object = null;
 
-    var url = 'http://localhost:8765/evcharge/api/charge/licenseplates/' + this.services.getOwnerID();
+    var url = 'https://localhost:8765/evcharge/api/charge/licenseplates/' + this.services.getOwnerID();
 
     this.http.get<{ LicensePlateList: { license_plate: string }[] }>(url, { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.UserVehicles = result.LicensePlateList;
@@ -66,7 +66,7 @@ export class SessionsPerEVComponent implements OnInit {
     var fromDate = formatDate(this.inputDateFrom.value, 'YYYYMMdd', 'en-US').toString();
     var toDate = formatDate(this.inputDateTo.value, 'YYYYMMdd', 'en-US').toString();
 
-    var url = 'http://localhost:8765/evcharge/api/SessionsPerEV/' + licencePlates + '/' + fromDate + '/' + toDate;
+    var url = 'https://localhost:8765/evcharge/api/SessionsPerEV/' + licencePlates + '/' + fromDate + '/' + toDate;
 
     this.http.get<SessionsPerEVDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(sessions => {
       this.object = sessions;

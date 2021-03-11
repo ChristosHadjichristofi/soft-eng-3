@@ -1,5 +1,5 @@
 module.exports = function (scope, param1, param2, param3, format, apikey) {
-    let base = 'http://localhost:8765/evcharge/api';
+    let base = 'https://localhost:8765/evcharge/api';
     // create url with scope
     base = base + scope;
 

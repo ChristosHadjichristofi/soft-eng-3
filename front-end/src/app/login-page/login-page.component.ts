@@ -37,7 +37,7 @@ export class LoginPageComponent implements OnInit {
   attemptLogin() { (this.form.valid) ? this.login() : this.toastr.error("Form invalid!"); }
 
   login(): void {
-    var url = 'http://localhost:8765/evcharge/api/login?isAdministrator=';
+    var url = 'https://localhost:8765/evcharge/api/login?isAdministrator=';
 
     var body = {
       email: this.inputUsername.value,

@@ -89,7 +89,7 @@ export class Services {
 
   logout() {
     if (this.isAuthenticated()) {
-      let url = 'http://localhost:8765/evcharge/api/logout';
+      let url = 'https://localhost:8765/evcharge/api/logout';
       let body = {};
       this.http.post(url, body, { headers: this.getAuthHeaders() }).subscribe()
       localStorage.clear();

@@ -52,7 +52,7 @@ export class ChargePageComponent implements OnInit {
   // api call to get user vehicles and patch value on form (preselected the first plates)
   getUserVehicles() {
 
-    this.http.get<{ LicensePlateList: { license_plate: string }[] }>('http://localhost:8765/evcharge/api/charge/licenseplates/' + this.services.getOwnerID(), { headers: this.services.getAuthHeaders() }).subscribe(result => {
+    this.http.get<{ LicensePlateList: { license_plate: string }[] }>('https://localhost:8765/evcharge/api/charge/licenseplates/' + this.services.getOwnerID(), { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.UserVehicles = result.LicensePlateList;
       this.form.controls.UserVehicles.patchValue(this.UserVehicles[0].license_plate);
     });
@@ -61,7 +61,7 @@ export class ChargePageComponent implements OnInit {
   // api call to get stations and patch value on form (preselected the first station)
   getStations() {
 
-    this.http.get<{ StationList: { station_id: string, station_name: string }[] }>('http://localhost:8765/evcharge/api/charge/stations', { headers: this.services.getAuthHeaders() }).subscribe(result => {
+    this.http.get<{ StationList: { station_id: string, station_name: string }[] }>('https://localhost:8765/evcharge/api/charge/stations', { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.Stations = result.StationList;
       this.form.controls.Stations.patchValue(this.Stations[0].station_id.toString());
       // when stationsList returned, need to make an api call to get Points of the preselected value
@@ -72,7 +72,7 @@ export class ChargePageComponent implements OnInit {
   // api call to get points and patch value on form (preselected the first point)
   getPoints(stationID: string) {
 
-    this.http.get<{ PointList: { point_id: string }[] }>('http://localhost:8765/evcharge/api/charge/points/' + stationID, { headers: this.services.getAuthHeaders() }).subscribe(result => {
+    this.http.get<{ PointList: { point_id: string }[] }>('https://localhost:8765/evcharge/api/charge/points/' + stationID, { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.Points = result.PointList;
       this.form.controls.Points.patchValue(this.Points[0].point_id.toString());
     });

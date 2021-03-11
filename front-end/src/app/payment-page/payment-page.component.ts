@@ -41,12 +41,12 @@ export class PaymentPageComponent implements OnInit {
     this.sessionData = JSON.parse(this.services.decrypt(localStorage.getItem("SessionData")));
     localStorage.removeItem("SessionData");
 
-    let costPerkWhUrl = 'http://localhost:8765/evcharge/api/charge/costperkwh/' + this.sessionData.Points;
+    let costPerkWhUrl = 'https://localhost:8765/evcharge/api/charge/costperkwh/' + this.sessionData.Points;
 
     this.http.get<{ costperkwh: string }>(costPerkWhUrl, { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.costPerkWh = result.costperkwh;
 
-      let costUrl = 'http://localhost:8765/evcharge/api/charge/cost/' + this.sessionData.ConnectionTime
+      let costUrl = 'https://localhost:8765/evcharge/api/charge/cost/' + this.sessionData.ConnectionTime
         + '/' + this.sessionData.DisconnectionTime + '/' + this.sessionData.Protocols + '/' + this.costPerkWh
 
       this.http.get<{ kWhDelivered: string, cost: string }>(costUrl, { headers: this.services.getAuthHeaders() }).subscribe(result => {
@@ -56,7 +56,7 @@ export class PaymentPageComponent implements OnInit {
       });
     });
 
-    let vehicleTypeUrl = 'http://localhost:8765/evcharge/api/charge/vehicletype/' + this.sessionData.UserVehicles;
+    let vehicleTypeUrl = 'https://localhost:8765/evcharge/api/charge/vehicletype/' + this.sessionData.UserVehicles;
 
     this.http.get<{ vehicletype: string }>(vehicleTypeUrl, { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.sessionData.vehicleType = result.vehicletype;
@@ -65,7 +65,7 @@ export class PaymentPageComponent implements OnInit {
 
   proceedToRating() {
 
-    let sessionUrl = 'http://localhost:8765/evcharge/api/charge/completed';
+    let sessionUrl = 'https://localhost:8765/evcharge/api/charge/completed';
 
     let body = {
       owner_id: parseInt(this.services.getOwnerID()),

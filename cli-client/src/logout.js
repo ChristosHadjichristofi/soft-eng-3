@@ -1,6 +1,7 @@
 const axios = require('axios');
 const chalk = require('chalk');
 const fs = require('fs');
+const https = require('https');
 const constructURL = require('../lib/constructURL');
 const errorHandler = require('../lib/errorHandler');
 
@@ -21,9 +22,8 @@ module.exports = function(o){
                 var config = {
                     method: 'post',
                     url: url,
-                    headers: { 
-                        'X-OBSERVATORY-AUTH': key
-                    }
+                    headers: { 'X-OBSERVATORY-AUTH': key },
+                    httpsAgent: new https.Agent({ rejectUnauthorized: false })
                 };
 
                 axios(config)

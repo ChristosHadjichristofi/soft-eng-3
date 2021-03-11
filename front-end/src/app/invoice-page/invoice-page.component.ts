@@ -54,13 +54,13 @@ export class InvoicePageComponent implements OnInit {
     if (this.role == 'owner') {
       this.ownerTotals = null;
       this.ownerList = null;
-      var url1 = 'http://localhost:8765/evcharge/api/invoice/costenergytotals/' + this.services.getOwnerID() + '/' + this.year + '/' + this.month;
+      var url1 = 'https://localhost:8765/evcharge/api/invoice/costenergytotals/' + this.services.getOwnerID() + '/' + this.year + '/' + this.month;
 
       this.http.get<OwnerTotalsDto>(url1, { headers: this.services.getAuthHeaders() }).subscribe(ownerTotals => {
         this.ownerTotals = ownerTotals;
 
         if (this.ownerTotals.total_cost != null) {
-          var url2 = 'http://localhost:8765/evcharge/api/invoice/chargeslist/' + this.services.getOwnerID() + '/' + this.year + '/' + this.month;
+          var url2 = 'https://localhost:8765/evcharge/api/invoice/chargeslist/' + this.services.getOwnerID() + '/' + this.year + '/' + this.month;
 
           this.http.get<OwnerListDto>(url2, { headers: this.services.getAuthHeaders() }).subscribe(ownerList => {
             this.ownerList = ownerList;
@@ -71,7 +71,7 @@ export class InvoicePageComponent implements OnInit {
     }
     else {
       this.adminList = null;
-      var url = 'http://localhost:8765/evcharge/api/invoice/adminlist/' + this.services.getAdminID() + '/' + this.year + '/' + this.month;
+      var url = 'https://localhost:8765/evcharge/api/invoice/adminlist/' + this.services.getAdminID() + '/' + this.year + '/' + this.month;
 
       this.http.get<AdminlistDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(adminList => {
         this.adminList = adminList;
@@ -80,7 +80,7 @@ export class InvoicePageComponent implements OnInit {
   }
 
   getYears() {
-    let url = 'http://localhost:8765/evcharge/api/charge/getyears';
+    let url = 'https://localhost:8765/evcharge/api/charge/getyears';
     this.http.get<{ yearsList: { year: string }[] }>(url, { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.yearsList = result.yearsList;
     });

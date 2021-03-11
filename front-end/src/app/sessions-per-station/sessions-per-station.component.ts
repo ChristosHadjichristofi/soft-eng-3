@@ -47,7 +47,7 @@ export class SessionsPerStationComponent implements OnInit {
   ngOnInit(): void {
     this.object = null;
 
-    var url = 'http://localhost:8765/evcharge/api/charge/adminstations/' + this.services.getAdminID();
+    var url = 'https://localhost:8765/evcharge/api/charge/adminstations/' + this.services.getAdminID();
 
     this.http.get<{ StationList: { station_id: string, station_name: string }[] }>(url, { headers: this.services.getAuthHeaders() }).subscribe(result => {
       this.AdminStations = result.StationList;
@@ -62,7 +62,7 @@ export class SessionsPerStationComponent implements OnInit {
     var fromDate = formatDate(this.inputDateFrom.value, 'YYYYMMdd', 'en-US').toString();
     var toDate = formatDate(this.inputDateTo.value, 'YYYYMMdd', 'en-US').toString();
     
-    var url = 'http://localhost:8765/evcharge/api/SessionsPerStation/' + station + '/' + fromDate + '/' + toDate;
+    var url = 'https://localhost:8765/evcharge/api/SessionsPerStation/' + station + '/' + fromDate + '/' + toDate;
 
     this.http.get<SessionsPerStationDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(sessions => {
       this.object = sessions;

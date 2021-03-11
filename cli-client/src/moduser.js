@@ -3,6 +3,7 @@ const errorHandler = require('../lib/errorHandler');
 const chalk = require('chalk');
 const axios = require('axios');
 const fs = require('fs');
+const https = require('https');
 
 module.exports = function(o) {
     
@@ -30,7 +31,8 @@ module.exports = function(o) {
                 var config = {
                     method: 'post',
                     url: url,
-                    headers: { 'X-OBSERVATORY-AUTH': data }
+                    headers: { 'X-OBSERVATORY-AUTH': data },
+                    httpsAgent: new https.Agent({ rejectUnauthorized: false })
                 };
                 axios(config)
                 .then(res => {                    
