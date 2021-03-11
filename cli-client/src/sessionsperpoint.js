@@ -34,7 +34,20 @@ module.exports = function(o) {
                     httpsAgent: new https.Agent({ rejectUnauthorized: false })
                 };
                 axios(config)
-                .then(res => console.log(res.data))
+                .then(res => {
+                    if (format == 'csv') {
+                        fs.writeFile('sessionsPerPoint.csv', res.data, function (err) {
+                            if (err) return console.log(err);
+                            console.log('Data saved in sessionsPerPoint.csv');
+                        })
+                    }
+                    else {
+                        fs.writeFile('sessionsPerPoint.json', JSON.stringify(res.data, null, 2), function (err) {
+                            if (err) return console.log(err);
+                            console.log('Data saved in sessionsPerPoint.json');
+                        })
+                    }
+                })
                 .catch(err => {
                     errorHandler(err);
                 })

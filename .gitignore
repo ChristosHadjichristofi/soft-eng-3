@@ -3,5 +3,13 @@
 /back-end/uploads
 /cli-client/node_modules
 /cli-client/softeng20bAPI.token
+/cli-client/sessionsPerEV.json
+/cli-client/sessionsPerEV.csv
+/cli-client/sessionsPerStation.json
+/cli-client/sessionsPerStation.csv
+/cli-client/sessionsPerProvider.json
+/cli-client/sessionsPerProvider.csv
+/cli-client/sessionsPerPoint.json
+/cli-client/sessionsPerPoint.csv
 *.o
 *.exe
