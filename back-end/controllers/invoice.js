@@ -13,6 +13,8 @@ exports.getCostenergytotals = (req, res, next) => {
     const year = req.params.year;
     const month = req.params.month;
 
+    if (!ownerid || !year || !month) return res.status(400).json({message: 'Some parameters are undefined'});
+
     sequelize.query('SELECT SUM(sessions.kWhDelivered) AS total_energy_consumed, SUM(sessions.cost) AS total_cost'
         + ' FROM sessions'
         + ' WHERE sessions.driven_byowner_id = ' + ownerid
@@ -44,6 +46,8 @@ exports.getChargeslist = (req, res, next) => {
     const ownerid = req.params.ownerid;
     const year = req.params.year;
     const month = req.params.month;
+
+    if (!ownerid || !year || !month) return res.status(400).json({message: 'Some parameters are undefined'});
 
     sequelize.query(' SELECT sessions.driven_byregistered_carslicense_plate AS license_number,'
         + ' sessions.connectionTime AS connection_time, sessions.disconnectTime AS disconnection_time,'
@@ -79,6 +83,8 @@ exports.getAdminlist = (req, res, next) => {
     const administratorid = req.params.administratorid;
     const year = req.params.year;
     const month = req.params.month;
+
+    if (!administratorid || !year || !month) return res.status(400).json({message: 'Some parameters are undefined'});
 
     sequelize.query('SELECT station_id, number_of_points, total_cost, total_engery_delivered, avg_rating'
         + ' FROM (SELECT station_id, COUNT(charging_points.point_id) AS number_of_points'

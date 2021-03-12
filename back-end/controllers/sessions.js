@@ -13,6 +13,8 @@ exports.getSessionsPerPoint = (req, res, next) => {
     const format = req.query.format;
 
     var {pointID, yyyymmdd_from, yyyymmdd_to} = req.params;
+
+    if (!pointID || !yyyymmdd_from || !yyyymmdd_to) return res.status(400).json({message: 'Some parameters are undefined'});
     
     // set startDate and endDate to correct format so as query has right results
     var yyyymmdd_from = yyyymmdd_from.substring(0,4) + "-" + yyyymmdd_from.substring(4,6) + "-" + yyyymmdd_from.substring(6,8);
@@ -90,6 +92,8 @@ exports.getSessionsPerStation = (req, res, next) => {
     const format = req.query.format;
 
     var {stationID, yyyymmdd_from, yyyymmdd_to} = req.params;
+
+    if (!stationID || !yyyymmdd_from || !yyyymmdd_to) return res.status(400).json({message: 'Some parameters are undefined'});
     
     // set startDate and endDate to correct format so as query has right results
     var yyyymmdd_from = yyyymmdd_from.substring(0,4) + "-" + yyyymmdd_from.substring(4,6) + "-" + yyyymmdd_from.substring(6,8);
@@ -196,6 +200,8 @@ exports.getSessionsPerEV = (req, res, next) => {
     const format = req.query.format;
 
     var {vehicleID, yyyymmdd_from, yyyymmdd_to} = req.params;
+
+    if (!vehicleID || !yyyymmdd_from || !yyyymmdd_to) return res.status(400).json({message: 'Some parameters are undefined'});
     
     // set startDate and endDate to correct format so as query has right results
     var yyyymmdd_from = yyyymmdd_from.substring(0,4) + "-" + yyyymmdd_from.substring(4,6) + "-" + yyyymmdd_from.substring(6,8);
@@ -295,7 +301,9 @@ exports.getSessionsPerProvider = (req, res, next) => {
     const format = req.query.format;
 
     var {providerID, yyyymmdd_from, yyyymmdd_to} = req.params;
-    
+
+    if (!providerID || !yyyymmdd_from || !yyyymmdd_to) return res.status(400).json({message: 'Some parameters are undefined'});
+
     // set startDate and endDate to correct format so as query has right results
     var yyyymmdd_from = yyyymmdd_from.substring(0,4) + "-" + yyyymmdd_from.substring(4,6) + "-" + yyyymmdd_from.substring(6,8);
     var yyyymmdd_to = yyyymmdd_to.substring(0,4) + "-" + yyyymmdd_to.substring(4,6) + "-" + yyyymmdd_to.substring(6,8);

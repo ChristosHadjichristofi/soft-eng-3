@@ -65,6 +65,8 @@ exports.getUser = (req, res, next) => {
     const email = req.params.username;
     const isAdministrator = req.query.isAdministrator;
 
+    if (!email) return res.status(400).json({message: 'Some parameters are undefined'});
+
     if (isAdministrator == 'true') {
 
         models.administrators.findOne({ where: {email: email} })
@@ -107,6 +109,9 @@ exports.login = (req, res, next) => {
 
     const username = req.body.username;
     const password = req.body.password;
+
+    if (!username || !password) return res.status(400).json({message: 'Some parameters are undefined'});
+
     let loadedAdmin;
     models.system_admins.findOne({ where: {username: username} })
     .then(systemAdmin => {
@@ -143,6 +148,8 @@ exports.postUsermod = (req, res, next) => {
     const email = req.params.username;
     const password = req.params.password;
     const isAdministrator = req.query.isAdministrator;
+
+    if (!email || !password) return res.status(400).json({message: 'Some parameters are undefined'});
 
     // if the user is administrator user
     if (isAdministrator === 'true') {

@@ -9,6 +9,11 @@ const op = Sequelize.Op;
 
 exports.postCompleted = (req, res, next) => {
 
+    if (!req.body.owner_id || !req.body.car_license_plate || !req.body.charging_point_id ||
+        !req.body.charging_station_id || !req.body.connection_time || !req.body.disconnect_time ||
+        !req.body.kWh_delivered || !req.body.protocol || !req.body.payment || !req.body.cost ||
+        !req.body.vehicle_type || !req.body.rating) return res.status(400).json({message: 'Some parameters are undefined'});
+
     models.sessions.create({
         driven_byowner_id: req.body.owner_id,
         driven_byregistered_carslicense_plate: req.body.car_license_plate,
@@ -39,6 +44,8 @@ exports.postRating = (req, res, next) => {
     
     const sessionID = req.body.session_id;
     const rating = req.body.rating;
+
+    if (!sessionID || !rating) return res.status(400).json({message: 'Some parameters are undefined'});
 
     models.sessions.update(
         { rating: rating },
@@ -103,6 +110,8 @@ exports.getPoints = (req, res, next) => {
 
     const stationid = req.params.stationid;
 
+    if (!stationid) return res.status(400).json({message: 'Some parameters are undefined'});
+
     sequelize.query('SELECT charging_points.point_id AS point_id'
         + ' FROM charging_points'
         + ' WHERE charging_points.charging_stationsstation_id = ' + stationid
@@ -128,6 +137,8 @@ exports.getPoints = (req, res, next) => {
 exports.getLicenseplates = (req, res, next) => {
 
     const ownerid = req.params.ownerid;
+
+    if (!ownerid) return res.status(400).json({message: 'Some parameters are undefined'});
 
     sequelize.query('SELECT driven_by.registered_carslicense_plate AS license_plate'
         + ' FROM driven_by'
@@ -155,6 +166,8 @@ exports.getownerid = (req, res, next) => {
 
     const username = req.params.username;
 
+    if (!username) return res.status(400).json({message: 'Some parameters are undefined'});
+
     sequelize.query('SELECT owners.owner_id AS owner_id'
         + ' FROM owners'
         + ' WHERE owners.email = \'' + username + '\'', { type: sequelize.QueryTypes.SELECT })
@@ -178,6 +191,8 @@ exports.getownerid = (req, res, next) => {
 exports.getVehicletype = (req, res, next) => {
 
     const licenseplate = req.params.licenseplate;
+
+    if (!licenseplate) return res.status(400).json({message: 'Some parameters are undefined'});
 
     sequelize.query('SELECT supported_cars.type AS vehicle_type'
         + ' FROM supported_cars,registered_cars'
@@ -204,6 +219,8 @@ exports.getVehicletype = (req, res, next) => {
 exports.getCostperkwh = (req, res, next) => {
 
     const pointid = req.params.pointid;
+
+    if (!pointid) return res.status(400).json({message: 'Some parameters are undefined'});
 
     sequelize.query('SELECT energy_providers.cost_per_kWh AS cost_per_KWh'
         + ' FROM energy_providers,charging_points'
@@ -235,7 +252,7 @@ exports.getCost = (req, res, next) => {
     const costperkwh = req.params.costperkwh;
 
     if (connectionTime == undefined || disconnectiontime == undefined || protocol == undefined || costperkwh == undefined) {
-        return res.status(400).json({ message: "Some parameters are undefined" })
+        return res.status(400).json({ message: 'Some parameters are undefined' })
     }
 
     var chours = parseInt(connectionTime.slice(11, 13));
@@ -268,6 +285,8 @@ exports.getAdminstations = (req, res, next) => {
 
     const administratorid = req.params.administratorid;
 
+    if (!administratorid) return res.status(400).json({message: 'Some parameters are undefined'});
+
     sequelize.query('SELECT charging_stations.station_id AS station_id, charging_stations.station_name AS station_name'
         + ' FROM charging_stations'
         + ' WHERE charging_stations.administrator_administrator_id = ' + administratorid
@@ -293,6 +312,8 @@ exports.getAdminstations = (req, res, next) => {
 exports.getAdminpoints = (req, res, next) => {
 
     const administratorid = req.params.administratorid;
+
+    if (!administratorid) return res.status(400).json({message: 'Some parameters are undefined'});
 
     sequelize.query('SELECT charging_points.point_id AS point_id'
         + ' FROM charging_stations,charging_points'
