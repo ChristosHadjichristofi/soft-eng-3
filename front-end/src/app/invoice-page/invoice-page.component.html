@@ -4,30 +4,20 @@
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;margin: 0px 0px 10px 0px;">Invoice
             </h2><label style="color: rgb(255,255,255);margin: 0px;">Year</label>
             <select class="custom-select" name="year" formControlName="inputYear"
-                style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);">
+                style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);"
+                [style.background-color]="services.requiredBGChanger(form, 'inputYear')">
                 <option [ngValue]="null" [disabled]="true" >Select Year</option>
                 <option *ngFor="let yearObj of yearsList" [value]="yearObj.year"> {{yearObj.year}} </option>
             </select>
-            <div *ngIf="inputYear.invalid && inputYear.touched" class="alert alert-danger">
-
-                <div *ngIf="inputYear.errors.required">
-                    Year is required.
-                </div>
-
-            </div>
+   
             <label style="color: rgb(255,255,255);margin: 0px;">Month</label>
             <select class="custom-select" name="month" formControlName="inputMonth"
-                style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);">
+                style="height: 50px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;width: 100%;border-radius: 4px;margin: 0px 0px 10px;color: rgb(80,82,85);"
+                [style.background-color]="services.requiredBGChanger(form, 'inputMonth')">
                 <option [ngValue]="null" [disabled]="true" >Select Month</option>
                 <option *ngFor="let month of months" [value]="month"> {{month}} </option>
             </select>
-            <div *ngIf="inputMonth.invalid && inputMonth.touched" class="alert alert-danger">
 
-                <div *ngIf="inputMonth.errors.required">
-                    Month is required.
-                </div>
-
-            </div>
             <button class="btn btn-primary" type="button" (click)="getResults()"
                 style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);margin: 10px 0px 0px 0px;"><strong>View
                     Invoice</strong><br></button>

@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 const secretKey = 'MyVerySecretKey';
@@ -95,6 +96,15 @@ export class Services {
       localStorage.clear();
       this.router.navigateByUrl('/logout');
     }
+  }
+
+  requiredBGChanger(form: FormGroup, controlName: string) {
+    var control = form.get(controlName);
+    if (control.invalid && control.touched) {
+      if (control.errors.required)
+        return "#f8d7da";
+    }
+    return "#fff";
   }
 
 }

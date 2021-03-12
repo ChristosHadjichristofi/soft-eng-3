@@ -3,40 +3,25 @@
         <form class="text-center form-signin" [formGroup]="form" *ngIf="object == null">
             <h2 class="text-center" style="color: rgb(255,255,255);font-size: 28px;">Sessions Per Point</h2>
             <select class="custom-select" name="PointID" formControlName="inputPointID"
-                style="border-radius: 4px;height: 44px;margin: 10px 0px 10px;border-width: 1px;border-color: rgb(0,0,0);">
+                style="border-radius: 4px;height: 44px;margin: 10px 0px 10px;border-width: 1px;border-color: rgb(0,0,0);"
+                [style.background-color]="services.requiredBGChanger(form, 'inputPointID')">
                 <option [ngValue]="null" [disabled]="true">PointID</option>
                 <option *ngFor="let point of AdminPoints" [value]="point.point_id">
                     {{point.point_id}}
                 </option>
             </select>
-            <div *ngIf="inputPointID.invalid && inputPointID.touched" class="alert alert-danger">
 
-                <div *ngIf="inputPointID.errors.required">
-                    PointID is required.
-                </div>
-
-            </div>
             <input class="form-control" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" type="date"
                 name="dateFrom" formControlName="inputDateFrom"
                 style="border-radius: 4px;height: 44px;margin: 0px 0px 10px;border-color: rgb(0,0,0);"
+                [style.background-color]="services.requiredBGChanger(form, 'inputDateFrom')"
                 title="Date From">
-            <div *ngIf="inputDateFrom.invalid && inputDateFrom.touched" class="alert alert-danger">
-
-                <div *ngIf="inputDateFrom.errors.required">
-                    DateFrom is required.
-                </div>
-
-            </div>
+            
             <input class="form-control" data-toggle="tooltip" data-bss-tooltip="" data-placement="right" type="date"
                 name="dateTo" formControlName="inputDateTo"
-                style="border-radius: 4px;height: 44px;margin: 0px 0px 15px;border-color: rgb(0,0,0);" title="Date To">
-            <div *ngIf="inputDateTo.invalid && inputDateTo.touched" class="alert alert-danger">
-
-                <div *ngIf="inputDateTo.errors.required">
-                    DateTo is required.
-                </div>
-
-            </div>
+                style="border-radius: 4px;height: 44px;margin: 0px 0px 15px;border-color: rgb(0,0,0);" title="Date To"
+                [style.background-color]="services.requiredBGChanger(form, 'inputDateTo')">
+  
             <button class="btn btn-primary" id="result" type="button" (click)="getResults()"
                 style="color: rgb(255,255,255);background: rgb(37,195,146);box-shadow: 0px 0px;border-style: none;border-color: rgb(0,0,0);"><strong>Results</strong>
             </button>

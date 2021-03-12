@@ -36,7 +36,7 @@ export class SessionsPerStationComponent implements OnInit {
   chartType2: string;
   chartData2 = [];
 
-  constructor(public toastr: ToastrService, private http: HttpClient, private services: Services) {
+  constructor(public toastr: ToastrService, private http: HttpClient, public services: Services) {
     this.form = new FormGroup({
       inputStationID: new FormControl(null, Validators.required),
       inputDateFrom: new FormControl('', Validators.required),

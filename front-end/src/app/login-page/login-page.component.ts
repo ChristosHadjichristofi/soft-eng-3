@@ -24,7 +24,7 @@ export class LoginPageComponent implements OnInit {
   get inputPassword() { return this.form.get('inputPassword'); }
   get inputRole() { return this.form.get('inputRole'); }
 
-  constructor(public toastr: ToastrService, private http: HttpClient, private router: Router, private services: Services) {
+  constructor(public toastr: ToastrService, private http: HttpClient, private router: Router, public services: Services) {
     this.form = new FormGroup({
       inputRole: new FormControl(this.roles[0].value, Validators.required),
       inputUsername: new FormControl(null, Validators.required),

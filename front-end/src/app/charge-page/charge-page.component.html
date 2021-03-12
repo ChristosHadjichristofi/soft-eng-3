@@ -27,25 +27,15 @@
             <label style="color: rgb(255,255,255);margin: 0px;">Connection Time</label>
             <input class="form-control" type="datetime-local" formControlName="ConnectionTime"
                 (change)="ConnectionTimeSelected($event)" required
-                style="border-radius: 4px;height: 35px;margin: 0px 0px 10px;border-color: rgb(0,0,0);">
-            <div *ngIf="ConnectionTime.invalid && ConnectionTime.touched" class="alert alert-danger">
+                style="border-radius: 4px;height: 35px;margin: 0px 0px 10px;border-color: rgb(0,0,0);"
+                [style.background-color]="services.requiredBGChanger(form, 'ConnectionTime')">
 
-                <div *ngIf="ConnectionTime.errors.required">
-                    ConnectionTime is required.
-                </div>
-
-            </div>
             <label style="color: rgb(255,255,255);margin: 0px;">Disconnection Time</label>
             <input class="form-control" required type="datetime-local" formControlName="DisconnectionTime"
                 (change)="DisconnectionTimeSelected($event)"
-                style="border-radius: 4px;height: 35px;margin: 0px 0px 10px;border-color: rgb(0,0,0);">
-            <div *ngIf="DisconnectionTime.invalid && DisconnectionTime.touched" class="alert alert-danger">
+                style="border-radius: 4px;height: 35px;margin: 0px 0px 10px;border-color: rgb(0,0,0);" 
+                [style.background-color]="services.requiredBGChanger(form, 'DisconnectionTime')">
 
-                <div *ngIf="DisconnectionTime.errors.required">
-                    DisconnectionTime is required.
-                </div>
-
-            </div>
             <button class="btn btn-primary" type="button" (click)="proceedToPayment()"><strong>Continue
                     to Payment</strong><br></button>
         </form>

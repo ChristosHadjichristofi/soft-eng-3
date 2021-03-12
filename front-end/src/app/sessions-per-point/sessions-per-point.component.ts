@@ -49,7 +49,7 @@ export class SessionsPerPointComponent implements OnInit {
   chartData4 = [];
 
 
-  constructor(public toastr: ToastrService, private http: HttpClient, private services: Services) {
+  constructor(public toastr: ToastrService, private http: HttpClient, public services: Services) {
     this.form = new FormGroup({
       inputPointID: new FormControl(null, Validators.required),
       inputDateFrom: new FormControl('', Validators.required),

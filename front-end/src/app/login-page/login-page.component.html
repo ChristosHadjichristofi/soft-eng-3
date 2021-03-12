@@ -8,23 +8,13 @@
                 <option [selected]="role.value" *ngFor="let role of roles" [value]="role.value">{{ role.text }}</option>
             </select>
             <input class="form-control" type="text" name="username" formControlName="inputUsername"
-                placeholder="Username">
-            <div *ngIf="inputUsername.invalid && inputUsername.touched" class="alert alert-danger">
-
-                <div *ngIf="inputUsername.errors.required">
-                    Username is required.
-                </div>
-
-            </div>
+                placeholder="Username"
+                [style.background-color]="services.requiredBGChanger(form, 'inputUsername')">
+ 
             <input class="form-control" type="password" name="password" formControlName="inputPassword" required=""
-                placeholder="Password">
-            <div *ngIf="inputPassword.invalid && inputPassword.touched" class="alert alert-danger">
-
-                <div *ngIf="inputPassword.errors.required">
-                    Password is required.
-                </div>
-
-            </div>
+                placeholder="Password"
+                [style.background-color]="services.requiredBGChanger(form, 'inputPassword')">
+   
             <button class="btn btn-primary btn-block btn-lg btn-signin" type="submit" (click)="attemptLogin()">Sign in
             </button>
             <div class="checkbox">

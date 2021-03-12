@@ -39,7 +39,7 @@ export class SessionsPerEVComponent implements OnInit {
   chartType2: string;
   chartData3 = [];
 
-  constructor(public toastr: ToastrService, private http: HttpClient, private services: Services) {
+  constructor(public toastr: ToastrService, private http: HttpClient, public services: Services) {
 
     this.form = new FormGroup({
       inputVehicleID: new FormControl(null, Validators.required),

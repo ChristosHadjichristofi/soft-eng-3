@@ -35,7 +35,7 @@ export class SessionsPerProviderComponent implements OnInit {
   };
   chartData2 = [];
 
-  constructor(public toastr: ToastrService, private http: HttpClient, private services: Services) { 
+  constructor(public toastr: ToastrService, private http: HttpClient, public services: Services) { 
     this.form = new FormGroup({
       inputProviderID: new FormControl(null, Validators.required),
       inputDateFrom: new FormControl('', Validators.required),

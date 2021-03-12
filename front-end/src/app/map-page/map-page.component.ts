@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { StationsDto } from '../DTOs/MapDTO';
 import { NearestStationsDto } from '../DTOs/MapDTO';
 import { Services } from '../providers/services';
-
 @Component({
   selector: 'app-map-page',
   templateUrl: './map-page.component.html',
@@ -26,23 +25,23 @@ export class MapPageComponent implements OnInit {
   get inputCordY() { return this.form.get('inputCordY'); }
   get inputNum() { return this.form.get('inputNum'); }
 
-  constructor(public toastr: ToastrService, private http: HttpClient, private services: Services) { 
+  constructor(public toastr: ToastrService, private http: HttpClient, public services: Services) {
     this.form = new FormGroup({
       inputCordX: new FormControl("", Validators.required),
       inputCordY: new FormControl("", Validators.required),
       inputNum: new FormControl(null, Validators.required)
     });
-   }
-  
+  }
+
   ngOnInit(): void {
     this.stations = null;
-        
+
     var url = 'https://localhost:8765/evcharge/api/map/show';
-    
+
     this.http.get<StationsDto>(url, { headers: this.services.getAuthHeaders() }).subscribe(stations => {
       this.stations = stations;
       this.StationNum = stations.StationsList.length;
-      this.stationNumberList = new Array(this.StationNum).fill(0).map((x,i)=>i+1);
+      this.stationNumberList = new Array(this.StationNum).fill(0).map((x, i) => i + 1);
     });
   }
 
@@ -62,10 +61,7 @@ export class MapPageComponent implements OnInit {
 
   }
 
-  RestoreData(){
+  RestoreData() {
     this.nearestStations = null;
   }
-  
-  
-
 }

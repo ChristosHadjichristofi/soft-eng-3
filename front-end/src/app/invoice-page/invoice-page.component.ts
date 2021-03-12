@@ -30,7 +30,7 @@ export class InvoicePageComponent implements OnInit {
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
   yearsList = [];
 
-  constructor(public toastr: ToastrService, private http: HttpClient, private services: Services) {
+  constructor(public toastr: ToastrService, private http: HttpClient, public services: Services) {
 
     this.form = new FormGroup({
       inputYear: new FormControl(null, Validators.required),
