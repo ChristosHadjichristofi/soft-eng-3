@@ -63,6 +63,8 @@ exports.getNearestStations = (req, res, next) => {
     const cordY = req.params.cordY;
     var number = req.query.number;
 
+    if (!cordX || !cordY) return res.status(400).json({message: 'Some parameters are undefined'});
+
     models.charging_stations.findAll({
         raw: true,
         order: [

@@ -2,17 +2,15 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const sequelize = require('../util/database');
 
-
-
 var initModels = require("../models/init-models");
-const owner = require('../models/owner');
 var models = initModels(sequelize);
-
-
 
 module.exports = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
+
+    if (!email || !password) return res.status(400).json({message: 'Some parameters are undefined'});
+
     let loadedUser;
     const isAdministrator = req.query.isAdministrator;
     // check for administrator
