@@ -41,6 +41,9 @@ app.use('/evcharge/api/logout', logout);
 app.use('/evcharge/api', sessions);
 // /*End of routes used by our project */
 
+// In case of an endpoint does not exist
+app.use((req, res, next) => { res.status(404).json({message: 'Endpoint not found!'}); })
+
 const port = Number(8765);
 const sslServer = https.createServer(
     {
