@@ -78,7 +78,9 @@ export class ChargePageComponent implements OnInit {
     });
   }
 
-  StationSelected(event) { }
+  StationSelected(event) {
+    this.getPoints(this.form.get('Stations').value)
+  }
 
   PointSelected(event) { }
 
