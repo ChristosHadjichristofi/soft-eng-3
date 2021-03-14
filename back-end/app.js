@@ -1,13 +1,5 @@
-const https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
-const sequelize = require('./util/database');
-const path = require('path');
-const chalk = require('chalk');
-var initModels = require("./models/init-models");
-var fs = require('fs');
-
-const populate_db = require('./util/populate-db');
 
 /* ROUTES and how to import routes */
 const sessions = require('./routes/sessions');
@@ -44,23 +36,4 @@ app.use('/evcharge/api', sessions);
 // In case of an endpoint does not exist
 app.use((req, res, next) => { res.status(404).json({message: 'Endpoint not found!'}); })
 
-const port = Number(8765);
-const sslServer = https.createServer(
-    {
-        key: fs.readFileSync(path.join(__dirname, '../cert', 'key.pem')),
-        cert: fs.readFileSync(path.join(__dirname, '../cert', 'cert.pem'))
-    }, app)
-
-initModels(sequelize);
-sequelize
-    .sync({
-        // delete if system is ready to deploy
-        // force: true
-        // end
-    })
-    .then(result => {
-        // populate_db();
-        if (!fs.existsSync('./uploads')) { fs.mkdirSync('./uploads'); }
-        sslServer.listen(port, () => console.log(chalk.green(`🚀 Secure Server running on port ${port}!`)))
-    })
-    .catch(err => console.log(err));
+module.exports = app;
