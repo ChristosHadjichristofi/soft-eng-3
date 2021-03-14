@@ -12,7 +12,7 @@ exports.postCompleted = (req, res, next) => {
     if (!req.body.owner_id || !req.body.car_license_plate || !req.body.charging_point_id ||
         !req.body.charging_station_id || !req.body.connection_time || !req.body.disconnect_time ||
         !req.body.kWh_delivered || !req.body.protocol || !req.body.payment || !req.body.cost ||
-        !req.body.vehicle_type || !req.body.rating) return res.status(400).json({message: 'Some parameters are undefined'});
+        !req.body.vehicle_type ) return res.status(400).json({message: 'Some parameters are undefined'});
 
     models.sessions.create({
         driven_byowner_id: req.body.owner_id,

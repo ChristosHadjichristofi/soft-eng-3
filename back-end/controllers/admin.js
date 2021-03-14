@@ -277,7 +277,7 @@ exports.postSystem = (req, res) => {
                 return models.sessions.count();
             })
             .then(totalSessions => {
-                res.status(200).send({
+                res.status(201).send({
                     SessionsInUploadedFile: sessions.length + fail,
                     SessionsImported: sessions.length,
                     TotalSessionsInDatabase: totalSessions

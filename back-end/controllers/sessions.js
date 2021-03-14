@@ -145,7 +145,7 @@ exports.getSessionsPerStation = (req, res, next) => {
     })
     .then ( rows => {
 
-        if (!rows) {
+        if (rows.length == 0) {
             return res.status(402).json({ message: "No data found!" })
         }
         SessionsSummaryList = rows;
@@ -256,7 +256,6 @@ exports.getSessionsPerEV = (req, res, next) => {
 
         VehicleChargingSessionsList.forEach(x => {
             TotalEnergyConsumed += parseFloat(x.EnergyDelivered);
-            console.log(x);
         });
 
         if (format == 'csv') {
