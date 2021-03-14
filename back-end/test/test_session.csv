@@ -1,0 +1,5 @@
+"driven_byowner_id","driven_byregistered_carslicense_plate","charging_pointspoint_id","charging_pointscharging_stationsstation_id","connectionTime","disconnectTime","kWhDelivered","protocol","payment","cost","vehicle_type","rating"
+3,"ZXN4585",6,2,2021-03-08 06:18:22,2021-03-08 10:48:22,90,"normal(20kW)","card",11.20,bev,4
+28,"ZNM4272",17,5,2021-03-08 03:36:51,2021-03-08 05:11:51,79.20,"fast(50kW)","card",12.02,bev,2
+94,"ZMH4368",9,3,2021-03-05 23:06:11,2021-03-06 00:18:11,60.55,"fast(50kW)","card",9.21,bev,2
+74,"IOX7652",18,5,2021-03-04 02:33:33,2021-03-04 03:23:33,41.85,"fast(50kW)","card",6.10,bev,1
