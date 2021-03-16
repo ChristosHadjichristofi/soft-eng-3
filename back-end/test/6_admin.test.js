@@ -149,7 +149,6 @@ describe('Test admin reset sessions (POST: {baseurl}/resetsessions', () => {
         .set('X-OBSERVATORY-AUTH', tokenSysAdmin)
         .end((err, res) => {
             responseResetStatus = res.body.status;
-            console.log(responseResetStatus)
             expect(res.status).to.eq(200);
             done();
         })
@@ -169,7 +168,6 @@ describe('Test admin sessions update (POST: {baseurl}/system/sessionsupd', () =>
         .attach('file', fs.readFileSync('./test/test_session.csv'), 'test_session.csv')
         .end((err, res) => {
             responseSessionsUpd = res.body;
-            console.log(responseSessionsUpd)
             expect(res.status).to.eq(201);
             done();
         })
