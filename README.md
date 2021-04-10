@@ -38,6 +38,20 @@ The cli-client folder contains:
 * src: Where all the functions that are been called when a specific command is used. Each of this .js files uses ./lib/constructURL to create the url and make the call.
 * test: Contains the test that were written in order to check that constructURL behaves normally.
 
+Cli-client commands:
+* login right credentials: ev_group03 login --username admin --password petrol4ever
+* login wrong credentials: ev_group03 login --username ad1mi1n --password petrol4ever
+* spp: ev_group03 spp --point 1 --datefrom 20150505 --dateto 20200505 --format json
+* sps: ev_group03 sps --station 1 --datefrom 20150505 --dateto 20200505 --format json
+* spev: ev_group03 spev --ev ZXN4585 --datefrom 20150505 --dateto 20200505 --format json
+* sppr: ev_group03 sppr --provider 1 --datefrom 20150505 --dateto 20200505 --format json
+* reset sessions: ev_group03 resetsessions
+* logout: ev_group03 logout
+* mod user (if exists change pw, else create): ev_group03 adm --usermod -usr user9999 -pw password9999 -stAdm true  --> εδω αν θέλεις βάζεις το stAdm
+* find user: ev_group03 adm --users --username tester1@test.com -stAdm false
+* sessions upd: ev_group03 adm --sessionsupd --source path/to/file.csv
+
+
 ### **To run any commands in the cli-client:**
 
 First you need to write *npm install* if you didn't already. Next write *npm install -g*. Then you can use the commands that are been specified if you write *ev_charge03*.
