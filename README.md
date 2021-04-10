@@ -47,7 +47,7 @@ Cli-client commands:
 * sppr: ev_group03 sppr --provider 1 --datefrom 20150505 --dateto 20200505 --format json
 * reset sessions: ev_group03 resetsessions
 * logout: ev_group03 logout
-* mod user (if exists change pw, else create): ev_group03 adm --usermod -usr user9999 -pw password9999 -stAdm true  --> εδω αν θέλεις βάζεις το stAdm
+* mod user (if exists change pw, else create): ev_group03 adm --usermod -usr user9999 -pw password9999 -stAdm true  --> here stAdm is optional and is for modding a stationAdmin user
 * find user: ev_group03 adm --users --username tester1@test.com -stAdm false
 * sessions upd: ev_group03 adm --sessionsupd --source path/to/file.csv
 
