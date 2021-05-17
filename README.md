@@ -54,7 +54,7 @@ Cli-client commands:
 
 ### **To run any commands in the cli-client:**
 
-First you need to write *npm install* if you didn't already. Next write *npm install -g*. Then you can use the commands that are been specified if you write *ev_charge03*.
+First you need to write *npm install* if you didn't already. Next write *npm install -g*. Then you can use the commands that are been specified if you write **ev_group03**.
 
 ### **To test the cli-client (constructURL):**
 
