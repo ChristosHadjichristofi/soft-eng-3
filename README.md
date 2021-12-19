@@ -1,14 +1,13 @@
 # Software Engineering
 
+<p align = "center">This project was made for the course of Software engineering NTUA. We were asked to make a system for charging management of electrical vehicles. Because this is a very big application, we were asked to make specific functions of this system based on the number of people in the team.</p>
 <p align="center">
-	<img alt="Byte Code Size" src="https://img.shields.io/github/languages/code-size/ChristosHadjichristofi/soft-eng-3?color=yellowgreen" />
-	<img alt="# Lines of Code" src="https://img.shields.io/tokei/lines/github/ChristosHadjichristofi/soft-eng-3?color=yellowgreen" />
+	<img alt="Byte Code Size" src="https://img.shields.io/github/languages/code-size/ChristosHadjichristofi/soft-eng-3?color=red" />
+	<img alt="# Lines of Code" src="https://img.shields.io/tokei/lines/github/ChristosHadjichristofi/soft-eng-3?color=red" />
 	<img alt="# Languages Used" src="https://img.shields.io/github/languages/count/ChristosHadjichristofi/soft-eng-3?color=yellow" />
 	<img alt="Top language" src="https://img.shields.io/github/languages/top/ChristosHadjichristofi/soft-eng-3?color=yellow" />
 	<img alt="Last commit" src="https://img.shields.io/github/last-commit/ChristosHadjichristofi/soft-eng-3?color=important" />
 </p>
-
-This project was made for the course of Software engineering NTUA. We were asked to make a system for charging management of electrical vehicles. Because this is a very big application, we were asked to make specific functions of this system based on the number of people in the team.
 
 ## Technology Stack
 
